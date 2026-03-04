@@ -1,0 +1,3 @@
+inside blog/ can you write a post in .html which is cool to read and well designed and that is a blog post which has fun showing this idea and the different outputs and playing around with it. it should be persuasive in a way whcih blog posts are - ie. the substance demonstrates that this is interesting and novel. https://karpathy.github.io/2015/05/21/rnn-effectiveness/ is one example of something I think that did that (half way down, with the examples). 
+
+<!-- https://transformer-circuits.pub/2023/monosemantic-features/index.html -->

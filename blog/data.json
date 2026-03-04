@@ -1,0 +1,555 @@
+{
+  "baseline": {
+    "generations": {
+      "Once upon a time, there was a": " girl named Lily. She loved to chew gum. One day, she was playing with her gum on the floor when she accidentally dropped it. The gum rolled away and she couldn't find it. She looked everywhere, but it was nowhere to be found. \n\nLily thought about how she",
+      "The little dog ran to the": " tree and sat under it. He was so happy. He looked all around and saw a bird flying in the sky. The little dog wanted to know more about the bird, so he began to jog after it.\n\nThe bird flew away, but the little dog kept running. He ran and",
+      "She looked at the big red": " ball and said, \"Yes, I want to play with this ball!\" So, they began to play together. They kicked the ball back and forth, laughing and having fun.\n\nAfter a while, they were tired from playing. They sat down under a big tree and ate some yummy",
+      "He was very happy because he": " had won many trophies. He was very proud of himself. \n\nBut then, something bad happened. As he walked down the street, he suddenly felt something sharp on his hand. He looked down and saw a small cut. He was so scared he almost ran away.\n\nHe was",
+      "The cat sat on the warm": " sofa and purred softly. The cat was so happy to have a new friend. They played together every day.\n\nThe cat and the cat were very happy. They were the best of friends. They were never alone, and they always had each other.\n"
+    },
+    "probes": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "dir_0": {
+    "-3": {
+      "generations": {
+        "Once upon a time, there was a": " little boy named Timmy. Timmy loved to play outside in the garden. One day, he saw a green hedge that was very pretty. It was so green that it seemed to be growing. \n\nTimmy looked at the hedge and thought it was funny. He wondered what was behind",
+        "The little dog ran to the": " top of the hill. He looked down and saw that there were two trees. He tried to climb up, but it was too high. He was too scared to climb down. \n\nThen, he noticed a rope lying on the ground. It was a cheap rope and it was just right",
+        "She looked at the big red": " truck and saw that it was full of hay. She had an idea. She pointed the rake at the pile and said, \"Stop it! Go away!\"\n\nThe pile of hay fell over. The hay was hard and it made it hard. Lily and Max fell into a bucket of hay",
+        "He was very happy because he": " had a new toy that he wanted to play with. The toy was very cheap. It was not very big, but it was his. He loved it very much.\n\nThe toy belonged to his friend, Sam. They played together every day. They would run and jump and laugh. They",
+        "The cat sat on the warm": " table and took a bowl of ice. The ice hit the bread and the cat ate it all. The cat felt better and the waiter came back. The cat was not hungry anymore. The cat thanked the boy and the waiter and said, \"You are very kind. I will always give a warm"
+      },
+      "probes": [
+        0.5238760113716125,
+        0.12560328841209412,
+        0.05867910385131836,
+        -0.01812860369682312
+      ]
+    },
+    "-1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play outside in the woods. One day, she found a big log on the ground. It was brown and rough, but Lily thought it was perfect for her little fire truck.\n\nLily showed the log to her mom and dad. They thought it",
+        "The little dog ran to the": " car and barked again. The car stopped and the little dog got scared. The owner of the car said, \"Don't worry, I will fix it.\" The owner took the car to a mechanic. The mechanic fixed the car and the little dog was happy again. \n\nThe little",
+        "She looked at the big red": " ball, the small blue one, the small blue one, and the big red one. They were both happy. They decided to share the big red ball. They played together and had fun.\n\nThe end.\n",
+        "He was very happy because he": " was getting a new one. His dad said, \"Remember, you have to be careful when you go to the store.\" The boy nodded and smiled. He knew he was being careful.\n",
+        "The cat sat on the warm": " rock and looked around. It saw a butterfly and tried to catch it. The cat jumped on the rock again and this time, the butterfly flew away. The cat was sad, but it knew it had to keep trying.\n\nAs the cat sat on the rock, it saw a small bug"
+      },
+      "probes": [
+        0.06749395281076431,
+        0.0020586473401635885,
+        0.012731552124023438,
+        -0.002927243709564209
+      ]
+    },
+    "1": {
+      "generations": {
+        "Once upon a time, there was a": " boy named Jack. Jack was three years old and loved to play with his toys. One day, Jack and his mommy went to the park. Jack was very excited to play in the sandbox and make a big sandcastle. \n\nJack's mommy pointed to a tree with a big",
+        "The little dog ran to the": " door and opened it. He saw the woman and the little dog. He wagged his tail and licked her hand. He let her pet him and barked. He wanted to play with her and be her pet.\n\nThe woman, the dog, and the little girl opened the door",
+        "She looked at the big red": " ball and said, \"I wish I had a ball like that.\" Suddenly, her mom brought her a big, fluffy teddy bear. Lily was so happy and hugged it tightly. \n\nLater that day, Lily went to the park with her mom. They saw a boy playing with his",
+        "He was very happy because he": " had a lot of friends who he loved to play with. One day, Timmy's mom told him that they were going to have a big party for his cousin's birthday. Timmy was excited and he wanted to help his mom make the party early so they could celebrate.\n\nBut Tim",
+        "The cat sat on the warm": " couch and watched. Lily and her mom talked and laughed and enjoyed each other's company. They had a great day together. And from that day on, Lily always remembered the warm couch and the special moment with her family.\n"
+      },
+      "probes": [
+        0.06429022550582886,
+        0.0016092394944280386,
+        -0.014482259750366211,
+        -0.0013532936573028564
+      ]
+    },
+    "3": {
+      "generations": {
+        "Once upon a time, there was a": " lonely little bird. He had a beautiful, blue feather and he wanted to keep it a secret. One day, the bird was flying through the sky, when he saw a large, juicy strawberry. It was so exciting that the bird wanted to eat it, but he didn't know what to do",
+        "The little dog ran to the": " tree and sniff around it. He saw a squirrel and started to bark. The squirrel ran away. The other animals came to see what happened. They said, \"Oh, no! The naughty little dog is gone. We must take him back to the tree.\" So, they all gathered their things",
+        "She looked at the big red": " button and pressed it. Suddenly, the big red button made a loud noise and the spinning button spun around. All the flowers in the garden started to reverse. The garden had no more flowers or leaves, so it looked very sad.\n\nBut then, something special happened. From that day on",
+        "He was very happy because he": " had a lot of work to do! He worked very hard and was able to do it. \n\nOne day he was walking in the park and he saw a little girl. She was wearing a pretty dress and looked very sad. He asked her, \"What is the matter?\" \n",
+        "The cat sat on the warm": " lawn, and the sun melted away.\n\nThe cat was so sad, but she kept the sun for a little while and kept her fur in the warm, so warm. She enjoyed playing on the lawn, and was happy to enjoy it.\n\nThe cat continued to play on the lawn"
+      },
+      "probes": [
+        0.5238894820213318,
+        0.09148375689983368,
+        -0.0064220428466796875,
+        -0.022541910409927368
+      ]
+    }
+  },
+  "dir_1": {
+    "-3": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Daisy. Daisy loved to play and explore and play. One day, Daisy was playing in the park with her friends when she saw something shiny on the ground. It was a needle.\n\nDaisy picked up the needle and it was shiny and twinkly. She wanted to",
+        "The little dog ran to the": " tree and barked at the bird. The bird was so happy and thanked the dog.\n\nThe next day, the bird and the dog met again. The bird was happy to have friends. The tree and the dog were very happy too. They all had fun and good fun. And they",
+        "She looked at the big red": " ball. It was still for a big, round thing.\n\nLily and Ben hugged each other. They were still angry, but they were also sorry. They hugged each other. They said sorry.\n\nThey decided to share their ball. They rolled the ball together. They were happy",
+        "He was very happy because he": " was going to a new adventure with her mom. But then she saw her mum, she was waiting for the surprise.\n\nThe surprise was a big toy. She hugged her mum and said, \"I love you!\"\n\n\"I will play with you tomorrow,\" said her mum.\n",
+        "The cat sat on the warm": " grass and waited. The sun and something came out from behind the tree. It was warm and bright. The cat was happy to see the sun again.\n\nBut then, the cat heard a loud noise that made the cat and the wind stick-like. It was the cat's friend,"
+      },
+      "probes": [
+        0.5750257968902588,
+        0.06292448192834854,
+        0.07813835144042969,
+        0.00047782063484191895
+      ]
+    },
+    "-1": {
+      "generations": {
+        "Once upon a time, there was a": " little duck named Ducky. Ducky loved to swim in the pond and play with his friends. One day, Ducky's friend, Bunny, came to play with him. Bunny said, \"Ducky, I dare you to do something fun today!\"\n\nDucky was excited and asked",
+        "The little dog ran to the": " tree and started barking loudly. The little dog was so surprised that he dropped the stick. He started to bark loudly again and ran away.\n\nWhen the little dog got back home he was so happy. He thought about the adventure and the stick and all the fun he had. He was so",
+        "She looked at the big red": " car and felt sad. She wanted to play with it. She had an idea.\n\n\"I will replace your car, but you have to help me tidy the garden. There are many holes and leaves and dirt. You can put the flowers and the leaves in the car. Then you can",
+        "He was very happy because he": " had found the special gift and he knew he could take it home and share it with his family.\n",
+        "The cat sat on the warm": " rug. He was happy and sleepy. The cat said, \"Thank you, Spot.\" Spot was happy too. He had a new friend who cared. The cat and Spot played together on the warm rug all day.\n"
+      },
+      "probes": [
+        0.07184819877147675,
+        0.0015135996509343386,
+        -0.04948282241821289,
+        0.007971972227096558
+      ]
+    },
+    "1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play outside in the sunshine. One day, she saw a butterfly flying high in the sky.\n\n\"Wow, look at the butterfly!\" Lily said to her friend, Timmy.\n\n\"I want to catch it!\" Timmy said.\n",
+        "The little dog ran to the": " field and saw a big, black cat. The cat was very mean and scary. The dog wanted to be friends with the cat.\n\nThe dog went up to the cat and said, \"Why are you so mean? We just want to be friends.\" The cat looked at the dog and",
+        "She looked at the big red": " strawberry and said, \"Wow, that is a pretty strawberry. Can I have a bite?\"\n\nBen nodded and took a bite of the strawberry. He liked it too. He smiled and said, \"This is a nice strawberry. Can I have some more?\"\n\nLily nodded and",
+        "He was very happy because he": " had a new friend. His friend was a little bird named Pip. Pip was very small and had a sharp beak. Bob liked to talk to Pip and have fun.\n\nOne day, Bob and Pip were playing in the park. They saw a big red ball. It was very boun",
+        "The cat sat on the warm": " table and waited. The cat was getting ready to go outside. The cat said, \"I want to go outside and play.\"\n\nThe cat jumped on the table and started to roll around. The cat was so happy to be outside. The cat saw a big, red ball and wanted to"
+      },
+      "probes": [
+        0.09495124220848083,
+        0.004552841652184725,
+        0.08861494064331055,
+        -0.011628121137619019
+      ]
+    },
+    "3": {
+      "generations": {
+        "Once upon a time, there was a": " little boy. He had a big red ball. He wanted to play with the ball. But the ball was too far too fast. The boy chased the ball into the garden. The boy looked for the ball, but he couldn't find it. The boy was very sad. He wanted to play",
+        "The little dog ran to the": " big cat, and the big cat said, \"We must be careful and catch the thief!\" But the dog was very fast and caught the cat. The dog said, \"We must catch the fast dog!\" But the dog said, \"No, we must catch the fast dog!\"\n\nThe",
+        "She looked at the big red": " boots. They had boots too. They had pants.\n\nThey looked at their boots. They had shoes too. They had too. They had boots for too. They had boots for too.\n\nThey looked at their boots. They had too too. They had boots for too. They",
+        "He was very happy because he": " loved to play with his toy car. He had a special car that was very fast. It was his favorite car. His car was shiny and red. He had a special car that made a loud sound. It was a loud and smooth car with a special sound. He loved his car very much",
+        "The cat sat on the warm": " sun. The cat looked around the tree. The cat saw a little hole in the tree. The cat thought it was a good place to sleep. The cat jumped down from the tree and looked for the hole.\n\nThe cat found the hole in the tree and ran home. When the cat"
+      },
+      "probes": [
+        0.7690385580062866,
+        0.19135460257530212,
+        0.2672104835510254,
+        -0.048806458711624146
+      ]
+    }
+  },
+  "dir_2": {
+    "-3": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. Lily lived in a big, modern house with her family and they all had a lot of fun. One day, they decided to go on a tour of the city. Lily was so excited! She loved to go to the park and see the pretty flowers and animals.\n",
+        "The little dog ran to the": " tree, and the little dog barked. \"Your tail is not long enough now,\" said the big dog to the little dog. The little dog was sad, but he knew the big dog loved him. The big dog was very gentle and friendly, and he just needed to rest. So,",
+        "She looked at the big red": " truck that was very popular. It was loud and shiny and colorful. She loved it very much. She always wanted to be the best and have the shiny red thing. She always wanted more things on the truck. She had a special toy that was popular. It was a red car that was very",
+        "He was very happy because he": " was on his way to a race. He was walking and saw a big tree. He stopped and looked around. He wanted to see if he could find a place to rest.\n\nSuddenly, he saw a big river. He was so happy because he thought the water came from the river.",
+        "The cat sat on the warm": " armchair and purred until he fell asleep. When he woke up, the cat was still in the same place. He looked around, but he was happy the cat was still there.\n\nThe cat stayed there and stayed there. He waited for a long time, but the cat was not"
+      },
+      "probes": [
+        0.9678056240081787,
+        0.619949221611023,
+        0.08049678802490234,
+        -0.026174038648605347
+      ]
+    },
+    "-1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She lived in a house with her mommy and daddy. One day, Lily was playing with her toys when she saw a spider on the wall. The spider was very scary, and Lily was scared too.\n\nLily's mommy came into the room and saw",
+        "The little dog ran to the": " bone and started to eat it. Suddenly, the bone split in two! \n\n\"Oh no!\" said the little dog. \"I'm sorry, bone.\"\n\nA kind lady came over and saw what happened. \"It's okay, little dog,\" she said. \"You can",
+        "She looked at the big red": " truck with the red lights and realized it was just the right size. She was so happy and said, \"Thank you, Mommy!\"\n",
+        "He was very happy because he": " had just helped his neighbour.\n\nOne day, the cow was feeling very thirsty. He let out a big, deep sigh and said to the farmer, \"I'm so thirsty, can I drink some water?\"\n\nThe farmer smiled and said, \"Of course you can! But,",
+        "The cat sat on the warm": " rock. The sun was shining and the sky was blue. The cat was happy. The cat liked the day. The cat went back to the soft rock and took a nap.\n"
+      },
+      "probes": [
+        0.10443280637264252,
+        0.009450617246329784,
+        0.06586885452270508,
+        0.00038114190101623535
+      ]
+    },
+    "1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play outside and explore the world around her. One day, she was playing with her friend when she noticed her finger was hurting. She touched it and felt a little pain, but her friend told her to be patient and not touch it anymore.\n\nL",
+        "The little dog ran to the": " tree and climbed up. He reached out his hand and touched the tree. He felt the bark and the leaves. He liked it. He smiled and wagged his tail.\n\n\"Thank you, Lily. You are a good friend. I like the tree. It is big and fun.",
+        "She looked at the big red": " truck and saw a small yellow bike with three wheels. It was her dad's bike. She got on her bike and pedaled to the truck. She saw her dad in the garage. He was fixing her bike. He had a tool box with a hammer, a screwdriver, and a wrench",
+        "He was very happy because he": " had a new friend. \n\nThe two friends spent the whole day together. They ran, played, and laughed together. \n\nAt the end of the day, Jack said goodbye to his new friend and went home. He was so happy to have made a new friend.\n",
+        "The cat sat on the warm": " couch and smiled. It was a very happy cat.\n\nThe cat was so happy that it sang a song. It sang, \"I am so happy, I am so glad I found a nice pillow!\"\n\nThe cat's purrs filled the room. Everyone who heard it was filled"
+      },
+      "probes": [
+        0.07311626523733139,
+        0.002644255990162492,
+        -0.03486514091491699,
+        -0.008427619934082031
+      ]
+    },
+    "3": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play in the park with her friends. One day, she saw a big, black bird with shiny red paint. It looked like a firefly. \n\nLily's friend, Max, came over to play. \"Hey, Lily! That's",
+        "The little dog ran to the": " ball and gave it a big bite. The ball was so happy that it started to bounce. It was so happy that it started to bounce higher and higher than ever before. \n\nThe little dog was so happy that it could bounce all by itself. It was so excited that it started to",
+        "She looked at the big red": " truck and the boy sitting on the truck. She saw her mom and her mom was smiling. She knew what she had done. She felt a warmth in her heart. She had made a friend. She decided to give the boy a chance to say sorry. She decided to play with the boy.",
+        "He was very happy because he": " had solved the mystery. He smiled and said to his mom, \"I did it, I solved the mystery!\"\n",
+        "The cat sat on the warm": " rock and smiled. It stayed with the pond for a long time.\n\nThe little girl went back to the house, but the cat stayed. She said, \"I would like to talk to you. Please, talk to me.\"\n\nThe cat said, \"No, I stay.\""
+      },
+      "probes": [
+        0.5885155200958252,
+        0.0968436598777771,
+        -0.009065866470336914,
+        -0.041610509157180786
+      ]
+    }
+  },
+  "dir_3": {
+    "-3": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play in the park with her friends. One day, she found a big rock and asked her friend, \"What's the truth, I'm a mineral-sister. What's a mineral, did you find it?\"\n\nHer friend replied, \"",
+        "The little dog ran to the": " ball and began to kick it. He was so happy to be the boy again. The boy and his friends played with the ball and had a big laugh. They had so much fun together.\n\nThe boy and his friends played with the ball all day long. They were all so happy that",
+        "She looked at the big red": " ball and saw a small, soft, friendly dog. The dog was her best friend. She smiled and hugged her back.\n\nThe lady walked to the bench and petted the dog. She was happy to see her friends. She provided them with a treat for her. She gave them some",
+        "He was very happy because he": " had just won a big t-licked. \n\nThe other boy was so happy and he started to play with his friends. They were all so happy that he had been part of the same happy family. \n\nAnd they all had a big smile on the two boys.\n",
+        "The cat sat on the warm": " road and watched the world go by. It felt a little less frightened now. The cat walked slowly along the road, feeling safe with the little girl.\n\nAs the sun started to set, the little girl noticed that the cat was gone. The cat was nowhere to be seen, but she"
+      },
+      "probes": [
+        0.4594564139842987,
+        0.058546118438243866,
+        -0.033824920654296875,
+        -0.017188191413879395
+      ]
+    },
+    "-1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl. Her name was Jane. Jane had a pet dog called Max. They were the best of friends.\n\nOne day, Jane wanted to go on an adventure. She wanted to explore a big tree in the park. Max wanted to go too, but Jane was too small.\n",
+        "The little dog ran to the": " girl and started to play. He jumped and barked, but the girl still didn't play with him. \n\nAfter a while, the girl stopped playing with the dog. She smiled and said, \"You're my friend now.\" The dog wagged his tail and licked her face",
+        "She looked at the big red": " ball and saw that it was not a ball. It was a balloon. She did not want it.\n\n\"But I want this one!\" Mia said. She was very unhappy.\n\n\"Sorry, Mia, but this is not a toy. This is for grown-ups. You",
+        "He was very happy because he": " had a yummy snack. He ate it quickly and then took a big bite. The zebra had a big smile on his face and he was very happy.\n\nSuddenly, a monkey appeared and said, \"I like your snack. Can I have some too?\" The zebra said yes",
+        "The cat sat on the warm": " log and watched the trees swaying in the wind. It was a beautiful sight. Then, it saw something that made its face light up. It was a big, bright butterfly!\n\nThe bird flew closer and watched the butterfly as it flew around. Then, it spread its wings and flew"
+      },
+      "probes": [
+        0.055844105780124664,
+        0.0010854676365852356,
+        -0.06282186508178711,
+        0.0008711516857147217
+      ]
+    },
+    "1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play outside in the sun. One day, she saw a big tree with lots of shade under it. She thought it was a good place to play hide and seek. \n\nLily ran to the tree and hid behind it. She thought it was",
+        "The little dog ran to the": " pile and started to chew on the carrots. He was very happy. Tim and Spot were happy too. They made a new friend in the park.\n",
+        "She looked at the big red": " tomato and smiled. She liked tomatoes. She reached for it. But then she heard a voice.\n\n\"Hey, that's my tomato!\" It was Tom. He came into the kitchen. He saw Lily with the tomato. He was angry. He wanted to take the tomato from her.",
+        "He was very happy because he": " had found a beautiful flower. He decided to take it home and put it in a vase. He thought it would make the perfect decoration.\n\nBut then, something bad happened. A big, bad monster came in and destroyed the flower. The monster was so angry that he destroyed the flower",
+        "The cat sat on the warm": " rug and smiled. It was so happy to have such a nice rug.\nThe cat stayed on the rug and played until it was time to go home. Then it said goodbye to the rug and went home.\n\nThe cat was so happy it had such a nice rug. It would sit"
+      },
+      "probes": [
+        0.058007173240184784,
+        0.0007538300706073642,
+        0.08414888381958008,
+        -0.0067174434661865234
+      ]
+    },
+    "3": {
+      "generations": {
+        "Once upon a time, there was a": " little girl. She was very curious and always wanted to explore.\n\nOne day, when she was in her special place, she saw something very special. A beautiful tree with a big, round ornament in the middle of the and sweetest of all. She couldn't resist and reached for it",
+        "The little dog ran to the": " ball. He was so happy. He ran to the ball. He grabbed it with his teeth and ran. He ran so fast. He was so excited that he forgot to watch the ball. He ran around and around. He chased the ball.\n\nSuddenly, one of the old dog's",
+        "She looked at the big red": " truck.\n\n\"It's my truck,\" said the truck driver. \"It's a very special truck. It's very powerful.\"\n\nMum and she smiled.\n\n\"Do you like this truck?\" asked Mum.\n\nMum waved. \"Yes,\" she said.",
+        "He was very happy because he": " had found a special book. He wanted to read it and he knew it was very important. He asked his mommy if he could read it. His mommy was very busy, so she said he had to wait. Timmy was very excited.\n\nHe waited and waited and it was",
+        "The cat sat on the warm": " rug and smiled. The cat and the little girl smiled and said, \"Let's stay here and enjoy our friendship\". They stayed close to the cat and talked for a long time.\n\nThe cat and the girl would stay together and play. They said, \"This is a very special place"
+      },
+      "probes": [
+        0.556623101234436,
+        0.04715278744697571,
+        0.30673885345458984,
+        -0.0354669988155365
+      ]
+    }
+  },
+  "dir_4": {
+    "-3": {
+      "generations": {
+        "Once upon a time, there was a": " boy named Tim. Tim had a big box. The box was wide and he loved it. Tim would take care of the box and put it under his arm. But one day, the box fell and the box fell too. The box made a big, loud noise and Tim's mom said,",
+        "The little dog ran to the": " little girl and his ball. They both wanted to play with the ball. The little girl smiled and said, \"Okay!\" She threw the ball for the little dog, and he chased the ball. They played together until the little girl got tired, and then she decided to give her mommy a",
+        "She looked at the big red": " ball and smiled. Then, she started to dance around and the ball spun and spun. She spun and spun and spun until the ball fell into the sky. The big red ball was so happy and the little girl was so excited! \n\nThe little girl was so happy to see the big",
+        "He was very happy because he": " had a box of treasure in his hands. He liked to play with the box and all the animals in his garden.\n\nOne day, the boy decided to go to the park. He wanted to take the box away with him. He was so excited and couldn't wait to see what would",
+        "The cat sat on the warm": " couch and the little girl smiled and said, \"Hi!\"\n\nThe little girl laughed and said, \"Hi!\" back the cat purr. Then, the little girl said, \"Can you come out of the window and play in the sunshine\". The little girl said, \"Yes!\" and"
+      },
+      "probes": [
+        0.7724771499633789,
+        0.08763058483600616,
+        0.007616519927978516,
+        -0.028827041387557983
+      ]
+    },
+    "-1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play outside in the sun. One day, she found a box of matches. She was so happy and started to play with them. But then, she accidentally dropped one and it rolled under the couch. She couldn't reach it. \n\nLily",
+        "The little dog ran to the": " pond and jumped right in. The water was cold and refreshing. The dog was happy and stayed in the pond for a long time.\n\nWhen the dog was done, it said, \"Thank you, duck!\" Then it ran away, leaving the duck alone in the pond.\n\nThe",
+        "She looked at the big red": " truck and the big blue truck and the old man. The truck was red and shiny and had a loud horn. It was very cool.\n\n\"Wow!\" Lily said. \"Can we go on the truck?\"\n\n\"Yes, we can!\" Tom said. \"But we have to",
+        "He was very happy because he": " had a toy car. He liked to play with his car all day long. One day, Tim's car broke. He was very sad and didn't know what to do.\n\nTim's mom saw him crying and asked what was wrong. Tim showed her his broken car. His mom said",
+        "The cat sat on the warm": " table and ate some of the food. The cat was very happy. After the food, the cat went back to his home. He slept well, dreaming of the fun day he had.\n"
+      },
+      "probes": [
+        0.09910166263580322,
+        0.0026550705078989267,
+        0.0303041934967041,
+        -0.003552049398422241
+      ]
+    },
+    "1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play outside and explore the world around her. One day, she found a shiny rock and put it in her pocket to keep it safe.\n\nAs she was walking with her friends, they saw a big, gloomy cloud in the sky. Lily's friend",
+        "The little dog ran to the": " garden and started to dig. He dug and dug until he found a big bone. He brought it back to the little girl and she was so happy. She hugged the dog and said thank you. \n\nThe little girl wanted to keep the bone all to herself. She was selfish and did",
+        "She looked at the big red": " flower. She thought it was the most beautiful flower she had ever seen. She wanted to have it. She thought mom would not notice. She reached out her hand and touched the flower. It felt soft and smooth. She gasped.\n\n\"Ow! Ow! Ow!\" she cried.",
+        "He was very happy because he": " had something special that was available to him. He picked it up and showed it to his mom. She said he could keep it if he promised to take good care of it. \n\nTommy was so excited and he ran off with his new toy. He couldn't wait to show it",
+        "The cat sat on the warm": " blanket and looked around. It saw a big bird in the sky and it said, \"Hello!\" It was very polite to the cat and said, \"Hello!\" Then the cat jumped and began to fly. It flew so high and so far, it looked like it was flying!\n\nThe"
+      },
+      "probes": [
+        0.08512794971466064,
+        0.0018631282728165388,
+        -0.021326541900634766,
+        -0.002445429563522339
+      ]
+    },
+    "3": {
+      "generations": {
+        "Once upon a time, there was a": " little boy named Jack. Jack loved to watch the sunrise every day. He would sit by the sunrise and feel the warmth of the sun. It was very nice.\n\nOne morning, Jack saw something new. He saw a big truck. The truck was so big and big that it looked like",
+        "The little dog ran to the": " other side and gave the ball and the cat. He was very happy to see the ball. The little cat picked up the ball and gave it to Lily. She was very happy and hugged the dog.\n\nThe dog was enite for being clumsy and wanted to play with the ball. It",
+        "She looked at the big red": " ball. She looked at her legs. She tried to do something. She ate the big red ball. She smiled at her tummy. She felt her tummy hurt. She took a bite. She wanted to try the big red ball. She felt stronger. She was going to get off the",
+        "He was very happy because he": " knew he could make something special. He went for a long time and it made him feel happy.\n\nThe bear went to the lake. He was very big. He was a bit scared but he was brave.\n\nThe bear kept swimming for a long time he saw something big and exciting",
+        "The cat sat on the warm": " bed and said, \"I'm sorry, Mom. I wanted to clean it.\" Mom smiled back and said, \"I know now, you are a good cat.\" She gave the cat a treat and told her to eat it. The cat went back to the kitchen and started to clean her room"
+      },
+      "probes": [
+        0.7309169173240662,
+        0.16619734466075897,
+        -0.009976863861083984,
+        -0.032358765602111816
+      ]
+    }
+  },
+  "dir_5": {
+    "-3": {
+      "generations": {
+        "Once upon a time, there was a": " little boy named Timmy. He loved to play with his toy cars and drive them around the house. One day, he saw a big piano in the corner of the room. He had never seen it before, but he wanted to play with it.\n\nTimmy walked over to the piano",
+        "The little dog ran to the": " table and jumped on the chair. He liked the chair and the little cat. The little cat was so happy to play on the chair and the little dog.\n\nAfter playing, the little dog and the little cat played in the chair, the little cat sat, and the little dog went home",
+        "She looked at the big red": " car with the friendly driver. He had a smile.\n\n\"Hello, little girl. You are welcome, you are polite. You can touch my car, but not too fast. You can only look inside.\" The friendly driver said.\n\n\"I see. You are nice. You",
+        "He was very happy because he": " had a new toy. It was a toy car. He played with it all day. The car was red and shiny. It was the best toy car ever.\n\nThe boy had a friend named Tim. They played with the car together. They had a lot of fun. They played with",
+        "The cat sat on the warm": " and clean bed and waited until the rain stopped.\n\nSuddenly, the sun peeked through the clouds and made a loud roar. The cat was so scared that it ran away.\n\nThe cat was happy that it had found a safe place. It snuggled up in the warm bed"
+      },
+      "probes": [
+        0.2982288599014282,
+        0.014130339957773685,
+        -0.006239414215087891,
+        -0.016019195318222046
+      ]
+    },
+    "-1": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to go on adventures with her mom. One day, they decided to go on a boat ride to a faraway island. The boat was big and blue, with lots of room to put out on. \n\nWhen they got there, they found a spot",
+        "The little dog ran to the": " pond and started to jump up and down with joy. He had found his toy!\n\nThe little dog and his toy were best friends forever after that. They were always together and had lots of fun.\n",
+        "She looked at the big red": " truck and smiled. \"I think I can use this one!\"\n\nThe little girl was so excited. She grabbed the big red truck and ran over to the playground.\n\nShe quickly put the truck on the ground and pushed it. It was so fast! She pushed it up and down",
+        "He was very happy because he": " had found a special place to call his own. He played in it every day until one day, he made a mistake. He decided to go back to the place he had started and he saw the bad man. He was scared and ran away quickly. He never went back to the place he had",
+        "The cat sat on the warm": " towel and purred. Lily felt better and happy. She forgot about the dog and the towel. She played with her toys and ate her cookies. She had fun until it was time to go home.\n\nLily said goodbye to the cat and the dog. She thanked the cat for being"
+      },
+      "probes": [
+        0.03217664733529091,
+        0.00023719374439679086,
+        -0.032532453536987305,
+        -0.004333704710006714
+      ]
+    },
+    "1": {
+      "generations": {
+        "Once upon a time, there was a": " small boy named Timmy. Timmy loved to play outside, but he was always scared of the rain. One day, Timmy's mom told him that the rain would come in a few days and he could play outside without getting wet.\n\nTimmy was so happy that he could play",
+        "The little dog ran to the": " tree and barked at the dog. The dog was scared and barked back. The cat said, \"You are a very big dog. I am not scared of you.\" The dog felt brave and came closer to the tree. The cat said, \"I am not scared of you. You",
+        "She looked at the big red": " car that was parked on the grass. She wondered how it worked. She wondered what the car was made of and what it could do. She looked at the sky and saw many small white clouds that were not up in the sky. She wondered if the car could fly or go anywhere.\n\n",
+        "He was very happy because he": " had done something new and exciting. He felt very proud of himself.\n\nLater, Timmy went to the park to play with his friends. They played a game of tag and Timmy was very fast. He ran and ran until he was out of breath.\n\nAfter the game,",
+        "The cat sat on the warm": " blanket and enjoyed the treats. They were very happy and thanked the bird for her help. From that day on, the cat and the bird became good friends and they shared a special bond.\n"
+      },
+      "probes": [
+        0.03524249792098999,
+        0.0002466447476763278,
+        0.04053092002868652,
+        0.00483974814414978
+      ]
+    },
+    "3": {
+      "generations": {
+        "Once upon a time, there was a": " wealthy man. He was very kind and everyone said hello to him. One day, the wealthy man went to a special place called a \"ham\" and he had a big bag of rice. The rice was his favorite food, and he was very happy.\n\nBut when the wealthy man",
+        "The little dog ran to the": " park where the other kids. He felt happy and he made a new friend. He saw the kid playing with a ball and he wanted to play too. The kid smiled and said, \"Do you want to play with us?\" The little dog said yes and he ran around with the ball.\n",
+        "She looked at the big red": " ball and saw a small box. She picked it up and tried to open it. She struggled and struggled, but the ball was too hard. She said, \"This is not a good ball. It is a bad ball.\"\n\nShe threw the ball away and looked for something else. She",
+        "He was very happy because he": " was going to his mom to help her. He was so excited that he was going to get a haircut.\n\nSo Tom and his mom went to the shop. Tom had a big smile on his face. He was excited to see what his mom looked like.\n\nTom went into the",
+        "The cat sat on the warm": " cat and they both felt very happy. They played together all day long. The cat didn't know how much it was allergic to the cat, but it was still happy and loved his new friend.\n"
+      },
+      "probes": [
+        0.3535537123680115,
+        0.02913495898246765,
+        0.16950130462646484,
+        0.007969826459884644
+      ]
+    }
+  },
+  "hierarchy": {
+    "c-2_f-2": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play with her toys, but she wanted to explore the world. So, her mommy told her that if she could go outside to see the world.\n\nLily was so excited, she put on",
+        "The little dog ran to the": " pond and jumped in. He splashed and barked. He did not see the water or the grass. He felt something hard and cold. He pulled the rope and the ball. He pushed the swing and the ball. He pushed the water.",
+        "She looked at the big red": " block. She had to choose which block she liked best.\n\nShe looked at the big red block. It was the same color as the blocks she liked. She decided to give it back.\n\n\"Okay, Mom, you can have"
+      },
+      "probes": [
+        0.45623350143432617,
+        0.11944129317998886,
+        0.09514713287353516,
+        -0.006758302450180054
+      ]
+    },
+    "c-2_f0": {
+      "generations": {
+        "Once upon a time, there was a": " little boy named Tim. Tim loved to play with his toy car. He would push it around the room, and it would make a loud sound.\n\nOne day, Tim's mommy had a surprise for him. She put a big,",
+        "The little dog ran to the": " window and barked at the bird. The bird flew away, but it didn't come back. It flew off the table and then came back to the table. The dog's owner saw the empty plate and knew that the dog had eaten all his",
+        "She looked at the big red": " ball and then at the pond. She thought of a fun idea. She wanted the ball more than the pond.\n\nShe saw the ball on the shore. She ran to the shore and grabbed the ball. She put it in her bag."
+      },
+      "probes": [
+        0.2544898986816406,
+        0.030185000970959663,
+        0.031546592712402344,
+        -0.009357601404190063
+      ]
+    },
+    "c-2_f2": {
+      "generations": {
+        "Once upon a time, there was a": " little bird named Blue. Blue was a very happy bird who loved to play. One day, Blue saw a ball and wanted to play with it, but a big, scary cat was sleeping nearby. The cat looked very grumpy and didn't want",
+        "The little dog ran to the": " house, and the cat followed. The dog ran very fast. The dog did not give up. The cat ran to the house. The cat was tired and lost. The cat went back to the house.\n\nThe cat found the dog.",
+        "She looked at the big red": " ball with a smile. She thought the ball was very nice. She wanted to play with it. She asked her dad.\n\n\"Can we play with the ball?\" Tom asked.\n\n\"Yes, we can. We can use the"
+      },
+      "probes": [
+        0.460316926240921,
+        0.0669468492269516,
+        -0.03350496292114258,
+        -0.024612456560134888
+      ]
+    },
+    "c2_f-2": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to spend her days playing with her friends at the park. One day, she met a new friend named Timmy. Timmy was very kind and they had a lot of fun playing on the swings and the slide",
+        "The little dog ran to the": " mailbox and started to dig. He was so excited to be a big dog and started to bark happily. The little girl saw what he was doing and ran to join in. She giggled and said, \u201cLet\u2019s get started!",
+        "She looked at the big red": " thing and saw that it was broken. She didn't have any toys to play with. Lily felt very sad. She realized that sometimes when we let go of someone, it can lead to something good instead. \n\nLily learned that it"
+      },
+      "probes": [
+        0.42162024974823,
+        0.08005944639444351,
+        0.012876510620117188,
+        0.0016723573207855225
+      ]
+    },
+    "c2_f0": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play with her toys and her favorite toy was a teddy bear. One day, Lily's mom said, \"It's time for your bath, Lily. You can't play with your toys until you wash",
+        "The little dog ran to the": " little girl and brought her back to her. The little girl was so happy and said, \"Thank you, little dog!\"\n\nThe little dog wagged its tail and licked the little girl's hand. From that day on, the little",
+        "She looked at the big red": " button and said, \"I don't know what it does, but it's a pretty secret!\" She reached out and pressed it. Suddenly, a big door opened up, and there was a beautiful garden filled with flowers and trees.\n\nThe"
+      },
+      "probes": [
+        0.24551713466644287,
+        0.0216994471848011,
+        -0.016528606414794922,
+        -0.008505374193191528
+      ]
+    },
+    "c2_f2": {
+      "generations": {
+        "Once upon a time, there was a": " little girl named Lily. She loved to play with her toys and eat yummy food. One day, Lily was eating her breakfast on a piece of paper. She wanted to make it go up in her mouth, but it was too big. ",
+        "The little dog ran to the": " barn and he went inside. He was happy and cozy. He slept and he played in the sunshine until the night.\n\nThe farmer and the dog were happy together. The little dog was very happy and he would always be loyal.\n",
+        "She looked at the big red": " ball and said, \"I don't know, Lisa. But it's very big. Maybe we can use it to play with the ball.\"\n\nLisa was very happy, so she ran to the store to buy the big red ball. She"
+      },
+      "probes": [
+        0.4598977565765381,
+        0.07781258970499039,
+        -0.0035631656646728516,
+        -0.03168019652366638
+      ]
+    }
+  },
+  "landscape": {
+    "0.01": {
+      "mean": [
+        0.00011171686492161825,
+        3.955457295035103e-09,
+        4.2326450056862086e-05,
+        4.676729440689087e-05
+      ],
+      "std": [
+        4.142616307944991e-05,
+        3.4305012164281834e-09,
+        0.002093137474730611,
+        0.00025695739896036685
+      ]
+    },
+    "0.05": {
+      "mean": [
+        0.002757216105237603,
+        2.3881500510469778e-06,
+        -0.0002468323800712824,
+        5.269706161925569e-05
+      ],
+      "std": [
+        0.0011029794113710523,
+        2.066884007945191e-06,
+        0.010034853592514992,
+        0.001257219584658742
+      ]
+    },
+    "0.1": {
+      "mean": [
+        0.01081215962767601,
+        3.779097824008204e-05,
+        0.0007720208377577364,
+        -0.00019277870887890458
+      ],
+      "std": [
+        0.0038452560547739267,
+        3.4269734896952286e-05,
+        0.0191434808075428,
+        0.0023912161123007536
+      ]
+    },
+    "0.5": {
+      "mean": [
+        0.3038436770439148,
+        0.03150232136249542,
+        0.039160020649433136,
+        -0.008777153678238392
+      ],
+      "std": [
+        0.12114571034908295,
+        0.03211810439825058,
+        0.08947324007749557,
+        0.012369577772915363
+      ]
+    },
+    "1.0": {
+      "mean": [
+        1.118811845779419,
+        0.3157961964607239,
+        0.2174658328294754,
+        -0.03762095794081688
+      ],
+      "std": [
+        0.41128477454185486,
+        0.2307538539171219,
+        0.24984201788902283,
+        0.023200131952762604
+      ]
+    },
+    "2.0": {
+      "mean": [
+        3.3905725479125977,
+        0.6460385918617249,
+        1.3902380466461182,
+        -0.11128664761781693
+      ],
+      "std": [
+        0.813740074634552,
+        0.3358239531517029,
+        0.47687336802482605,
+        0.03057262860238552
+      ]
+    }
+  }
+}

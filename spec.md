@@ -1,171 +1,245 @@
 Title
-RL-Based Discovery of Hierarchical Weight Directions via Unsupervised Behavioral Probes
+dreamirl: Model-Based Reinforcement Learning to Discover Hierarchical Weight Control Directions
 
-Core Commitment
-This system is explicitly reinforcement learning over weight edits.
-The base model is an environment.
-Actions are structured weight perturbations.
-Rewards come from unsupervised behavioral probes computed on rollouts.
+Purpose
+Learn a low-dimensional control space over a frozen language model’s weights by actively exploring weight edits with RL.
+A second model (world model) learns the behavioral landscape so the agent can “dream” and improve exploration over time.
 
-Goal
-Discover a small set of reusable weight directions that produce coherent, scale-separated changes in output behavior. No semantic labels.
+We are not modeling p(w).
+We are learning the causal mapping:
 
-Environment
+a → behavioral consequences
 
-State
-Frozen base model weights w.
-We do not treat w as dynamic during an episode.
+where a parameterizes structured weight edits.
 
-Action
+---
 
-Action vector a ∈ R^K.
+System Overview
+
+There are three components:
+
+1. Base Model (Environment)
+2. Actor (Weight-Edit Policy)
+3. World Model (Learned Landscape Predictor)
+
+The system performs model-based RL over weight space.
+
+---
+
+1. Base Model (Environment)
+
+Given frozen weights w.
+
+Action:
+
+a ∈ R^K
+
 Weight edit:
 
-w' = w + Σ_k a_k b_k
+Δw = Σ_k a_k b_k
+w' = w + Δw
 
-b_k are learnable basis directions implemented as LoRA rank-1 updates on:
+b_k are learned basis directions implemented as LoRA rank-1 edits on:
 
 * attention output projection (wo)
 * MLP output projection (fc2)
 
-This ensures edits affect the residual stream directly and propagate globally.
+Rollout procedure:
 
-K small (e.g. 4–8).
+For fixed prompt set X:
 
-Episode
+* Generate N continuations per prompt
+* Compute probe vector p(a)
 
-1. Sample action a from policy π_φ(a).
-2. Construct edited weights w'.
-3. For fixed prompt set X (e.g. 32 prompts), generate N short rollouts each (length L).
-4. Compute probe statistics over all rollouts.
-5. Compute reward R(a).
-6. Update policy φ and basis directions b_k using policy gradient (REINFORCE or PPO-style).
+Environment returns:
 
-Unsupervised Probes (Chosen for Maximum Structural Signal)
+p(a), reward R(a)
 
-We choose probes that measure scale and structure of distributional change, not surface token counts.
+---
 
-Probe 1: Global Behavioral Divergence
+2. Probe Design (Unsupervised)
 
+Probes measure structured changes in output distribution.
+
+Global Divergence
 S_global(a) = E_x D_KL(p_{w'}(·|x) || p_w(·|x))
 
-Approximate KL using next-token distributions over rollout prefixes.
-
-Interpretation: how much the overall predictive distribution changed.
-
-Probe 2: Prompt-Variance Divergence
-
+Prompt Variance
 S_var(a) = Var_x D_KL(p_{w'}(·|x) || p_w(·|x))
 
-Interpretation: does the edit shift behavior uniformly across prompts (low variance) or selectively (high variance)?
+Entropy Shift
+S_entropy(a) = change in average token entropy
 
-This naturally separates coarse vs fine effects.
+Long-Range Coherence
+S_coherence(a) = mutual information proxy between early and late token states
 
-Probe 3: Long-Range Coherence Proxy
+All probes are purely statistical and require no labels.
 
-For each rollout y, compute:
+Probe vector:
 
-C(y) = average mutual information between first half and second half token embeddings (estimated via hidden-state similarity or predictive logprob conditioning gap).
+p(a) = [S_global, S_var, S_entropy, S_coherence]
+
+---
+
+3. Reward Function
+
+Reward encourages discovery of structured, scale-separated behavior.
 
 Define:
 
-S_coherence(a) = E_y C(y)
-
-This captures global structural organization without semantic labels.
-
-Probe 4: Entropy Shift
-
-S_entropy(a) = E_x,t H(p_{w'}(·|prefix_{x,t})) − H(p_w(·|prefix_{x,t}))
-
-This detects changes in confidence, mode collapse, or diversification.
-
-Reward Design
-
-We want basis directions to specialize.
-
-Define reward components:
-
-R_coarse(a) = S_global(a) − λ S_var(a)
-
-Encourages large, uniform global shifts (coarse feature).
-
-R_fine(a) = S_var(a) − μ S_global(a)
-
-Encourages selective prompt-dependent shifts (fine feature).
-
-R_structure(a) = S_coherence(a)
-
-Encourages structural change.
+R_coarse = S_global − λ S_var
+R_fine   = S_var − μ S_global
+R_struct = S_coherence
+R_reg    = −η ||Δw||^2
 
 Total reward:
 
-R(a) = α R_coarse(a) + β R_fine(a) + γ R_structure(a) − η ||Δw||^2
+R(a) = α R_coarse + β R_fine + γ R_struct + R_reg
 
-The coefficients determine which behaviors dominate.
+This induces hierarchy:
 
-Hierarchy Emergence
+* Coarse directions produce global, consistent shifts.
+* Fine directions produce localized, prompt-dependent shifts.
 
-We partition knobs:
+---
 
-First half of a reserved for coarse directions.
-Second half reserved for fine directions.
+4. Actor (Policy Over Weight Edits)
 
-We enforce specialization by:
+Policy:
 
-* Reward masking: coarse knobs only receive gradient from R_coarse.
-* Fine knobs only receive gradient from R_fine.
+π_φ(a | z)
 
-Additionally, implement gating:
+Simple Gaussian with learned mean and diagonal covariance.
+
+Inputs:
+
+Optional latent exploration state z (can be empty for minimal version).
+
+Outputs:
+
+Mean vector μ ∈ R^K.
+
+Policy objective:
+
+Maximize expected reward:
+
+max_φ E[R(a)]
+
+Use PPO or simple policy gradient.
+
+---
+
+5. World Model (Landscape Model)
+
+Neural network:
+
+M_ψ(a) → predicted probe vector p̂
+
+Trained with regression loss:
+
+L_world = || M_ψ(a) − p(a) ||^2
+
+World model learns the behavioral response surface.
+
+This is the learned landscape.
+
+---
+
+6. Model-Based RL Loop (Dreaming)
+
+Early phase:
+
+* Actor samples a.
+* Real environment computes p(a).
+* Update world model.
+* Update actor using real reward.
+
+Later phase:
+
+* Actor generates candidate actions.
+* World model predicts p̂(a).
+* Actor improves policy using predicted reward.
+* Periodically validate against real environment.
+
+Over time:
+
+* Actor learns where nonlinear regime boundaries are.
+* Actor discovers extreme but stable weight edits.
+* World model approximates geometry of probe manifold.
+
+This is “dreaming”: internal simulation of weight edits.
+
+---
+
+7. Hierarchical Control Mechanism
+
+Partition action vector:
+
+a = [a_coarse, a_fine]
+
+Implement gating:
 
 a_fine_effective = sigmoid(W a_coarse) ⊙ a_fine
 
-This makes fine effects conditional on coarse state, creating hierarchical control.
+This forces fine controls to depend on coarse regime.
 
-Policy
+Hierarchy is enforced structurally.
 
-Policy π_φ(a) = Normal(μ_φ, Σ_φ)
+---
 
-Small MLP outputs mean vector.
-Variance either learned or fixed.
+8. Training Procedure
 
-We use policy gradient:
+Initialize:
 
-∇_φ E[R(a)] = E[ R(a) ∇_φ log π_φ(a) ]
+* Random small basis directions b_k.
+* Random actor.
+* Random world model.
 
-Basis vectors b_k also updated through reward gradients by treating them as part of action-to-reward mapping.
+Repeat:
 
-Why These Probes
+1. Sample action a from policy.
+2. Apply weight edit.
+3. Generate rollouts.
+4. Compute probes p(a).
+5. Update world model.
+6. Compute reward R(a).
+7. Update actor.
+8. Update basis directions b_k via gradient through reward.
 
-KL divergence is the cleanest unsupervised measure of behavioral change.
-Prompt variance of KL naturally defines scale separation.
-Coherence and entropy introduce structural axes beyond mere magnitude.
+Continue until:
 
-Together they produce a multi-dimensional behavioral manifold without labels.
+* Probe landscape becomes predictable.
+* Actor reliably produces structured, disentangled behavior shifts.
 
-Expected Dynamics
+---
 
-Early training: random directions cause chaotic divergence.
-Policy learns to avoid destructive edits (penalty + KL).
-Stable directions emerge that reliably shift distribution structure.
-Coarse knobs become global behavior modulators.
-Fine knobs become conditional style-like modifiers.
+9. Outputs / End Result
 
-Core Insight
+The learned artifacts are:
 
-We are not modeling p(w).
-We are learning a control basis that maximizes structured, reproducible changes in output distribution statistics under low-dimensional weight edits.
+1. Basis directions b_k (weight control axes).
+2. Actor capable of navigating control space.
+3. World model approximating behavioral manifold.
 
-The RL framing ensures discovery is causal, not correlational.
+UI Representation:
 
+* Sliders for each discovered knob.
+* Real-time generation preview.
+* 2D map of probe space discovered by actor.
+* Visualization of exploration trajectory over training.
 
-## The Artifact: A Map of the Model’s Internal Axes
+Interesting behaviors include:
 
-The goal of this experiment is to produce a static, readable artifact that makes the discovered weight directions legible. The output is not metrics or training curves, but a curated set of controlled generations showing how each learned knob changes the model’s behavior. For each direction, we fix a small set of prompts and generate continuations at multiple scalar settings (e.g. −3, −1, 0, +1, +3). The artifact is simply these grids of text, arranged so that the behavioral transformation is visually obvious.
+* Phase transitions in entropy/coherence.
+* Global structural modulation.
+* Conditional stylistic modulation.
+* Smooth morphing between behavioral regimes.
 
-Each section of the blog post introduces one discovered axis. It begins with a short quantitative summary: average KL divergence from the base model, prompt variance of that divergence, entropy shift, and coherence shift. Then it shows side-by-side generations under increasing knob strength. The reader should be able to see a smooth, monotonic change: perhaps structure becomes more elaborate, or confidence increases, or narrative perspective shifts. The key criterion is continuity — moving the knob slightly should produce a small, coherent behavioral change rather than chaos.
+---
 
-A second part of each section demonstrates hierarchy. We fix a “coarse” knob at two different values (low and high), and then sweep a “fine” knob within each regime. The artifact shows four grids: (coarse low, fine sweep) and (coarse high, fine sweep). If hierarchy has emerged, the fine knob’s effect will only become meaningful under certain coarse settings. This demonstrates nested control rather than independent axes.
+Core Principle
 
-The final part of the artifact aggregates patterns across prompts. For each knob, we include a brief automatically generated summary describing the common transformation it induces, derived from differences between generations (e.g. average length change, lexical diversity shift, structural complexity indicators). The blog post frames these as “discovered internal directions” — not labeled features, but operationally defined axes in weight space that produce stable, reproducible changes in behavior.
+The system learns a low-dimensional, hierarchical control space over a neural network by actively exploring weight edits and learning a predictive model of their behavioral consequences.
 
-The result should read like an interpretability report: a sequence of controlled experiments revealing that the model’s behavior can be smoothly deformed along low-dimensional directions. The artifact is interesting if the reader can see that these deformations are coherent, hierarchical, and consistent across contexts — evidence that structured control lives in weight space.
+It is not density modeling.
+It is causal landscape discovery via RL.

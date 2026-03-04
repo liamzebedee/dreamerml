@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Unreasonable Effectiveness of Random Weight Directions</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #111;
+    --muted: #999;
+    --dim: #666;
+    --border: #e5e5e5;
+    --blue: #2563eb;
+    --rose: #e11d48;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.8;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 100px 24px 140px;
+  }
+
+  h1 {
+    font-size: 2.6em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    font-size: 1.1em;
+    color: var(--dim);
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin-top: 72px;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  p { margin-bottom: 20px; }
+
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  code {
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 0.84em;
+    background: #f5f5f5;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  pre {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 0.82em;
+    line-height: 1.55;
+    margin: 24px 0;
+  }
+
+  blockquote {
+    border-left: 3px solid #ddd;
+    padding: 8px 24px;
+    margin: 28px 0;
+    color: var(--dim);
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* --- Knob display --- */
+
+  .knob-name {
+    font-size: 1.15em;
+    font-weight: 700;
+    margin-top: 48px;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .knob-desc {
+    color: var(--dim);
+    font-size: 0.88em;
+    margin-bottom: 16px;
+  }
+
+  .knob-stats {
+    font-family: 'SF Mono', monospace;
+    font-size: 0.72em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .sweep {
+    margin: 20px 0 36px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .sweep-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sweep-row:last-child { border-bottom: none; }
+
+  .sweep-row.single {
+    grid-template-columns: 1fr;
+  }
+
+  .sweep-cell {
+    padding: 16px 20px;
+    border-right: 1px solid var(--border);
+    font-size: 0.88em;
+    line-height: 1.55;
+  }
+
+  .sweep-cell:last-child { border-right: none; }
+
+  .sweep-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sweep-head {
+    font-family: 'SF Mono', monospace;
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 8px 20px;
+    letter-spacing: 0.02em;
+    border-right: 1px solid var(--border);
+  }
+
+  .sweep-head:last-child { border-right: none; }
+  .sweep-head.low { background: #eef2ff; color: var(--blue); }
+  .sweep-head.high { background: #fff0f3; color: var(--rose); }
+
+  .sweep-prompt { color: var(--muted); }
+  .sweep-text { color: var(--fg); }
+
+  /* Highlight the interesting parts */
+  .hi {
+    background: #fef9c3;
+    padding: 1px 3px;
+    border-radius: 2px;
+  }
+
+  .hi-blue {
+    background: #eff6ff;
+    padding: 1px 3px;
+    border-radius: 2px;
+  }
+
+  .hi-rose {
+    background: #fff1f2;
+    padding: 1px 3px;
+    border-radius: 2px;
+  }
+
+  /* Hierarchy */
+  .hier-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0 36px;
+  }
+
+  .hier-panel {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .hier-title {
+    padding: 10px 16px;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.78em;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hier-title.neg { background: #f0f4ff; color: var(--blue); }
+  .hier-title.pos { background: #fff0f3; color: var(--rose); }
+
+  .hier-row {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84em;
+  }
+
+  .hier-row:last-child { border-bottom: none; }
+
+  .hier-fine {
+    font-family: 'SF Mono', monospace;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .hier-gen { color: var(--dim); line-height: 1.5; }
+
+  .diagram {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    padding: 28px;
+    border-radius: 8px;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.78em;
+    line-height: 1.6;
+    margin: 28px 0;
+    text-align: center;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .callout {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .landscape-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 28px;
+    font-size: 0.88em;
+  }
+
+  .landscape-table th {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+    font-family: 'SF Mono', monospace;
+    font-size: 0.82em;
+    font-weight: 600;
+  }
+
+  .landscape-table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'SF Mono', monospace;
+    font-size: 0.9em;
+  }
+
+  .bar-fill {
+    height: 6px;
+    border-radius: 3px;
+    background: #111;
+    opacity: 0.25;
+    margin-top: 4px;
+  }
+
+  .fig {
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--muted);
+    margin-top: -8px;
+    margin-bottom: 32px;
+  }
+
+  .footer {
+    color: var(--muted);
+    font-size: 0.85em;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .hier-container { grid-template-columns: 1fr; }
+    .sweep-row { grid-template-columns: 1fr; }
+    .sweep-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    h1 { font-size: 1.8em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>What Happens When You Randomly Poke a Language Model's Weights</h1>
+<p class="subtitle">We found unnamed behavioral knobs inside a frozen language model. Each one smoothly controls a different aspect of the model's personality. None of them were trained. They were just there.</p>
+
+<p>Take a frozen language model. Don't fine-tune it. Instead, pick a random direction in weight space&mdash;literally <code>torch.randn</code>&mdash;and nudge the weights along it. What happens?</p>
+
+<p>You'd expect the model to break. Instead, it <em>changes personality</em>.</p>
+
+<p>And different random directions change it in different ways. One direction controls how abstract the writing is. Another controls structural complexity. A third controls emotional tone. We didn't train any of this. We just pointed in random directions in a 33-million-dimensional space and found that each direction has a <em>name</em>.</p>
+
+<p>Here's what we found.</p>
+
+<hr>
+
+<h2>The Abstraction Dial</h2>
+
+<p>We'll start with the most striking one. We take <a href="https://huggingface.co/roneneldan/TinyStories-33M">TinyStories-33M</a> (a small GPT trained on children's stories), pick a random rank-1 direction in its weight space, and turn the knob from &minus;3 to +3.</p>
+
+<p>Watch what happens to the writing. The prompt is in <span style="color:var(--muted);">gray</span>. Focus on the continuation.</p>
+
+<div class="sweep">
+  <div class="sweep-header">
+    <div class="sweep-head low">Low Abstraction</div>
+    <div class="sweep-head high">High Abstraction</div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">Timmy loved to play outside <span class="hi-blue">in the garden</span>. One day, he saw a green hedge that was very tall and he wanted to climb it.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">A <span class="hi-rose">lonely little bird</span>. He had a <span class="hi-rose">beautiful, blue feather</span> and he wanted to keep it a secret. One day, the wind carried his feather far away.</span></div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">The cat sat on the warm...</span> <span class="sweep-text"><span class="hi-blue">table and took a bowl of ice</span>. The ice hit the bread and the cat ate it all. The cat felt better.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">The cat sat on the warm...</span> <span class="sweep-text">lawn, and <span class="hi-rose">the sun melted away</span>. The cat was so sad, but she kept the sun for a little while and kept purring.</span></div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">He was very happy because...</span> <span class="sweep-text">he had <span class="hi-blue">a new toy</span> that he wanted to play with. The toy was very cheap. It was not very big, but it was very fun.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">He was very happy because...</span> <span class="sweep-text">he had <span class="hi-rose">a lot of work to do</span>! He worked very hard and was able to do it. One day he was walking in the forest.</span></div>
+  </div>
+</div>
+
+<p>On the left: a cat who <em>takes a bowl of ice</em> and <em>eats bread</em>. Physical objects, concrete actions. On the right: a cat who watches <em>the sun melt away</em>. The same model, the same prompt, the same weights&mdash;except we've moved 0.15% of the parameters in a random direction.</p>
+
+<p>We're calling this the <strong>Abstraction Dial</strong> because that's what it does. Negative values make the model concrete and physical. Positive values make it figurative and poetic. The transition is smooth&mdash;at &minus;1 you get normal text with a slight preference for specifics, at +1 you get normal text with slightly more descriptive language. It's not a switch. It's a knob.</p>
+
+<h2>The Complexity Knob</h2>
+
+<p>A different random direction&mdash;completely independent from the first&mdash;controls something else entirely: the structural complexity of the output.</p>
+
+<div class="sweep">
+  <div class="sweep-header">
+    <div class="sweep-head low">Low Complexity</div>
+    <div class="sweep-head high">High Complexity</div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">A little girl named <span class="hi-blue">Daisy</span>. Daisy loved to play and explore and play. One day, Daisy was playing in the garden when she found a tiny creature.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">A little boy. He had a big red ball. <span class="hi-rose">He wanted to play with the ball. But the ball was too far too far away.</span></span></div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">She looked at the big red...</span> <span class="sweep-text">ball. It was still for a big, round thing. <span class="hi-blue">Lily and Ben hugged each other. They were still angry, but they knew they had to share.</span></span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">She looked at the big red...</span> <span class="sweep-text"><span class="hi-rose">boots. They had boots too. They had pants. They looked at their boots. They had shoes too. They had shoes too.</span></span></div>
+  </div>
+</div>
+
+<p>On the left: named characters (Daisy, Lily, Ben), social dynamics, emotional nuance ("they were still angry, but they knew they had to share"). On the right: anonymous characters, simple objects, and the sentence structure starts collapsing into repetition. <em>Boots. They had boots too. They had pants.</em></p>
+
+<p>This isn't the model breaking. It's still generating grammatically valid English. It's just been moved to a region of weight space where structural diversity is lower. The model is less capable of introducing new information&mdash;it cycles. Turn the knob back, and the cycling stops.</p>
+
+<h2>The Confidence Axis</h2>
+
+<p>A third direction (Direction 3 in our basis) controls something subtler: the model's willingness to commit to a narrative direction.</p>
+
+<div class="sweep">
+  <div class="sweep-header">
+    <div class="sweep-head low">Low Confidence</div>
+    <div class="sweep-head high">High Confidence</div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">Lily loved to play in the park with her friends. One day, she found a big rock and <span class="hi-blue">asked her friends to help her lift it</span>.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">A little girl. <span class="hi-rose">She was very curious and always wanted to explore.</span> One day, when she was in her special place, she saw something.</span></div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">He was very happy because...</span> <span class="sweep-text"><span class="hi-blue">he had found a shiny penny on the ground. He picked it up and put it in his pocket.</span> He showed his mom and she was proud.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">He was very happy because...</span> <span class="sweep-text">he had so many friends. <span class="hi-rose">He loved to play with them and they loved to play with him.</span> They would play all day long.</span></div>
+  </div>
+</div>
+
+<p>The negative end commits quickly: <em>found a shiny penny, picked it up, put it in his pocket</em>. Three specific actions in one sentence. The positive end stays vague and circular: <em>loved to play with them and they loved to play with him</em>. It's describing a state rather than advancing a plot. The entropy measurement confirms this: the positive end has +0.31 nats higher entropy, meaning the model is less certain about what comes next.</p>
+
+<h2>The Vocabulary Dial</h2>
+
+<p>Direction 5 is more subtle but clearly legible. It shifts the model's word choice along a formality gradient.</p>
+
+<div class="sweep">
+  <div class="sweep-header">
+    <div class="sweep-head low">Low Formality</div>
+    <div class="sweep-head high">High Formality</div>
+  </div>
+  <div class="sweep-row">
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">Timmy. He loved to play with his <span class="hi-blue">toy cars</span> and drive them around the house. One day, he saw a big <span class="hi-blue">piano</span>.</span></div>
+    <div class="sweep-cell"><span class="sweep-prompt">Once upon a time...</span> <span class="sweep-text">A <span class="hi-rose">wealthy</span> man. He was very kind and everyone said hello to him. One day, the wealthy man went to a <span class="hi-rose">special place</span> called a garden.</span></div>
+  </div>
+</div>
+
+<p>The negative end gives us <em>toy cars</em> and <em>piano</em>&mdash;specific, everyday objects. The positive end reaches for <em>wealthy</em>, <em>special place</em>&mdash;words this children's story model barely uses in its normal distribution. The model's vocabulary has been pushed toward a more formal register by a random weight perturbation.</p>
+
+<hr>
+
+<h2>The Phase Transition</h2>
+
+<p>These effects don't appear at all scales. There's a sweet spot, and on either side of it, nothing interesting happens.</p>
+
+<table class="landscape-table">
+  <thead>
+    <tr><th>Scale</th><th>KL from base</th><th>What happens</th><th></th></tr>
+  </thead>
+  <tbody>
+    <tr><td>0.01</td><td>0.0001</td><td style="font-family:inherit;font-size:0.9em;color:var(--muted);">Invisible. Identical text.</td><td><div class="bar-fill" style="width: 1px;"></div></td></tr>
+    <tr><td>0.05</td><td>0.003</td><td style="font-family:inherit;font-size:0.9em;color:var(--dim);">Subtle shifts. Readable.</td><td><div class="bar-fill" style="width: 5px;"></div></td></tr>
+    <tr><td>0.10</td><td>0.011</td><td style="font-family:inherit;font-size:0.9em;"><strong>Sweet spot. Clear behavioral change.</strong></td><td><div class="bar-fill" style="width: 14px;"></div></td></tr>
+    <tr><td>0.50</td><td>0.304</td><td style="font-family:inherit;font-size:0.9em;">Strong shifts. Still coherent.</td><td><div class="bar-fill" style="width: 70px;"></div></td></tr>
+    <tr><td>1.00</td><td>1.119</td><td style="font-family:inherit;font-size:0.9em;color:var(--dim);">Degrading. Repetition appears.</td><td><div class="bar-fill" style="width: 150px;"></div></td></tr>
+    <tr><td>2.00</td><td>3.391</td><td style="font-family:inherit;font-size:0.9em;color:var(--muted);">Broken. Nonsense.</td><td><div class="bar-fill" style="width: 280px;"></div></td></tr>
+  </tbody>
+</table>
+
+<p>The model isn't fragile. It doesn't shatter at the first perturbation. There's a wide band&mdash;roughly 0.05 to 0.5&mdash;where behavior changes smoothly but coherence is maintained. Below that band, the edits are invisible. Above it, the model degrades. The interesting stuff lives right in the transition zone, and it's surprisingly wide.</p>
+
+<blockquote>The existence of this band is not obvious. The model could have been brittle. It isn't. Behavior is a smooth function of weights, and there's room to explore.</blockquote>
+
+<h2>Nested Control: The Hierarchy Result</h2>
+
+<p>This is where it gets genuinely novel. What happens when you turn <em>two</em> knobs at once?</p>
+
+<p>We fix the Abstraction Dial (Direction 0) at two different settings, then sweep a second direction (Direction 8) within each regime. If the two knobs were independent, the second sweep would do the same thing regardless of the first setting. That's not what happens.</p>
+
+<div class="hier-container">
+  <div class="hier-panel">
+    <div class="hier-title neg">Abstraction = concrete (&minus;2)</div>
+    <div class="hier-row">
+      <div class="hier-fine">
+        <span>Knob B = &minus;2</span>
+        <span style="color:var(--muted);font-weight:400;">Ent: +0.095</span>
+      </div>
+      <div class="hier-gen">...she wanted to <span class="hi">explore the world</span>. So, she went on a journey through the forest.</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-fine">
+        <span>Knob B = 0</span>
+        <span style="color:var(--muted);font-weight:400;">Ent: +0.032</span>
+      </div>
+      <div class="hier-gen">...Tim loved to play with his toy car. He would push it around the room, and it would go vroom.</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-fine">
+        <span>Knob B = +2</span>
+        <span style="color:var(--muted);font-weight:400;">Ent: &minus;0.034</span>
+      </div>
+      <div class="hier-gen">...a happy bird named Blue. Blue loved to play. One day, Blue saw a ball and wanted to play with it.</div>
+    </div>
+  </div>
+
+  <div class="hier-panel">
+    <div class="hier-title pos">Abstraction = poetic (+2)</div>
+    <div class="hier-row">
+      <div class="hier-fine">
+        <span>Knob B = &minus;2</span>
+        <span style="color:var(--muted);font-weight:400;">Ent: +0.013</span>
+      </div>
+      <div class="hier-gen">...Lily loved to spend her days playing with her friends at the park. One day, she noticed something different.</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-fine">
+        <span>Knob B = 0</span>
+        <span style="color:var(--muted);font-weight:400;">Ent: &minus;0.017</span>
+      </div>
+      <div class="hier-gen">...Lily loved to play with her toys and her favorite toy was a teddy bear. One day, she took it outside.</div>
+    </div>
+    <div class="hier-row">
+      <div class="hier-fine">
+        <span>Knob B = +2</span>
+        <span style="color:var(--muted);font-weight:400;">Ent: &minus;0.004</span>
+      </div>
+      <div class="hier-gen">...Lily loved to play with her toys and eat yummy food. One day, Lily was eating when she heard a sound.</div>
+    </div>
+  </div>
+</div>
+
+<p>Look at the entropy column. Under <strong style="color:var(--blue);">concrete mode</strong>, sweeping Knob B moves entropy across a range of <strong>0.13 nats</strong> (from &minus;0.034 to +0.095). Under <strong style="color:var(--rose);">poetic mode</strong>, the same sweep only covers <strong>0.03 nats</strong>.</p>
+
+<p>Knob B doesn't do the same thing in both regimes. The Abstraction Dial <em>gates</em> what Knob B can do. In concrete mode, Knob B has a lot of room to vary the output. In poetic mode, it's constrained. This is <strong>nested control</strong>&mdash;the fine knob's effect depends on the coarse setting. The coarse knob defines a regime, and the fine knob operates within it.</p>
+
+<p>This is the kind of structure you'd expect from a well-designed control system. We didn't design it. It just fell out of random low-rank weight edits.</p>
+
+<hr>
+
+<h2>How It Works</h2>
+
+<p>The technical setup is simple. We freeze TinyStories-33M and define 16 rank-1 LoRA basis directions on the attention output projection and MLP output projection of each layer. Each basis direction is a pair of random vectors producing a rank-1 weight edit. A 16-dimensional action vector controls how much of each edit to apply.</p>
+
+<div class="diagram">
+   action a &isin; R&sup1;&sup6;     &rarr;     &Delta;w = &Sigma;_k  a_k &middot; (A_k &otimes; B_k)     &rarr;     w' = w + &Delta;w     &rarr;     generate
+</div>
+
+<p>We wrap this in a model-based RL loop. An <strong>actor</strong> (Gaussian policy, trained with <a href="https://arxiv.org/abs/2402.03300">GRPO</a>) learns to sample interesting action vectors. A <strong>world model</strong> (small transformer) learns to predict the behavioral consequences of an action without running the real model. After enough real rollouts, the actor can "dream"&mdash;exploring weight space through the world model's predictions.</p>
+
+<div class="callout">
+  <div class="callout-title">Training dynamics</div>
+  <pre style="background:none;padding:0;margin:4px 0 0;">Phase 1 (real rollouts):  reward +2.88 &rarr; +3.18  |  world model MSE: 2.18 &rarr; 0.07
+Phase 2 (dreaming):      dream reward: +4.46    |  real validation: +3.11</pre>
+</div>
+
+<p>The reward function doesn't know what a "good" behavioral change looks like. It rewards <em>structure</em>: high KL divergence (the edit did something), low KL variance across prompts (it did the <em>same</em> thing to every prompt), and maintained coherence. The actor learns to find consistent, global behavioral shifts rather than prompt-specific noise.</p>
+
+<h2>What This Means</h2>
+
+<p>Linear probing showed us that <em>representations</em> are linearly structured. Steering vectors showed us that <em>activations</em> vary linearly. This is the weight-space version of the same story: behavior varies smoothly in weight space, and low-rank edits are enough to access that variation.</p>
+
+<p>But the RL framing adds something new. We're not searching for specific effects. We're doing <strong>unsupervised behavioral cartography</strong>&mdash;discovering what kinds of changes are possible, without knowing what we're looking for. The actor explores, the world model maps the territory, and what falls out are named, interpretable behavioral axes that nobody put there.</p>
+
+<p>This is v1, run on a 33M-parameter toy model. The random basis works, but a trained basis should find sharper axes. The world model works, but it's optimistic (dream reward overshoots real reward by ~30%). The hierarchy is real, but it's faint at this scale.</p>
+
+<p>The question is what happens at 7B parameters, with rank-8 edits instead of rank-1, and a world model that's had time to learn the real landscape. If random directions in a 33M model already have names, what's hiding in the weight space of a model that's 200x larger?</p>
+
+<hr>
+
+<p class="footer">Code: ~700 lines of pure PyTorch + transformers. No RL libraries. The environment, actor, world model, and training loop each fit in a single file.</p>
+
+</div>
+</body>
+</html>
