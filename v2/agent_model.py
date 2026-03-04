@@ -97,6 +97,51 @@ class WorldModel(nn.Module):
         return loss.item()
 
 
+class WorldModelEnsemble(nn.Module):
+    """Ensemble of N world models for pessimistic dreaming.
+
+    Predicts probes as mean of ensemble members. Uncertainty is std across members.
+    Pessimistic reward = reward(mean_probes) - pessimism * std_reward across members.
+    """
+
+    def __init__(self, n_models=3, K=16, d_model=64, n_heads=4, n_layers=2, lr=1e-3):
+        super().__init__()
+        self.n_models = n_models
+        self.models = nn.ModuleList([
+            WorldModel(K=K, d_model=d_model, n_heads=n_heads, n_layers=n_layers, lr=lr)
+            for _ in range(n_models)
+        ])
+
+    def forward(self, action):
+        """Return (mean_probes, std_probes) across ensemble."""
+        preds = torch.stack([m(action) for m in self.models])  # (N, B, 4) or (N, 4)
+        return preds.mean(0), preds.std(0)
+
+    def predict_pessimistic(self, action, reward_fn, pessimism=1.0):
+        """Predict probes and compute pessimistic reward.
+
+        Returns (pessimistic_reward, mean_probes).
+        """
+        with torch.no_grad():
+            preds = torch.stack([m(action) for m in self.models])  # (N, B, 4)
+            rewards = torch.stack([reward_fn(p) for p in preds])   # (N, B)
+            mean_r = rewards.mean(0)
+            std_r = rewards.std(0)
+            return mean_r - pessimism * std_r, preds.mean(0)
+
+    def train_step(self, actions, real_probes):
+        """Train all ensemble members. Returns mean loss."""
+        losses = [m.train_step(actions, real_probes) for m in self.models]
+        return sum(losses) / len(losses)
+
+    def state_dict(self, *args, **kwargs):
+        return {f"model_{i}": m.state_dict() for i, m in enumerate(self.models)}
+
+    def load_state_dict(self, state_dict, *args, **kwargs):
+        for i, m in enumerate(self.models):
+            m.load_state_dict(state_dict[f"model_{i}"])
+
+
 class ReplayBuffer:
     """Simple replay buffer storing (action, probes, reward) tuples."""
 
@@ -109,9 +154,9 @@ class ReplayBuffer:
 
     def add(self, action, probes, reward):
         """Add a single transition. Tensors are detached and moved to CPU."""
-        self.actions.append(action.detach().cpu())
-        self.probes.append(probes.detach().cpu())
-        self.rewards.append(reward.detach().cpu() if torch.is_tensor(reward) else torch.tensor(reward))
+        self.actions.append(action.detach().float().cpu())
+        self.probes.append(probes.detach().float().cpu())
+        self.rewards.append(reward.detach().float().cpu() if torch.is_tensor(reward) else torch.tensor(reward))
 
         if len(self.actions) > self.capacity:
             self.actions.pop(0)

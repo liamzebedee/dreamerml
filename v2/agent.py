@@ -156,6 +156,13 @@ class Actor(nn.Module):
 
         loss = policy_loss + kl_loss
 
+        if torch.isnan(loss) or torch.isinf(loss):
+            return {
+                "policy_loss": 0.0, "kl": 0.0, "total_loss": 0.0,
+                "mean_reward": rewards.mean().item(),
+                "std_reward": rewards.std().item(),
+            }
+
         self.optimizer.zero_grad()
         loss.backward()
         nn.utils.clip_grad_norm_(

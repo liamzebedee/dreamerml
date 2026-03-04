@@ -41,7 +41,7 @@ def main():
             action[dir_idx] = strength
             gens = env.generate(action, prompts=PROMPTS, max_new_tokens=40, temperature=0.7)
             results[name][label] = [
-                {"prompt": p, "completion": g[len(p):].strip()}
+                {"prompt": p, "completion": g.strip()}
                 for p, g in zip(PROMPTS, gens)
             ]
             print(f"Done: {name} {label}")

@@ -1,4 +1,4 @@
-"""Environment: frozen Qwen2.5-0.5B with LoRA basis weight edits and probe signals."""
+"""Environment: frozen Qwen2.5-0.5B-Instruct with LoRA basis weight edits and probe signals."""
 
 import torch
 import torch.nn as nn
@@ -20,11 +20,18 @@ class LoRABasis(nn.Module):
         self.target_modules = []  # list of (name, module, weight_shape)
 
         # Find wo (attn output proj) and fc2 (MLP output proj) layers
+        # Only target a spread of layers (every 4th) for more distinct basis directions
+        all_targets = []
         for name, module in model.named_modules():
             if hasattr(module, "weight") and module.weight.ndim == 2:
-                # Qwen2.5 uses o_proj for attn output, down_proj for MLP output
                 if any(t in name for t in ["o_proj", "down_proj"]):
-                    self.target_modules.append((name, module.weight.shape))
+                    all_targets.append((name, module.weight.shape))
+
+        # Subsample: take every 4th layer's modules for diversity
+        if len(all_targets) > 12:
+            self.target_modules = [t for i, t in enumerate(all_targets) if i % 4 == 0]
+        else:
+            self.target_modules = all_targets
 
         if not self.target_modules:
             raise ValueError("No target modules found. Check model architecture.")
@@ -67,10 +74,13 @@ class LoRABasis(nn.Module):
 
 
 class BaseModelEnv:
-    """Environment wrapping frozen Qwen2.5-0.5B.
+    """Environment wrapping frozen Qwen2.5-0.5B-Instruct.
 
     Given an action vector, applies LoRA weight edits, runs forward passes
     on a fixed prompt set, and returns probe signals + reward.
+
+    Optimized for GPU throughput: bf16, batched probes, hook-based hidden
+    state capture (only stores 2 layers instead of all).
     """
 
     DEFAULT_PROMPTS = [
@@ -86,30 +96,38 @@ class BaseModelEnv:
 
     def __init__(
         self,
-        model_name="Qwen/Qwen2.5-0.5B",
+        model_name="Qwen/Qwen2.5-0.5B-Instruct",
         prompts=None,
         K=16,
         lora_scale=0.01,
         device=None,
         # Reward coefficients
-        alpha=1.0,
-        beta=0.5,
-        gamma=0.3,
-        eta=0.01,
-        lam=0.5,    # λ for R_coarse
-        mu=0.3,     # μ for R_fine
+        alpha=1.0,      # KL sweet-spot reward
+        beta=0.5,       # Selectivity (prompt variance) reward
+        gamma=1.0,      # Coherence preservation reward
+        delta=0.3,      # Entropy stability penalty
+        eta=0.01,       # Weight regularization
+        kl_target=2.0,  # Target KL divergence (sweet spot)
         max_seq_len=64,
+        use_compile=False,
     ):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
-        # Load frozen model
+        # Load frozen model in bf16 for faster compute
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForCausalLM.from_pretrained(model_name).to(self.device)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.bfloat16 if self.device == "cuda" else torch.float32,
+        ).to(self.device)
         self.model.eval()
         for p in self.model.parameters():
             p.requires_grad_(False)
 
-        # LoRA basis (trainable)
+        # torch.compile for faster forward passes
+        if use_compile and hasattr(torch, "compile"):
+            self.model = torch.compile(self.model)
+
+        # LoRA basis (trainable, stays fp32 for stable gradients)
         self.lora_basis = LoRABasis(self.model, K=K, scale=lora_scale).to(self.device)
 
         # Tokenize prompts
@@ -125,6 +143,9 @@ class BaseModelEnv:
             max_length=max_seq_len,
         ).to(self.device)
 
+        # Figure out which layers to hook for coherence probe
+        self._setup_hooks()
+
         # Cache baseline logits and hidden states
         self._cache_baseline()
 
@@ -132,21 +153,47 @@ class BaseModelEnv:
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
+        self.delta = delta
         self.eta = eta
-        self.lam = lam
-        self.mu = mu
+        self.kl_target = kl_target
 
-    @torch.no_grad()
+    def _setup_hooks(self):
+        """Register forward hooks on early and late transformer layers.
+
+        Only captures 2 hidden states instead of all ~24, saving memory.
+        """
+        # Find the transformer layers
+        if hasattr(self.model.model, 'layers'):
+            layers = self.model.model.layers
+        else:
+            raise ValueError("Can't find transformer layers for hooks")
+
+        n = len(layers)
+        self._early_idx = n // 4
+        self._late_idx = n - 1
+
+        self._hook_outputs = {}
+
+        def make_hook(name):
+            def hook(module, input, output):
+                # output is (hidden_states, ...) for Qwen
+                h = output[0] if isinstance(output, tuple) else output
+                self._hook_outputs[name] = h.detach()
+            return hook
+
+        self._hooks = [
+            layers[self._early_idx].register_forward_hook(make_hook("early")),
+            layers[self._late_idx].register_forward_hook(make_hook("late")),
+        ]
+
+    @torch.inference_mode()
     def _cache_baseline(self):
         """Cache logits and hidden states from the unmodified model."""
-        outputs = self.model(
-            **self.prompt_inputs,
-            output_hidden_states=True,
-        )
+        self._hook_outputs.clear()
+        outputs = self.model(**self.prompt_inputs)
         self.baseline_logits = outputs.logits.detach()
-        hidden = outputs.hidden_states
-        self.baseline_early_hidden = hidden[len(hidden) // 4].detach()
-        self.baseline_late_hidden = hidden[-1].detach()
+        self.baseline_early_hidden = self._hook_outputs["early"]
+        self.baseline_late_hidden = self._hook_outputs["late"]
         # Baseline entropy per token
         probs = F.softmax(self.baseline_logits, dim=-1)
         self.baseline_entropy = -(probs * (probs + 1e-10).log()).sum(-1).mean()
@@ -161,70 +208,53 @@ class BaseModelEnv:
     def _apply_deltas(self, deltas):
         """Apply weight deltas to model (in-place)."""
         for name, delta in deltas.items():
-            self._get_weight(name).data.add_(delta)
+            w = self._get_weight(name)
+            w.data.add_(delta.to(w.dtype))
 
     def _remove_deltas(self, deltas):
         """Remove weight deltas from model (in-place)."""
         for name, delta in deltas.items():
-            self._get_weight(name).data.sub_(delta)
+            w = self._get_weight(name)
+            w.data.sub_(delta.to(w.dtype))
 
+    @torch.inference_mode()
     def compute_probes(self, action):
-        """Compute 4 probe signals for a given action. Returns (probes, info_dict).
+        """Compute 4 probe signals for a given action. Returns probes tensor (4,).
 
         Probes: [S_global, S_var, S_entropy, S_coherence]
-        Processes prompts one at a time to avoid OOM with large vocabs.
+        Batched forward pass, hook-based hidden state capture.
         """
         deltas = self.lora_basis.compute_deltas(action)
         self._apply_deltas(deltas)
 
         try:
-            B = self.prompt_inputs["input_ids"].shape[0]
-            kl_per_prompt = []
-            entropy_sum = 0.0
-            entropy_count = 0
-            cos_new_list = []
+            self._hook_outputs.clear()
+            outputs = self.model(**self.prompt_inputs)
 
-            for i in range(B):
-                inputs_i = {k: v[i:i+1] for k, v in self.prompt_inputs.items()}
-                mask_i = inputs_i["attention_mask"].squeeze(0)  # (T,)
-                token_count = mask_i.sum().clamp(min=1)
+            logits = outputs.logits          # (B, T, V)
+            mask = self.prompt_inputs["attention_mask"]  # (B, T)
+            token_counts = mask.sum(-1).clamp(min=1)     # (B,)
 
-                with torch.no_grad():
-                    outputs = self.model(**inputs_i, output_hidden_states=True)
-
-                logits_i = outputs.logits.squeeze(0)         # (T, V)
-                baseline_i = self.baseline_logits[i]          # (T, V)
-
-                # KL divergence per prompt
-                log_p_new = F.log_softmax(logits_i, dim=-1)
-                log_p_old = F.log_softmax(baseline_i, dim=-1)
-                kl = F.kl_div(log_p_new, log_p_old, log_target=True, reduction='none')
-                kl = kl.sum(-1) * mask_i  # (T,)
-                kl_per_prompt.append(kl.sum() / token_count)
-
-                # Entropy
-                probs_new = F.softmax(logits_i, dim=-1)
-                ent = -(probs_new * (probs_new + 1e-10).log()).sum(-1)  # (T,)
-                entropy_sum += (ent * mask_i).sum()
-                entropy_count += token_count
-
-                # Coherence: early/late hidden states
-                hidden = outputs.hidden_states
-                early_h = hidden[len(hidden) // 4].flatten(1)
-                late_h = hidden[-1].flatten(1)
-                cos_new_list.append(
-                    F.cosine_similarity(early_h, late_h, dim=-1).squeeze()
-                )
-
-                del outputs, logits_i, log_p_new, log_p_old, probs_new
-
-            kl_per_prompt = torch.stack(kl_per_prompt)
+            # KL divergence per prompt
+            log_p_new = F.log_softmax(logits, dim=-1)
+            log_p_old = F.log_softmax(self.baseline_logits, dim=-1)
+            kl = F.kl_div(log_p_new, log_p_old, log_target=True, reduction='none')
+            kl = kl.sum(-1) * mask  # (B, T)
+            kl_per_prompt = kl.sum(-1) / token_counts  # (B,)
             S_global = kl_per_prompt.mean()
             S_var = kl_per_prompt.var()
 
-            S_entropy = (entropy_sum / entropy_count) - self.baseline_entropy
+            # Entropy
+            probs_new = F.softmax(logits, dim=-1)
+            ent = -(probs_new * (probs_new + 1e-10).log()).sum(-1)  # (B, T)
+            S_entropy = (ent * mask).sum() / token_counts.sum() - self.baseline_entropy
 
-            cos_new = torch.stack(cos_new_list).mean()
+            # Coherence from hooks (only 2 layers captured, not all)
+            early_h = self._hook_outputs["early"]  # (B, T, D)
+            late_h = self._hook_outputs["late"]     # (B, T, D)
+            cos_new = F.cosine_similarity(
+                early_h.flatten(1), late_h.flatten(1), dim=-1
+            ).mean()
             cos_old = F.cosine_similarity(
                 self.baseline_early_hidden.flatten(1),
                 self.baseline_late_hidden.flatten(1),
@@ -242,19 +272,34 @@ class BaseModelEnv:
     def compute_reward(self, action, probes=None):
         """Compute reward R(a) from probe signals.
 
-        R(a) = α·R_coarse + β·R_fine + γ·R_struct + R_reg
+        Rewards structured behavioral shifts: moderate KL (not too small, not
+        destruction), high prompt variance (different prompts affected differently),
+        coherence preservation, and stable entropy.
         """
         if probes is None:
             probes = self.compute_probes(action)
 
         S_global, S_var, S_entropy, S_coherence = probes.unbind(0)
 
-        R_coarse = S_global - self.lam * S_var
-        R_fine = S_var - self.mu * S_global
+        # Selectivity: reward prompt-dependent effects (high variance = different
+        # prompts are affected differently = structured, not uniform destruction)
+        # Normalize by global to get coefficient of variation
+        cv = S_var / (S_global.clamp(min=0.1))
+        R_selective = torch.log1p(cv.clamp(max=10) * 10)  # scale up small CVs, cap extremes
+
+        # Coherence preservation
         R_struct = S_coherence
+
+        # Entropy stability — small shifts ok, large shifts penalized
+        R_entropy = -torch.abs(S_entropy)
+
+        # Regularization
         R_reg = -self.eta * self.lora_basis.regularization(action)
 
-        reward = self.alpha * R_coarse + self.beta * R_fine + self.gamma * R_struct + R_reg
+        reward = (self.alpha * R_selective
+                  + self.beta * R_struct
+                  + self.gamma * R_entropy
+                  + R_reg)
         return reward, probes
 
     def step(self, action):
@@ -266,19 +311,9 @@ class BaseModelEnv:
         reward, probes = self.compute_reward(action, probes)
         return reward, probes
 
-    @torch.no_grad()
+    @torch.inference_mode()
     def generate(self, action, prompts=None, max_new_tokens=50, temperature=0.7):
-        """Generate text continuations with weight edit applied.
-
-        Args:
-            action: R^K action vector (or None for baseline)
-            prompts: list of strings (defaults to self.prompts)
-            max_new_tokens: how many tokens to generate
-            temperature: sampling temperature
-
-        Returns:
-            list of generated strings
-        """
+        """Generate text continuations with weight edit applied."""
         prompts = prompts or self.prompts
         inputs = self.tokenizer(
             prompts, return_tensors="pt", padding=True,
