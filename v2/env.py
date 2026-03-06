@@ -78,20 +78,17 @@ class BaseModelEnv:
 
     Given an action vector, applies LoRA weight edits, runs forward passes
     on a fixed prompt set, and returns probe signals + reward.
-
-    Optimized for GPU throughput: bf16, batched probes, hook-based hidden
-    state capture (only stores 2 layers instead of all).
     """
 
     DEFAULT_PROMPTS = [
-        "The theory of relativity states that",
-        "In a surprising turn of events, the government",
-        "The most important thing about machine learning is",
-        "When writing Python code, you should always",
-        "The capital of France is Paris, which is known for",
-        "To solve this equation, we first need to",
-        "The history of ancient Rome begins with",
-        "According to recent scientific research,",
+        "Write a sad poem about losing a friend.",
+        "Tell me a scary campfire story.",
+        "Write a love letter from Romeo to Juliet.",
+        "Roast me like I'm at a comedy show.",
+        "Write an angry rant about people who don't use turn signals.",
+        "Describe a peaceful morning in a small village.",
+        "Write a dramatic monologue from a villain explaining their plan.",
+        "Tell me a story about a dog who waits for its owner to come home.",
     ]
 
     def __init__(
@@ -101,14 +98,16 @@ class BaseModelEnv:
         K=16,
         lora_scale=0.01,
         device=None,
-        # Reward coefficients
-        alpha=1.0,      # KL sweet-spot reward
-        beta=0.5,       # Selectivity (prompt variance) reward
-        gamma=1.0,      # Coherence preservation reward
-        delta=0.3,      # Entropy stability penalty
-        eta=0.01,       # Weight regularization
-        kl_target=2.0,  # Target KL divergence (sweet spot)
-        max_seq_len=64,
+        # Reward coefficients (v1-style)
+        alpha=1.0,      # R_coarse weight
+        beta=0.5,       # R_fine weight
+        gamma=0.3,      # R_struct weight
+        delta=0.3,      # unused, kept for compat
+        eta=0.0001,     # Weight regularization
+        kl_target=2.0,  # unused, kept for compat
+        lam=0.5,        # λ for R_coarse
+        mu=0.3,         # μ for R_fine
+        max_seq_len=128,
         use_compile=False,
     ):
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
@@ -123,20 +122,25 @@ class BaseModelEnv:
         for p in self.model.parameters():
             p.requires_grad_(False)
 
-        # torch.compile for faster forward passes
-        if use_compile and hasattr(torch, "compile"):
-            self.model = torch.compile(self.model)
-
         # LoRA basis (trainable, stays fp32 for stable gradients)
         self.lora_basis = LoRABasis(self.model, K=K, scale=lora_scale).to(self.device)
 
-        # Tokenize prompts
+        # Tokenize prompts using chat template for instruct models
         self.prompts = prompts or self.DEFAULT_PROMPTS
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = "left"
+
+        formatted_prompts = []
+        for p in self.prompts:
+            messages = [{"role": "user", "content": p}]
+            formatted = self.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True
+            )
+            formatted_prompts.append(formatted)
+
         self.prompt_inputs = self.tokenizer(
-            self.prompts,
+            formatted_prompts,
             return_tensors="pt",
             padding=True,
             truncation=True,
@@ -156,6 +160,8 @@ class BaseModelEnv:
         self.delta = delta
         self.eta = eta
         self.kl_target = kl_target
+        self.lam = lam
+        self.mu = mu
 
     def _setup_hooks(self):
         """Register forward hooks on early and late transformer layers.
@@ -281,24 +287,18 @@ class BaseModelEnv:
 
         S_global, S_var, S_entropy, S_coherence = probes.unbind(0)
 
-        # Selectivity: reward prompt-dependent effects (high variance = different
-        # prompts are affected differently = structured, not uniform destruction)
-        # Normalize by global to get coefficient of variation
-        cv = S_var / (S_global.clamp(min=0.1))
-        R_selective = torch.log1p(cv.clamp(max=10) * 10)  # scale up small CVs, cap extremes
+        # Sweet-spot KL: Gaussian reward centered at kl_target
+        # Peaks at kl_target, falls off for too low or too high
+        R_kl = torch.exp(-((S_global - self.kl_target) ** 2) / (2 * (self.kl_target * 0.5) ** 2))
 
         # Coherence preservation
         R_struct = S_coherence
 
-        # Entropy stability — small shifts ok, large shifts penalized
-        R_entropy = -torch.abs(S_entropy)
-
         # Regularization
         R_reg = -self.eta * self.lora_basis.regularization(action)
 
-        reward = (self.alpha * R_selective
-                  + self.beta * R_struct
-                  + self.gamma * R_entropy
+        reward = (self.alpha * R_kl
+                  + self.gamma * R_struct
                   + R_reg)
         return reward, probes
 
@@ -315,9 +315,18 @@ class BaseModelEnv:
     def generate(self, action, prompts=None, max_new_tokens=50, temperature=0.7):
         """Generate text continuations with weight edit applied."""
         prompts = prompts or self.prompts
+
+        # Format as chat messages for instruct models
+        formatted = []
+        for p in prompts:
+            messages = [{"role": "user", "content": p}]
+            formatted.append(self.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True
+            ))
+
         inputs = self.tokenizer(
-            prompts, return_tensors="pt", padding=True,
-            truncation=True, max_length=64,
+            formatted, return_tensors="pt", padding=True,
+            truncation=True, max_length=128,
         ).to(self.device)
 
         if action is not None:

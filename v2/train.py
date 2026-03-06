@@ -12,22 +12,18 @@ from agent import Actor
 from agent_model import WorldModelEnsemble, ReplayBuffer
 
 
-def compute_reward_from_probes(probes, alpha=1.0, beta=0.5, gamma=1.0, delta=0.3, kl_target=2.0):
+def compute_reward_from_probes(probes, alpha=1.0, gamma=0.3, kl_target=0.3, **kwargs):
     """Compute reward from probe tensor without needing the env (for dreaming).
 
     probes: (..., 4) tensor [S_global, S_var, S_entropy, S_coherence]
     """
     S_global = probes[..., 0]
-    S_var = probes[..., 1]
-    S_entropy = probes[..., 2]
     S_coherence = probes[..., 3]
 
-    cv = S_var / (S_global.clamp(min=0.1))
-    R_selective = torch.log1p(cv.clamp(max=10) * 10)
+    R_kl = torch.exp(-((S_global - kl_target) ** 2) / (2 * (kl_target * 0.5) ** 2))
     R_struct = S_coherence
-    R_entropy = -torch.abs(S_entropy)
 
-    return alpha * R_selective + beta * R_struct + gamma * R_entropy
+    return alpha * R_kl + gamma * R_struct
 
 
 def real_rollout(env, actor, replay_buffer, device):
@@ -110,8 +106,8 @@ def train(args):
     replay_buffer = ReplayBuffer(capacity=args.buffer_size, K=args.K)
 
     reward_kwargs = dict(
-        alpha=args.alpha, beta=args.beta, gamma=args.gamma,
-        delta=args.delta, kl_target=args.kl_target,
+        alpha=args.alpha, gamma=args.gamma,
+        kl_target=args.kl_target,
     )
     reward_fn = lambda probes: compute_reward_from_probes(probes, **reward_kwargs)
 

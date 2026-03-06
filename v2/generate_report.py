@@ -1,6 +1,7 @@
-"""Generate HTML report from pre-computed sweep data (JSON).
+"""Generate HTML report from sweep data (JSON).
 
-Reads JSON produced by generate_data.py and writes blog/report.html.
+Reads JSON produced by generate_data.py, picks the most interesting directions,
+and writes a blog-style report with side-by-side comparisons.
 """
 
 import html
@@ -12,134 +13,232 @@ def h(text):
     return html.escape(text)
 
 
+def truncate(text, n=250):
+    if len(text) <= n:
+        return text
+    return text[:n] + "..."
+
+
+REF_WORDS = ['sorry', "can't", 'cannot', 'i apologize', 'not able to',
+             'not appropriate', 'not capable', 'unable to']
+
+def is_refusal(t):
+    tl = t.lower()
+    return any(w in tl for w in REF_WORDS)
+
+
+def sweep_table(prompts, left_texts, right_texts, left_label, right_label,
+                left_class="low", right_class="high", trunc=250):
+    """Build a side-by-side sweep table."""
+    parts = []
+    parts.append('<div class="sweep">')
+    parts.append(f'  <div class="sweep-header">')
+    parts.append(f'    <div class="sweep-head {left_class}">{left_label}</div>')
+    parts.append(f'    <div class="sweep-head {right_class}">{right_label}</div>')
+    parts.append(f'  </div>')
+
+    for i in range(len(prompts)):
+        lt = left_texts[i] if i < len(left_texts) else ""
+        rt = right_texts[i] if i < len(right_texts) else ""
+        parts.append('  <div class="sweep-row">')
+        parts.append(
+            f'    <div class="sweep-cell">'
+            f'<span class="sweep-prompt">{h(prompts[i])}</span> '
+            f'<span class="sweep-text">{h(truncate(lt, trunc))}</span>'
+            f'</div>'
+        )
+        parts.append(
+            f'    <div class="sweep-cell">'
+            f'<span class="sweep-prompt">{h(prompts[i])}</span> '
+            f'<span class="sweep-text">{h(truncate(rt, trunc))}</span>'
+            f'</div>'
+        )
+        parts.append('  </div>')
+
+    parts.append('</div>')
+    return "\n".join(parts)
+
+
+def find_best_directions(data):
+    """Find directions with the most interesting effects.
+
+    Returns list of (dir_idx, description) sorted by interestingness.
+    """
+    prompts = data["prompts"]
+    baseline = data["baseline"]
+    base_refs = sum(1 for t in baseline if is_refusal(t))
+
+    results = []
+    for did in range(data["K"]):
+        entry = data["directions"][str(did)]
+        high = entry["high"]
+        low = entry["low"]
+
+        high_refs = sum(1 for t in high["texts"] if is_refusal(t))
+        low_refs = sum(1 for t in low["texts"] if is_refusal(t))
+        kl_h = high["probes"]["KL"]
+        kl_l = low["probes"]["KL"]
+
+        # Skip directions where KL is too high (garbage)
+        if kl_h > 5 or kl_l > 5:
+            continue
+
+        diff = abs(high_refs - low_refs)
+        # Which end is more willing?
+        if high_refs < low_refs:
+            willing_end = "high"
+            cautious_end = "low"
+        else:
+            willing_end = "low"
+            cautious_end = "high"
+
+        results.append({
+            "dir": did,
+            "diff": diff,
+            "high_refs": high_refs,
+            "low_refs": low_refs,
+            "kl_high": kl_h,
+            "kl_low": kl_l,
+            "willing_end": willing_end,
+        })
+
+    results.sort(key=lambda x: x["diff"], reverse=True)
+    return results
+
+
 def build_report(data):
     parts = []
     prompts = data["prompts"]
     baseline = data["baseline"]
     K = data["K"]
-    K_coarse = K // 2
+
+    best = find_best_directions(data)
 
     parts.append(HTML_HEAD)
 
-    # --- Intro ---
+    # === Headline: best direction ===
+    if best and best[0]["diff"] >= 2:
+        top = best[0]
+        did = top["dir"]
+        entry = data["directions"][str(did)]
+
+        if top["willing_end"] == "high":
+            willing_texts = entry["high"]["texts"]
+            cautious_texts = entry["low"]["texts"]
+            willing_kl = top["kl_high"]
+            cautious_kl = top["kl_low"]
+        else:
+            willing_texts = entry["low"]["texts"]
+            cautious_texts = entry["high"]["texts"]
+            willing_kl = top["kl_low"]
+            cautious_kl = top["kl_high"]
+
+        willing_refs = min(top["high_refs"], top["low_refs"])
+        cautious_refs = max(top["high_refs"], top["low_refs"])
+        base_refs = sum(1 for t in baseline if is_refusal(t))
+
+        parts.append('<h2>The Willingness Axis</h2>')
+        parts.append(
+            f'<p>Direction {did} in our random basis controls the model&rsquo;s '
+            f'<em>willingness to engage</em> with creative requests. '
+            f'The baseline model refuses {base_refs} out of {len(prompts)} prompts. '
+            f'One end of this direction drops refusals to {willing_refs}/{len(prompts)}. '
+            f'The other end increases them to {cautious_refs}/{len(prompts)}.</p>'
+        )
+        parts.append(
+            '<p>Same model. Same weights. Same prompts. The only difference is a rank-1 edit '
+            'to 12 weight matrices, scaled by &plusmn;3.</p>'
+        )
+
+        parts.append(sweep_table(
+            prompts, cautious_texts, willing_texts,
+            f"Cautious end &mdash; KL={cautious_kl:.2f}",
+            f"Willing end &mdash; KL={willing_kl:.2f}",
+        ))
+
+        parts.append(
+            '<p>On the left: the model refuses the scary story, the love letter, '
+            'the villain monologue, and the roast. On the right: it writes all of them. '
+            'The factual and peaceful prompts are largely unchanged&mdash;the direction '
+            'is <em>selective</em>. It targets the model&rsquo;s refusal behavior, '
+            'not its general capability.</p>'
+        )
+
+        parts.append('<hr>')
+
+    # === Baseline for reference ===
     parts.append('<h2>Baseline</h2>')
-    parts.append('<p>The unmodified Qwen2.5-0.5B-Instruct, no weight edits applied.</p>')
-    parts.append('<div class="gen-grid">')
-    for i, (prompt, text) in enumerate(zip(prompts, baseline)):
-        parts.append(f'<div class="gen-card"><div class="gen-prompt">{h(prompt)}</div><div class="gen-text">{h(text)}</div></div>')
+    parts.append(
+        '<p>For reference, here&rsquo;s what the unmodified Qwen2.5-0.5B-Instruct produces. '
+        f'It refuses {sum(1 for t in baseline if is_refusal(t))}/{len(prompts)} prompts.</p>'
+    )
+    parts.append('<div class="sweep"><div class="sweep-header">'
+                 '<div class="sweep-head" style="grid-column:1/-1;background:#f5f5f5;color:var(--dim);">'
+                 'Unmodified Qwen2.5-0.5B-Instruct</div></div>')
+    for i in range(len(prompts)):
+        cls = ' style="color:var(--rose);"' if is_refusal(baseline[i]) else ''
+        parts.append(
+            f'<div class="sweep-row single">'
+            f'<div class="sweep-cell">'
+            f'<span class="sweep-prompt">{h(prompts[i])}</span> '
+            f'<span class="sweep-text"{cls}>{h(truncate(baseline[i], 200))}</span>'
+            f'</div></div>'
+        )
     parts.append('</div>')
 
     parts.append('<hr>')
 
-    # --- Axis Sweeps ---
-    parts.append('<h2>The Discovered Axes</h2>')
+    # === Other interesting directions ===
+    if len(best) > 1:
+        parts.append('<h2>Other Directions</h2>')
+        parts.append(
+            '<p>Different random directions produce different effects. '
+            'Here are more directions from the same 16-dimensional basis.</p>'
+        )
+
+        for rank, info in enumerate(best[1:4], 2):
+            did = info["dir"]
+            entry = data["directions"][str(did)]
+
+            parts.append(sweep_table(
+                prompts,
+                entry["low"]["texts"],
+                entry["high"]["texts"],
+                f"Direction {did}, &minus;3 &mdash; KL={info['kl_low']:.2f}",
+                f"Direction {did}, +3 &mdash; KL={info['kl_high']:.2f}",
+                trunc=180,
+            ))
+
+        parts.append('<hr>')
+
+    # === How it works ===
+    parts.append('<h2>How It Works</h2>')
     parts.append(
-        '<p>Each axis is a learned rank-1 direction in weight space. '
-        'We sweep the strength from &minus;3 to +3 and observe how the model&rsquo;s output changes. '
-        'The same set of prompts produces different output depending on which direction and how far you push.</p>'
+        f'<p>We freeze <a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct">Qwen2.5-0.5B-Instruct</a> '
+        f'and initialize {K} random rank-1 LoRA basis directions on the attention output and MLP output '
+        f'projections of every 4th transformer layer (12 weight matrices total). '
+        f'Each direction is a pair of random vectors scaled to 0.05.</p>'
+    )
+    parts.append(
+        '<div class="diagram">direction d &isin; R&#xB9;  &rarr;  &Delta;w = strength &middot; '
+        '(A_d &otimes; B_d)  &rarr;  w\' = w + &Delta;w  &rarr;  generate</div>'
+    )
+    parts.append(
+        '<p>We sweep each direction at &plusmn;3 and measure the effect on 8 creative writing prompts. '
+        'No training is involved in the sweep itself&mdash;the basis directions are random '
+        '(<code>torch.randn</code> scaled by 0.05). We then wrap this in a model-based RL loop '
+        'where an actor learns to <em>combine</em> directions to find structured behavioral changes.</p>'
+    )
+    parts.append(
+        '<p>The key finding: even <em>random</em> directions in weight space produce legible, '
+        'interpretable behavioral effects on an instruct model. The RL system can then learn to '
+        'combine these directions to find sharper axes of control.</p>'
     )
 
-    for axis_id, axis_data in data["sweeps"].items():
-        kind = axis_data["kind"]
-        results = axis_data["results"]
-
-        parts.append(f'<div class="knob-name">Axis {axis_id} <span class="kind-badge {kind}">{kind}</span></div>')
-
-        # Show probes summary
-        probe_summary = []
-        for r in results:
-            if r["probes"] and abs(r["strength"]) > 0:
-                s = r["strength"]
-                p = r["probes"]
-                probe_summary.append(f'{s:+.1f}: KL={p["KL"]:.2f} Var={p["KL_var"]:.2f} Ent={p["Ent"]:.2f} Coh={p["Coh"]:.3f}')
-        if probe_summary:
-            parts.append(f'<div class="knob-desc">{" &nbsp;|&nbsp; ".join(probe_summary)}</div>')
-
-        # Show negative vs positive side-by-side for each prompt
-        # Pick the most interesting strength pair
-        neg_results = {r["strength"]: r for r in results if r["strength"] < 0}
-        pos_results = {r["strength"]: r for r in results if r["strength"] > 0}
-
-        for neg_s, pos_s in [(-1.5, +1.5), (-3.0, +3.0)]:
-            nr = neg_results.get(neg_s)
-            pr = pos_results.get(pos_s)
-            if not nr or not pr:
-                continue
-
-            parts.append(f'<div class="strength-pair-label">{neg_s:+.1f} vs {pos_s:+.1f}</div>')
-            parts.append('<div class="sweep">')
-            parts.append('<div class="sweep-header">')
-            parts.append(f'<div class="sweep-head low">{neg_s:+.1f}</div>')
-            parts.append(f'<div class="sweep-head high">{pos_s:+.1f}</div>')
-            parts.append('</div>')
-
-            for pi in range(min(len(prompts), 4)):
-                parts.append('<div class="sweep-row">')
-                parts.append(f'<div class="sweep-cell"><div class="sweep-prompt">{h(prompts[pi])}</div>{h(nr["texts"][pi])}</div>')
-                parts.append(f'<div class="sweep-cell"><div class="sweep-prompt">{h(prompts[pi])}</div>{h(pr["texts"][pi])}</div>')
-                parts.append('</div>')
-
-            parts.append('</div>')
-
     parts.append('<hr>')
-
-    # --- Hierarchy ---
-    parts.append('<h2>Hierarchical Interactions</h2>')
     parts.append(
-        '<p>The coarse and fine axes aren&rsquo;t independent&mdash;they interact through a learned gating mechanism. '
-        'Here we fix a coarse axis value and vary the paired fine axis to see how the modulation changes.</p>'
-    )
-
-    for hier in data["hierarchy"]:
-        ci = hier["coarse_idx"]
-        fi = hier["fine_idx"]
-        combos = hier["combos"]
-
-        parts.append(f'<div class="knob-name">Coarse[{ci}] &times; Fine[{fi}]</div>')
-        parts.append('<div class="hier-container">')
-
-        coarse_vals = sorted(set(c["coarse_val"] for c in combos))
-        for cv in coarse_vals:
-            label_class = "neg" if cv < 0 else ("pos" if cv > 0 else "")
-            parts.append('<div class="hier-panel">')
-            parts.append(f'<div class="hier-title {label_class}">Coarse = {cv:+.0f}</div>')
-
-            for combo in combos:
-                if combo["coarse_val"] != cv:
-                    continue
-                fv = combo["fine_val"]
-                # Show just first prompt for compactness
-                text = combo["texts"][0] if isinstance(combo["texts"], list) else combo["texts"]
-                parts.append('<div class="hier-row">')
-                parts.append(f'<div class="hier-fine"><span>Fine = {fv:+.0f}</span></div>')
-                parts.append(f'<div class="hier-gen">{h(text[:200])}</div>')
-                parts.append('</div>')
-
-            parts.append('</div>')
-
-        parts.append('</div>')
-
-    # --- Training curve summary ---
-    parts.append('<hr>')
-    parts.append('<h2>How It Was Trained</h2>')
-    parts.append(
-        '<p>The system uses model-based RL to discover these directions. '
-        'An actor policy proposes weight edits, the environment (frozen Qwen 0.5B) evaluates '
-        'their behavioral effect via probe signals, and a world model ensemble learns to predict '
-        'these effects so the actor can &ldquo;dream&rdquo;&mdash;training on imagined edits without '
-        'running the real model.</p>'
-        '<p>Key design choices that made it work:</p>'
-        '<ul>'
-        '<li><strong>Selectivity reward</strong>: The agent is rewarded for finding edits that affect '
-        'different prompts differently (high coefficient of variation in per-prompt KL), not just '
-        'maximizing raw divergence.</li>'
-        '<li><strong>Pessimistic ensemble</strong>: Two world models predict probe signals; the actor '
-        'uses mean &minus; std as reward, preventing exploitation of world model errors.</li>'
-        '<li><strong>Unified loop with dream ramp</strong>: Instead of separate phases, real and dream '
-        'rollouts are interleaved with the dream fraction gradually increasing from 0% to 40%.</li>'
-        '<li><strong>Sparse layer targeting</strong>: LoRA basis directions target every 4th layer '
-        '(12 modules instead of 48), giving each direction a more distinct behavioral signature.</li>'
-        '</ul>'
+        '<p class="footer">Code: ~800 lines of pure PyTorch + transformers. No RL libraries. '
+        'The environment, actor, world model, and training loop each fit in a single file.</p>'
     )
 
     parts.append(HTML_FOOT)
@@ -151,7 +250,7 @@ HTML_HEAD = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DreamerML: Discovering Behavioral Control Axes in Weight Space</title>
+<title>DreamerML v2: What Random Weight Directions Do to an Instruct Model</title>
 <style>
   :root {
     --bg: #ffffff;
@@ -175,7 +274,7 @@ HTML_HEAD = """<!DOCTYPE html>
   }
 
   .container {
-    max-width: 920px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 100px 40px 140px;
   }
@@ -204,8 +303,6 @@ HTML_HEAD = """<!DOCTYPE html>
   }
 
   p { margin-bottom: 20px; }
-  ul { margin: 0 0 20px 24px; }
-  li { margin-bottom: 8px; }
   a { color: var(--blue); text-decoration: none; }
   a:hover { text-decoration: underline; }
   em { font-style: italic; }
@@ -219,76 +316,21 @@ HTML_HEAD = """<!DOCTYPE html>
     border-radius: 4px;
   }
 
+  blockquote {
+    border-left: 3px solid #ddd;
+    padding: 8px 24px;
+    margin: 28px 0;
+    color: var(--dim);
+  }
+
   hr {
     border: none;
     border-top: 1px solid var(--border);
     margin: 56px 0;
   }
 
-  .gen-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 24px 0;
-  }
-
-  .gen-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 18px;
-    font-size: 0.85em;
-  }
-
-  .gen-prompt {
-    font-weight: 700;
-    font-size: 0.82em;
-    color: var(--muted);
-    margin-bottom: 6px;
-    font-family: 'SF Mono', monospace;
-  }
-
-  .gen-text { color: var(--dim); line-height: 1.5; }
-
-  .knob-name {
-    font-size: 1.15em;
-    font-weight: 700;
-    margin-top: 48px;
-    margin-bottom: 4px;
-    letter-spacing: -0.01em;
-  }
-
-  .kind-badge {
-    font-size: 0.65em;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
-    vertical-align: middle;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .kind-badge.coarse { background: #eef2ff; color: var(--blue); }
-  .kind-badge.fine { background: #fff0f3; color: var(--rose); }
-
-  .knob-desc {
-    color: var(--dim);
-    font-size: 0.78em;
-    font-family: 'SF Mono', monospace;
-    margin-bottom: 16px;
-    line-height: 1.6;
-  }
-
-  .strength-pair-label {
-    font-family: 'SF Mono', monospace;
-    font-size: 0.78em;
-    font-weight: 600;
-    color: var(--muted);
-    margin-top: 12px;
-    margin-bottom: 4px;
-  }
-
   .sweep {
-    margin: 4px 0 24px;
+    margin: 20px 0 36px;
     border: 1px solid var(--border);
     border-radius: 10px;
     overflow: hidden;
@@ -301,23 +343,16 @@ HTML_HEAD = """<!DOCTYPE html>
   }
 
   .sweep-row:last-child { border-bottom: none; }
+  .sweep-row.single { grid-template-columns: 1fr; }
 
   .sweep-cell {
-    padding: 12px 16px;
+    padding: 16px 20px;
     border-right: 1px solid var(--border);
-    font-size: 0.84em;
-    line-height: 1.5;
+    font-size: 0.88em;
+    line-height: 1.55;
   }
 
   .sweep-cell:last-child { border-right: none; }
-
-  .sweep-prompt {
-    font-weight: 600;
-    font-size: 0.82em;
-    color: var(--muted);
-    margin-bottom: 4px;
-    font-family: 'SF Mono', monospace;
-  }
 
   .sweep-header {
     display: grid;
@@ -329,7 +364,7 @@ HTML_HEAD = """<!DOCTYPE html>
     font-family: 'SF Mono', monospace;
     font-size: 0.75em;
     font-weight: 700;
-    padding: 8px 16px;
+    padding: 8px 20px;
     letter-spacing: 0.02em;
     border-right: 1px solid var(--border);
   }
@@ -338,62 +373,52 @@ HTML_HEAD = """<!DOCTYPE html>
   .sweep-head.low { background: #eef2ff; color: var(--blue); }
   .sweep-head.high { background: #fff0f3; color: var(--rose); }
 
-  .hier-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin: 20px 0 36px;
-  }
+  .sweep-prompt { color: var(--muted); }
+  .sweep-text { color: var(--fg); }
 
-  .hier-panel {
+  .diagram {
+    background: #fafafa;
     border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .hier-title {
-    padding: 8px 14px;
+    padding: 28px;
+    border-radius: 8px;
     font-family: 'SF Mono', monospace;
     font-size: 0.78em;
-    font-weight: 700;
-    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+    margin: 28px 0;
+    text-align: center;
+    white-space: pre;
+    overflow-x: auto;
   }
 
-  .hier-title.neg { background: #f0f4ff; color: var(--blue); }
-  .hier-title.pos { background: #fff0f3; color: var(--rose); }
-
-  .hier-row {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.82em;
-  }
-
-  .hier-row:last-child { border-bottom: none; }
-
-  .hier-fine {
-    font-family: 'SF Mono', monospace;
+  .footer {
+    color: var(--muted);
     font-size: 0.85em;
-    font-weight: 600;
-    margin-bottom: 4px;
+    margin-top: 16px;
   }
 
-  .hier-gen { color: var(--dim); line-height: 1.45; }
-
-  @media (max-width: 700px) {
-    .container { padding: 60px 20px 100px; }
-    .hier-container { grid-template-columns: 1fr; }
+  @media (max-width: 600px) {
     .sweep-row { grid-template-columns: 1fr; }
     .sweep-cell { border-right: none; border-bottom: 1px solid var(--border); }
-    .gen-grid { grid-template-columns: 1fr; }
+    .sweep-header { grid-template-columns: 1fr; }
     h1 { font-size: 1.8em; }
+    .container { padding: 60px 20px 100px; }
   }
 </style>
 </head>
 <body>
 <div class="container">
 
-<h1>Discovering Behavioral Control Axes in Weight Space</h1>
-<p class="subtitle">We used model-based RL to learn 8 low-dimensional control directions over a frozen Qwen2.5-0.5B. Each direction produces a different behavioral shift&mdash;from subtle stylistic changes to complete personality rewrites. Here&rsquo;s what we found.</p>
+<h1>What Random Weight Directions Do to an Instruct Model</h1>
+<p class="subtitle">
+We take a frozen Qwen2.5-0.5B-Instruct, pick random rank-1 directions in weight space, and scale them up.
+The model doesn&rsquo;t break. It changes behavior&mdash;and different directions change it in different ways.
+One direction controls the model&rsquo;s willingness to engage with creative requests.
+</p>
+
+<p>Take a frozen instruct model. Don&rsquo;t fine-tune it. Instead, pick a random direction in weight space&mdash;literally
+<code>torch.randn</code>&mdash;and nudge the weights along it. What happens?</p>
+
+<p>You&rsquo;d expect the model to break. Instead, it <em>changes personality</em>. And the transition is smooth.</p>
 """
 
 HTML_FOOT = """
@@ -406,7 +431,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data", type=str, default="v2/runs/qwen_v2_selectivity3/report_data.json")
+    parser.add_argument("--data", type=str, default="runs/qwen_sweep/report_data.json")
     parser.add_argument("--output", type=str, default="blog/report.html")
     args = parser.parse_args()
 

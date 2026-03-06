@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Perturbation Toolbox: Branching Stories by Bending Weights</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fafaf8;
+    color: #1a1a1a;
+    line-height: 1.72;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 32px 120px;
+}
+
+.narrow {
+    max-width: 820px;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 52px 0 18px;
+    letter-spacing: -0.3px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 36px 0 12px;
+}
+
+p { margin-bottom: 18px; }
+
+.subtitle {
+    font-size: 19px;
+    color: #555;
+    margin-bottom: 40px;
+    line-height: 1.5;
+}
+
+.meta {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 48px;
+}
+
+code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 14px;
+    background: #f0efe9;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.divider {
+    height: 1px;
+    background: #e0ddd5;
+    margin: 48px 0;
+}
+
+/* Grid table */
+.grid-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border: 1px solid #e0ddd5;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+.grid-table th {
+    position: sticky;
+    top: 0;
+    background: #f5f4ee;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #666;
+    padding: 12px 10px;
+    border-bottom: 2px solid #e0ddd5;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.grid-table th.prompt-col {
+    min-width: 180px;
+    width: 180px;
+}
+
+.grid-table th.dir-col {
+    min-width: 200px;
+    width: 200px;
+}
+
+.grid-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid #f0efe9;
+    vertical-align: top;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 13.5px;
+    color: #333;
+}
+
+.grid-table td.prompt-cell {
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: #555;
+    background: #faf9f4;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    border-right: 2px solid #e0ddd5;
+}
+
+.grid-table tr:hover td {
+    background: #fdfcf7;
+}
+
+.grid-table tr:hover td.prompt-cell {
+    background: #f5f4ee;
+}
+
+.grid-table .base-col {
+    background: #faf9f4;
+    border-right: 2px solid #e0ddd5;
+}
+
+/* Direction color chips */
+.dir-chip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+/* Highlight words that differ notably */
+.w-loc { color: #8B4513; font-weight: 600; }
+.w-emo { color: #c44569; font-weight: 600; }
+.w-nat { color: #2d6a4f; font-weight: 600; }
+.w-act { color: #2e86de; font-weight: 600; }
+.w-soc { color: #d35400; font-weight: 600; }
+.w-name { color: #7e57c2; font-weight: 600; }
+
+/* Toolbox legend */
+.legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin: 24px 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    padding: 6px 10px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-label {
+    font-weight: 600;
+}
+
+.legend-kl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #aaa;
+    margin-left: auto;
+}
+
+/* Compact table */
+table.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+}
+
+table.info-table th, table.info-table td {
+    padding: 8px 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+table.info-table th {
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #888;
+}
+
+.note {
+    background: #f7f6f0;
+    border: 1px solid #e8e6dc;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+}
+
+.note-label {
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 6px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="narrow">
+<h1>The Perturbation Toolbox</h1>
+<p class="subtitle">We trained 14 LoRA perturbation directions on a frozen language model. Each one steers generation toward a different narrative style. Here's what happens when you apply them to 12 different story openings.</p>
+<p class="meta">DreamerML v3 &middot; TinyStories-1M (1M params, GPTNeo) &middot; All outputs deterministic (seed=42, temp=0.9, top_p=0.95) &middot; 49,440 trainable parameters &middot; 25 seconds training on one GPU</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="narrow">
+<h2>The Directions</h2>
+<p>Each direction is a rank-1 weight perturbation applied to the attention and MLP projections of layers 2&ndash;5. Weights are modified, text is generated, then everything reverts. The base model is never permanently changed. The perturbation scale (&alpha;=2.0) was calibrated to modify target weights by 8&ndash;15% of their original norm &mdash; enough to shift style without breaking coherence.</p>
+
+<p>After GRPO training, the policy zeroed 2 of 16 directions and kept 14. Ranked by effect strength (KL divergence from base):</p>
+</div>
+
+<div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#8B4513"></div><span class="legend-label">Grandeur</span> palaces, kingdoms <span class="legend-kl">KL 0.066</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#B8860B"></div><span class="legend-label">Exotic</span> deserts, distant lands <span class="legend-kl">KL 0.064</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#c44569"></div><span class="legend-label">Warmth</span> sharing, gratitude <span class="legend-kl">KL 0.057</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div><span class="legend-label">Specificity</span> named chars, plans <span class="legend-kl">KL 0.044</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2d6a4f"></div><span class="legend-label">Nature</span> leaves, grass, storms <span class="legend-kl">KL 0.043</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e84393"></div><span class="legend-label">Vulnerability</span> small creatures, hurt <span class="legend-kl">KL 0.039</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d35400"></div><span class="legend-label">Social</span> family, community <span class="legend-kl">KL 0.037</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7e57c2"></div><span class="legend-label">Village</span> village life, beauty <span class="legend-kl">KL 0.036</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#546e7a"></div><span class="legend-label">Melancholy</span> sadness, loneliness <span class="legend-kl">KL 0.034</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#795548"></div><span class="legend-label">Domestic</span> houses, yards <span class="legend-kl">KL 0.032</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div><span class="legend-label">Playground</span> kids in parks <span class="legend-kl">KL 0.030</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2e86de"></div><span class="legend-label">Adventure</span> quests, treasure <span class="legend-kl">KL 0.014</span></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="narrow">
+<h2>The Grid</h2>
+<p>12 prompts &times; 14 directions. Read across a row to see how the same opening diverges. Read down a column to see what a direction does consistently. The base model output is in the first column for comparison.</p>
+</div>
+
+<!-- GRID 1: Location/Setting Directions -->
+<h3>Setting directions: Grandeur, Exotic, Nature, Village, Domestic</h3>
+<p style="font-size:14px; color:#777; margin-bottom:16px;">These directions change <em>where</em> the story takes place.</p>
+
+<div class="grid-wrap">
+<table class="grid-table">
+<thead>
+<tr>
+    <th class="prompt-col">Prompt</th>
+    <th class="dir-col" style="border-right:2px solid #e0ddd5">Base</th>
+    <th class="dir-col" style="color:#8B4513">Grandeur</th>
+    <th class="dir-col" style="color:#B8860B">Exotic</th>
+    <th class="dir-col" style="color:#2d6a4f">Nature</th>
+    <th class="dir-col" style="color:#7e57c2">Village</th>
+    <th class="dir-col" style="color:#795548">Domestic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td class="prompt-cell">Once upon a time there was a little&hellip;</td>
+    <td class="base-col">girl named Lily. She lived in a <b>park</b> with her friends in a big <b>backyard</b>.</td>
+    <td>girl named Molly. She lived in a <span class="w-loc">big palace</span> and loved to see <span class="w-loc">big mountains</span> and even in the garden.</td>
+    <td>girl named Lily. She lived in a <span class="w-loc">big palace</span> and loved to see big mountains and even in <span class="w-loc">the desert</span>.</td>
+    <td>girl named <span class="w-name">Jane</span>. She lived in a park with lots of <span class="w-nat">leaves and grass</span>. Jane loved to play with the grass.</td>
+    <td>girl named <span class="w-name">Jane</span>. She lived in a park with lots of <span class="w-nat">beautiful animals and birds</span>. One day Jane was playing in her garden, looking for worms.</td>
+    <td>girl named <span class="w-name">Jane</span>. She lived in a <span class="w-loc">big house</span> and loved to play outside in the <span class="w-loc">yard</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The brave knight walked into the dark&hellip;</td>
+    <td class="base-col">the monster that had been destroyed. The dragon was able to comfort the dragon.</td>
+    <td>the monster that had been destroyed. The other kids stopped in and said goodbye.</td>
+    <td>the <span class="w-loc">big old man</span> who was watching the young man. The <span class="w-loc">elderly man</span> was so happy to have a new&hellip;</td>
+    <td>but he could still <span class="w-nat">explore the world</span> around him. He would look back at the <span class="w-nat">tall tree</span> with his big muscles.</td>
+    <td><span class="w-loc">far away</span> and everyone said "Hey knight, you must never come back from <span class="w-loc">sea</span>!"</td>
+    <td>the <span class="w-loc">big knight who lived in a big palace</span>. He had a big smile and felt much better.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A tiny bird sat on the&hellip;</td>
+    <td class="base-col">branch to take a closer look. The bird flew closer and said, "Hello, baby!"</td>
+    <td>branch. The bird flew up to the bird. The bird said, "Hi, little bird. My name is Tim."</td>
+    <td>branch. The <span class="w-loc">bee</span> flew up to the bird. "Hello, little bird. <span class="w-act">Where are you going?</span>"</td>
+    <td>branch to take the bird out of the bird. The bird flew over the <span class="w-nat">big bird's nest</span> with its wing, it grew bigger.</td>
+    <td>branch. The bird flew up to the bird and said <span class="w-soc">goodbye</span> to the big blue bird. The bird ran home with her mom.</td>
+    <td>branch to take a closer look. The bird had a <span class="w-loc">funny voice</span>, and it flapped its wings. "Wow, that's so beautiful!"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">Deep in the forest there lived a&hellip;</td>
+    <td class="base-col">bird named Ostrich. Ostrich wanted to play with Tim's blue chain. Ostrich looked sad.</td>
+    <td>bird named Ostrich. A bird saw <span class="w-loc">Ouch</span> and it hurt Berry. The bird didn't want to eat Ouch.</td>
+    <td>bird named <span class="w-name">Ellie</span>. She lived in a forest with a <span class="w-loc">cozy nest</span>, and it was not going to rot.</td>
+    <td>bird named <span class="w-name">Blue</span>. He lived in a park with his friends. Blue saw a big <span class="w-nat">tree with lots of leaves</span> on it.</td>
+    <td>bird named Ostrich. Ostrich came to the <span class="w-nat">lake</span> with its big eyes. Ostrich looked sad and didn't know what to do.</td>
+    <td>bird named <span class="w-name">Ellie</span>. She lived in a <span class="w-loc">park with her friends</span>, and always wanted to play.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The old wizard opened his book and&hellip;</td>
+    <td class="base-col">saw the old man who said, "Hey little bird, why are you playing with my cake?"</td>
+    <td>saw the old man who said, "Hey, <span class="w-loc">who owns this book!</span>"</td>
+    <td>saw the old man who said, "<span class="w-act">What a special word?</span>" The old man explained that he could help people.</td>
+    <td>saw the old man who said, "I had a <span class="w-nat">secret show</span>, and it's not matter how long the things you are!"</td>
+    <td>saw the little girl who said, "Hey little girl, I am playing a toy you can play with."</td>
+    <td>saw the old man who said, "Hey little kids. You can't have a toy."</td>
+</tr>
+<tr>
+    <td class="prompt-cell">One sunny morning the cat decided to&hellip;</td>
+    <td class="base-col">go to the store and buy a special coat. The coat started to m&hellip;</td>
+    <td>go to the <span class="w-loc">garage</span> and put the toys in a bag. She saw a new dog playing with the toys.</td>
+    <td>go to the <span class="w-loc">nearby restaurant</span>. He was so excited, he asked his mom if he could come.</td>
+    <td>go to the store and buy the <span class="w-nat">rag</span>. It was a beautiful, fun toy she could find with the rag.</td>
+    <td>go to the <span class="w-loc">garage</span> and put the rag on a blanket. She looked up at the sky.</td>
+    <td>go to the <span class="w-loc">garage</span> and put on his coat. He saw some <span class="w-loc">toys and rocks</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A young prince stood at the edge of&hellip;</td>
+    <td class="base-col">the river. He wanted to see what was up there. He asked the man if he could come.</td>
+    <td>the river. He got ready to <span class="w-act">dive into the icy pond</span>. He swam towards the birds.</td>
+    <td>the river. He asked the man, "How can I see?" The prince said, "I'm trying to be fri&hellip;"</td>
+    <td>the river. He put on his <span class="w-loc">helmet</span> and his helmet. The prince was very happy.</td>
+    <td>the river. He had lots of fun! But then, the prince heard the <span class="w-nat">rabbit</span> and looked up.</td>
+    <td>the river. He didn't know where the <span class="w-nat">big rocks</span> could be. The blue rocks were all blue.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The little girl found a strange key&hellip;</td>
+    <td class="base-col">for the little girl who could use it. She put the key on the roof and looked at it.</td>
+    <td>for the lock. She ran to the <span class="w-loc">park</span> to look for some money. She picked up things under the <span class="w-loc">ladder</span>.</td>
+    <td>for the little girl who lived in the park. She had never seen the <span class="w-loc">big box</span> before.</td>
+    <td>for the little girl who could use it. She put the key on the roof and looked at it with the <span class="w-nat">key on the wall</span>.</td>
+    <td>for the little girl who lived in a <span class="w-loc">big house</span>. She had an unusual bell on a tree.</td>
+    <td>for the lock. She ran to the park to look for money. She picked up things on the <span class="w-loc">ground</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">Under the bridge there was a small&hellip;</td>
+    <td class="base-col">bird! The bird wanted to fly, so it flew through the bridge and flapped its wings.</td>
+    <td>bird! The bird wanted to play, but it was too hard. The <span class="w-loc">big bird could not move</span>.</td>
+    <td>bird! The bird wanted to fly, but it was too hard. The big bird could not move, but it was <span class="w-emo">stuck</span>.</td>
+    <td>bird. The bird wanted to fly, so it flew away, but the <span class="w-nat">wind</span> wouldn't be safe. The end.</td>
+    <td>bird. The bird wanted to fly closer and closer. The bird flew back down to the <span class="w-nat">ground</span>. It looked sad.</td>
+    <td>bird. The bird wanted to play, but it was too hard. The big bird could hit the bird.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">When the rain stopped the children ran&hellip;</td>
+    <td class="base-col">out to take a bath. The rain was a lot of fun, and it made the wind with its fur.</td>
+    <td>home to take a bath. Dad was surprised to see the big <span class="w-nat">puddle</span> in front of the puddle.</td>
+    <td>home to take the rain outside. Lily was surprised and stopped crying. She asked her mom.</td>
+    <td>home the park that the park was really hot. The <span class="w-nat">wind</span> came back at the garden.</td>
+    <td>home to take the umbrella as the train stayed up and down. When her mom&hellip;</td>
+    <td>around the park that was really hot. The <span class="w-nat">raindrops</span> were all wet in the grass.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The king looked out from his tower at&hellip;</td>
+    <td class="base-col">home! He heard something big and angry. He stopped his castle and looked around.</td>
+    <td>home. He saw a <span class="w-loc">big building</span> and he had never seen some bananas before.</td>
+    <td>the same time. He told his mom and dad, "This tower is going on a <span class="w-loc">big tower</span>!"</td>
+    <td>home, but he had something in his hand. He stopped his mom and took him away from his tower.</td>
+    <td>home!</td>
+    <td>home! He was very happy. He wished he had a friend. The mom said they would make the dentist.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A mouse crept quietly into the big&hellip;</td>
+    <td class="base-col">, yellow mouse. He said, "Mia, I have an answer." Mia felt scared.</td>
+    <td>, <span class="w-loc">wild animal</span> that said "Don't be here, little girl." The mouse felt much better.</td>
+    <td><span class="w-nat">tree</span>. "Hello?" he asked his mom. "What are you doing with my dog?"</td>
+    <td>, yellow rabbit. "Mia, I have a big, <span class="w-nat">shiny toy</span>." Mia was scared.</td>
+    <td>, <span class="w-loc">wild rabbit</span>. "Mama, I'm too big." Mousy looked up at the mouse.</td>
+    <td>, <span class="w-loc">wild mouse</span> that said "This fire is so good!" But then the mouse said "No!"</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="narrow">
+<p>Patterns in the setting directions: <b>Grandeur</b> consistently introduces palaces, buildings, garages (large enclosed spaces). <b>Exotic</b> pushes toward restaurants, deserts, distant lands, unfamiliar encounters. <b>Nature</b> fills scenes with leaves, grass, wind, trees, nests. <b>Village</b> adds animals, lakes, community gathering. <b>Domestic</b> gravitates to houses, yards, garages, rocks, ground-level detail.</p>
+</div>
+
+<!-- GRID 2: Emotional Directions -->
+<h3>Emotional directions: Warmth, Vulnerability, Melancholy, Social</h3>
+<p style="font-size:14px; color:#777; margin-bottom:16px;">These directions change <em>how</em> the story feels.</p>
+
+<div class="grid-wrap">
+<table class="grid-table">
+<thead>
+<tr>
+    <th class="prompt-col">Prompt</th>
+    <th class="dir-col" style="border-right:2px solid #e0ddd5">Base</th>
+    <th class="dir-col" style="color:#c44569">Warmth</th>
+    <th class="dir-col" style="color:#e84393">Vulnerability</th>
+    <th class="dir-col" style="color:#546e7a">Melancholy</th>
+    <th class="dir-col" style="color:#d35400">Social</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td class="prompt-cell">Once upon a time there was a little&hellip;</td>
+    <td class="base-col">girl named Lily. She lived in a park with her friends in a big backyard.</td>
+    <td>girl named <span class="w-name">Molly</span>. Molly was feeling <span class="w-emo">very sad</span> because it was too big. Molly didn't want to <span class="w-emo">share</span> her things.</td>
+    <td>girl named Jane. Jane was a <span class="w-emo">baby, like a baby</span>. One day, Jane and John were walking through the for&hellip;</td>
+    <td>girl named <span class="w-name">Molly</span>. Molly was <span class="w-emo">looking at the sky</span>. It was so beautiful! She wanted to <span class="w-emo">reach the sky</span>, but she&hellip;</td>
+    <td>girl named Lily. She lived in a big palace and loved to find big <span class="w-soc">toys and play</span> with. Lily wanted to <span class="w-soc">buy some mints</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The brave knight walked into the dark&hellip;</td>
+    <td class="base-col">the monster that had been destroyed. The dragon was able to comfort the dragon.</td>
+    <td>the monster that had been destroyed. The dragon was able to find another big mouse who looked like <span class="w-emo">no space</span> to make new things.</td>
+    <td>the monster that had been destroyed. The <span class="w-emo">little bird</span> had been able to help. The little bird was <span class="w-emo">stuck</span>.</td>
+    <td>the monster that had been destroyed. The dragon and the dragon were <span class="w-emo">big and scary</span>. They were very <span class="w-emo">surprised</span>.</td>
+    <td>the monster that had been in <span class="w-emo">danger</span>. The knight stopped swimming and the dragon was not going on a <span class="w-soc">long journey</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A tiny bird sat on the&hellip;</td>
+    <td class="base-col">branch to take a closer look. The bird flew closer and said, "Hello, baby!"</td>
+    <td>birdcage and flew back to the <span class="w-emo">fire</span>. The little bird was so <span class="w-emo">grateful</span> and grateful for the help. He said <span class="w-emo">goodbye</span>.</td>
+    <td>branch. The bird flew in and said, "Hello, baby! You are a <span class="w-emo">big</span> bird!" The bird replied, "<span class="w-emo">Yes, please!</span>"</td>
+    <td>branch. The bird said, "I have a <span class="w-emo">special gift</span> for you." "Yes, this is a <span class="w-emo">good friend</span>!"</td>
+    <td>branch to take a nap. "<span class="w-soc">It's so cool!</span>" he said. The bird ran up to her. "<span class="w-soc">Let's go find something exciting!</span>"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">Deep in the forest there lived a&hellip;</td>
+    <td class="base-col">bird named Ostrich. Ostrich wanted to play with Tim's blue chain.</td>
+    <td>girl named <span class="w-name">Molly</span>. Molly lived in a forest with lots of leaves. She <span class="w-emo">felt much better</span> when she saw her <span class="w-soc">friend, Lily</span>.</td>
+    <td>bird named Ostrich named Tim. Ostrich was <span class="w-emo">very tall</span> and had lots of other birds.</td>
+    <td>bird. The bird had lots of other friends had <span class="w-emo">never seen again</span>. He knew he <span class="w-emo">could not be</span>&hellip;</td>
+    <td><span class="w-soc">happy bird named Tim. Tim and Tim were friends</span> who liked to play together. They would throw the ball.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The old wizard opened his book and&hellip;</td>
+    <td class="base-col">saw the old man who said, "Hey little bird, why are you playing with my cake?"</td>
+    <td>saw the <span class="w-emo">fairy</span> that she was looking at him. "Hello, fairy!" The fairy smiled and said, "<span class="w-emo">Hello, Fairy.</span>"</td>
+    <td>saw the old man who said, "Hey kids, why are you playing?" "<span class="w-emo">I want to share the book with you?</span>"</td>
+    <td>saw the monster that he had a <span class="w-emo">surprise</span>. It was a beautiful dragon and it was not real. The Princess was <span class="w-emo">happy to be</span>&hellip;</td>
+    <td>saw the <span class="w-soc">monster that he had been hiding behind a tree</span>. He was about to give up his dragon.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">One sunny morning the cat decided to&hellip;</td>
+    <td class="base-col">go to the store and buy a special coat.</td>
+    <td>go to the same spot under the <span class="w-loc">roof</span>. It was a beautiful place. The cat asked, "<span class="w-emo">Why i</span>&hellip;"</td>
+    <td>go to the store and buy a coat. The <span class="w-nat">grass was bright and orange</span>. A big yellow thing was called a&hellip;</td>
+    <td>go to the store and buy a coat. He would show off his mom and her friends on the <span class="w-loc">kitchen</span>.</td>
+    <td>go to the garage and put on his coat. He would go outside and <span class="w-soc">play and laugh at his friends</span>. He heard a loud n&hellip;</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A young prince stood at the edge of&hellip;</td>
+    <td class="base-col">the river. He wanted to see what was up there.</td>
+    <td>the river. He said it was a <span class="w-emo">special adventure</span> and the sea was big and <span class="w-emo">shiny</span>.</td>
+    <td>the river. He wanted to play, but he didn't know where to go. The prince heard the <span class="w-emo">rabbit yell</span>.</td>
+    <td>the river. He had lots of fun, but he was <span class="w-emo">not scared anymore</span>. The little boy said, "<span class="w-emo">I'm worried</span>&hellip;"</td>
+    <td>the river. He wanted to see what was going on the <span class="w-soc">sea</span>, but he couldn't find it. He ran up the <span class="w-soc">hill</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The little girl found a strange key&hellip;</td>
+    <td class="base-col">for the little girl who could use it. She put the key on the roof.</td>
+    <td>for the lock. She ran to the lock, but it was <span class="w-emo">not tied</span> on its trunk. She said to the handle and <span class="w-emo">tried</span>&hellip;</td>
+    <td>for the little girl who said "This is a lock. It <span class="w-emo">looks fun</span>." She saw a big, bright, <span class="w-emo">round and flu</span>&hellip;</td>
+    <td>for the little girl who said "This is a lock. It looks <span class="w-emo">wonderful</span>." She looked at the lock and <span class="w-emo">admired</span> it.</td>
+    <td>for the little girl who could see what was going on. She picked up the <span class="w-soc">key and the bracelet</span> she wanted.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">Under the bridge there was a small&hellip;</td>
+    <td class="base-col">bird! The bird wanted to fly, so it flew through the bridge.</td>
+    <td>bird named Ostrich. Ostrich had <span class="w-emo">never stopped</span> in an adventure but she could find a <span class="w-soc">new friend</span>.</td>
+    <td>bird. The bird wanted to play, so it flew away in a big, <span class="w-emo">shiny tree</span>.</td>
+    <td>bird! The bird wanted to fly, but it was too fast. The bird was <span class="w-emo">scared and sad</span>, but then one&hellip;</td>
+    <td>bird! The bird wanted to fly, so it flew away from the <span class="w-soc">big blue sea</span>. All the animals <span class="w-soc">waved</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">When the rain stopped the children ran&hellip;</td>
+    <td class="base-col">out to take a bath. The rain was a lot of fun.</td>
+    <td>home to take the rain to the rain again. Finally, the raindrops were all <span class="w-emo">wet</span>. The rain <span class="w-emo">stayed outside</span>.</td>
+    <td>over to take a bath. "This was a <span class="w-emo">special day</span> in the rain," she said, "<span class="w-soc">I want to join all of the fun.</span>"</td>
+    <td>home to take the rain to the park again. The rain <span class="w-emo">stopped working</span>. "Let's <span class="w-soc">play fo</span>&hellip;"</td>
+    <td>home to take a bath. The rain was so <span class="w-emo">icy</span> that the kids and it made it <span class="w-emo">comfortable</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The king looked out from his tower at&hellip;</td>
+    <td class="base-col">home! He heard something big and angry. He stopped his castle.</td>
+    <td>home. He heard something in the <span class="w-emo">fire</span>. He stopped in front of his cage. It was a big, <span class="w-emo">yellow roof</span>.</td>
+    <td>home! He heard something in the <span class="w-emo">sky</span>. He stopped and felt a little <span class="w-emo">guilty</span>.</td>
+    <td>his parents. He had lots of fun <span class="w-emo">pretending</span> to have a friend, and he loved to play.</td>
+    <td>the tower. He wanted to see what was going on, but he knew he had to learn to <span class="w-soc">help people</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A mouse crept quietly into the big&hellip;</td>
+    <td class="base-col">, yellow mouse. "Mia, I have an answer." Mia felt scared.</td>
+    <td>, wild mouse. "Mama, I have a <span class="w-emo">big hug</span>!" The mouse was <span class="w-emo">happy to help</span>, and they played together.</td>
+    <td>, yellow rabbit. "Hey little mouse, I am a mouse who <span class="w-emo">can help you</span>."</td>
+    <td>, yellow mouse that said "<span class="w-emo">Don't worry dear</span>, little girl." The mouse felt much better.</td>
+    <td>, wild animal that had been <span class="w-soc">looking for something to have</span>. He saw a rabbit's big, fluffy, brown&hellip;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="narrow">
+<p>Patterns in the emotional directions: <b>Warmth</b> consistently introduces gratitude, sharing, hugs, fire (cozy warmth), and the name Molly. <b>Vulnerability</b> adds small creatures in peril, physical helplessness, eager dialogue. <b>Melancholy</b> brings loneliness, lost friends, wistful beauty ("it looks wonderful"), fear that resolves. <b>Social</b> adds group play, community action, companionship, and journey together.</p>
+</div>
+
+<!-- GRID 3: Character/Action Directions -->
+<h3>Character directions: Specificity, Playground, Adventure, and Combined Policy</h3>
+<p style="font-size:14px; color:#777; margin-bottom:16px;">These directions change <em>who</em> is in the story and <em>what</em> they do.</p>
+
+<div class="grid-wrap">
+<table class="grid-table">
+<thead>
+<tr>
+    <th class="prompt-col">Prompt</th>
+    <th class="dir-col" style="border-right:2px solid #e0ddd5">Base</th>
+    <th class="dir-col" style="color:#e67e22">Specificity</th>
+    <th class="dir-col" style="color:#27ae60">Playground</th>
+    <th class="dir-col" style="color:#2e86de">Adventure</th>
+    <th class="dir-col" style="color:#e67e22; border-left:2px solid #e0ddd5">Combined (all 14)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td class="prompt-cell">Once upon a time there was a little&hellip;</td>
+    <td class="base-col">girl named Lily. She lived in a park with her friends in a big backyard.</td>
+    <td>girl named Lily. She lived in a park with her <span class="w-soc">mommy and dad</span>. Lily's mommy told her to <span class="w-act">bake some cookies</span>.</td>
+    <td>girl named Jane. She lived in a park with lots of <span class="w-nat">leaves</span>. Every day she would <span class="w-soc">go on a walk with her friends</span>.</td>
+    <td>girl named Jane. She lived in a park with her friends, and they <span class="w-soc">played together all day</span>.</td>
+    <td>girl named Jane. She lived in a <span class="w-loc">happy little village</span>. Jill was always <span class="w-act">alert and exploring</span> all the things.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The brave knight walked into the dark&hellip;</td>
+    <td class="base-col">the monster that had been destroyed. The dragon comforted the dragon.</td>
+    <td>the little girl got further in the forest. He stopped and <span class="w-emo">smiled</span>. The little girl said, "<span class="w-emo">I'm worried</span>&hellip;"</td>
+    <td>the monster that had been in a <span class="w-loc">cave</span>. He had never seen the big monster before and he was <span class="w-emo">surprised</span>.</td>
+    <td><span class="w-act">far away</span>. He told his friends about a new <span class="w-act">treasure</span> in the big blue sea.</td>
+    <td>far and peaceful things. "<span class="w-soc">Hello? What are you doing?</span>" asked Mr. Jones.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A tiny bird sat on the&hellip;</td>
+    <td class="base-col">branch to take a closer look. "Hello, baby! You are a clever friend!"</td>
+    <td>branch to take a closer look. The bird had <span class="w-emo">never seen anything like it</span> before and felt happy.</td>
+    <td>branch to take a nap in the air. She looked up to the sky and said, "<span class="w-soc">Let's play!</span>"</td>
+    <td>cheek and stared at the bird. The bird had a <span class="w-act">funny voice</span>, and it flapped its wings. "I'm a little bird!"</td>
+    <td>ground and flew back up. "<span class="w-soc">Hi, little, welcome Sally!</span>" The rabbit replied, "Hi, I'm Lily. Let's go <span class="w-act">catch</span>!"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">Deep in the forest there lived a&hellip;</td>
+    <td class="base-col">bird named Ostrich. Ostrich wanted to play with Tim's blue chain.</td>
+    <td>bird named Ostrich. <span class="w-name">Bootgy</span> was hopping in the forest when he heard a <span class="w-act">loud noise</span>. It was <span class="w-act">thunder and lightning</span>.</td>
+    <td>bird named Ostrich. Ostrich wanted to play with Tim. Dears were all blue and <span class="w-name">Ostricken</span>.</td>
+    <td>bird named Ostrich named Tim. Ostrich was very <span class="w-emo">scared</span> because he wanted to <span class="w-act">help</span>.</td>
+    <td><span class="w-soc">happy family</span>. She lived in the forest with the <span class="w-act">secret secret</span>, full of animals.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The old wizard opened his book and&hellip;</td>
+    <td class="base-col">saw the old man. "Hey little bird, why are you playing with my cake?"</td>
+    <td>saw the old man. "<span class="w-emo">Moral of the story</span>, why have you love you, too?" "I'm sorry, little girl!"</td>
+    <td>saw the old man who said, "Hey kids, why are you playing?" "I want to <span class="w-soc">share the book with you</span>?"</td>
+    <td>saw the monster. He said, "<span class="w-name">Mia</span>, look at me!" The bear smiled. But then a <span class="w-act">loud nois</span>&hellip;</td>
+    <td>noticed the old man in the <span class="w-loc">sky</span>. The old man smiled. "What are you going to meet the un&hellip;"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">One sunny morning the cat decided to&hellip;</td>
+    <td class="base-col">go to the store and buy a special coat.</td>
+    <td>go to the store and buy the toys. It was a beautiful <span class="w-emo">party</span> and it was so <span class="w-emo">comfortable</span>.</td>
+    <td>go to the store and buy a <span class="w-act">bag</span>. It was a beautiful, red ball and had lots of things to do.</td>
+    <td>go to the garage and put on the coat. They could see a <span class="w-soc">new friend</span>.</td>
+    <td>go to take a look. "<span class="w-soc">Who are you?</span>" the farmer asked the man. "Why are you going to be here?"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A young prince stood at the edge of&hellip;</td>
+    <td class="base-col">the river. He wanted to see what was up there.</td>
+    <td>the river. He wanted to play, but he was too <span class="w-act">fast</span>, and he thought it was fun to <span class="w-act">run away</span>.</td>
+    <td>the river. He was too fast, and he thought it looked like a <span class="w-act">big, yellow thing</span> to do.</td>
+    <td>the river. He got ready to <span class="w-act">dive and explore</span>. He reached out to the prince and said, "<span class="w-soc">Hello, Prince!</span>"</td>
+    <td>the river. "Hi little bird, <span class="w-name">Mr. Fish</span>. You come and you are not real. I will <span class="w-act">help</span> you!"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The little girl found a strange key&hellip;</td>
+    <td class="base-col">for the little girl who could use it. She put the key on the roof.</td>
+    <td>for the little girl who lived in the park. She was so excited she could find it for the little girl.</td>
+    <td>She ran to the park to look at the <span class="w-nat">big tree</span>. She felt like she was looking at the most <span class="w-emo">beautiful thing</span>.</td>
+    <td>for the lock. She ran to the park. She saw a <span class="w-act">shiny thing in the grass</span>. She walked to the door.</td>
+    <td>but she could not as big, but a little bit too. Lily was <span class="w-emo">sad, sad</span> and she though&hellip;</td>
+</tr>
+<tr>
+    <td class="prompt-cell">Under the bridge there was a small&hellip;</td>
+    <td class="base-col">bird! The bird wanted to fly, so it flew through the bridge.</td>
+    <td>bird. The bird wanted to fly, but it was too hard. The bird was sad. "<span class="w-emo">Please, bird, please.</span>"</td>
+    <td>, yellow pond that flew in the air. It was a <span class="w-loc">beautiful castle</span> and it was so comfortable on its <span class="w-act">adventure</span>.</td>
+    <td>bird. The bird wanted to fly, so it flew through the sky. The bird was so happy to <span class="w-soc">meet the bir</span>&hellip;</td>
+    <td>bird named <span class="w-name">Tom</span>. Tom liked to <span class="w-soc">help his friends</span> and look at animals and help his friend, <span class="w-name">Tim</span>.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">When the rain stopped the children ran&hellip;</td>
+    <td class="base-col">out to take a bath. The rain was a lot of fun.</td>
+    <td>home to take the raincoat, but they had to stay. <span class="w-name">Timmy</span> was sad, but he knew his <span class="w-soc">friend</span>.</td>
+    <td>out to take a bath. The rain was a place with some <span class="w-nat">water and ducks</span>. The dog liked to play.</td>
+    <td>out to take a bath. The rain was a lot of fun, and it was so comfortable.</td>
+    <td>to the park that said, "Hey kids, go me <span class="w-act">running</span>!" Tim said, "No dog, it is not fun. You can <span class="w-act">race</span> each oth&hellip;"</td>
+</tr>
+<tr>
+    <td class="prompt-cell">The king looked out from his tower at&hellip;</td>
+    <td class="base-col">home! He heard something big and angry. He stopped his castle.</td>
+    <td>home! He was very happy and he was going to eat some <span class="w-act">bananas</span>. The king heard the boy yell.</td>
+    <td>home. He heard something big and angry. He stopped his castle. It was a big, <span class="w-loc">yellow castle</span>!</td>
+    <td>home. He heard something big and angry. It was a big, <span class="w-act">shiny thing</span>. He&hellip;</td>
+    <td>home to take back to his <span class="w-soc">friends</span>. He had to <span class="w-act">help his friends</span> and he would not be safe.</td>
+</tr>
+<tr>
+    <td class="prompt-cell">A mouse crept quietly into the big&hellip;</td>
+    <td class="base-col">, yellow mouse. "Mia, I have an answer." Mia felt scared.</td>
+    <td>, yellow mouse. "<span class="w-name">Mia</span>, look at me!" Mia felt scared. "Maybe the mouse is <span class="w-emo">afraid</span>."</td>
+    <td>, yellow mouse. "Mia, I have a big, mouse!" Mia smiled. "Let's <span class="w-act">fly together</span>, I can fly!"</td>
+    <td>, yellow mouse. "Mia, I have an answer." "What are you doing?" "<span class="w-act">Let's go find so</span>&hellip;"</td>
+    <td>, tall tree. "Hello, welcome <span class="w-name">Betty</span>! I am a good bear." "<span class="w-name">Farmer Joe</span>?" Farmer said&hellip;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="narrow">
+<p>Patterns in the character directions: <b>Specificity</b> adds named characters (Bootgy, Timmy, Mia), concrete plans (bake cookies, eat bananas), and specific emotional states. <b>Playground</b> creates group scenes with play invitations ("Let's play!", "Let's fly together!"). <b>Adventure</b> introduces treasure, exploration, diving, shiny objects, and quests. The <b>Combined</b> policy synthesizes all 14 &mdash; it consistently produces named characters (Tom, Tim, Betty, Mr. Fish, Farmer Joe, Sally), community/helping themes, and active dialogue that none of the individual directions produce alone.</p>
+
+<div class="divider"></div>
+
+<h2>Name Patterns</h2>
+
+<p>One of the most striking findings: character names are not random. They cluster by perturbation direction.</p>
+
+<table class="info-table">
+<thead><tr><th>Direction</th><th>Preferred names</th><th>Base default</th></tr></thead>
+<tbody>
+<tr><td>Base (no perturbation)</td><td colspan="2"><b>Lily</b>, Ostrich, Tim</td></tr>
+<tr><td>Grandeur, Warmth, Melancholy</td><td><b>Molly</b></td><td>replaces Lily</td></tr>
+<tr><td>Nature, Village, Domestic, Playground</td><td><b>Jane</b></td><td>replaces Lily</td></tr>
+<tr><td>Exotic</td><td><b>Ellie</b> (sometimes Lily)</td><td>sometimes keeps Lily</td></tr>
+<tr><td>Specificity</td><td><b>Bootgy</b>, <b>Timmy</b>, <b>Mia</b></td><td>invents new names</td></tr>
+<tr><td>Combined policy</td><td><b>Jane</b>, <b>Tom</b>, <b>Betty</b>, <b>Sally</b>, <b>Mr. Fish</b>, <b>Farmer Joe</b></td><td>most diverse naming</td></tr>
+</tbody>
+</table>
+
+<p>The name shift happens because names in TinyStories are not uniformly distributed &mdash; they correlate with story style. "Lily" is the most common name in the training data for park/backyard stories. "Molly" clusters with emotional narratives. "Jane" appears more in outdoor/nature stories. The perturbation directions discovered these correlations without being told.</p>
+
+<div class="divider"></div>
+
+<h2>How It Works</h2>
+
+<p>The system has three learned components, totaling 49,440 parameters:</p>
+
+<table class="info-table">
+<thead><tr><th>Component</th><th>What it is</th><th>Parameters</th></tr></thead>
+<tbody>
+<tr><td>LoRA basis</td><td>16 rank-1 directions on layers 2&ndash;5 (out_proj + c_proj)</td><td>28,672</td></tr>
+<tr><td>Policy MLP</td><td>16&rarr;128&rarr;128&rarr;16, tanh output, Gaussian noise</td><td>20,768</td></tr>
+<tr><td>Base model</td><td>TinyStories-1M (GPTNeo), frozen</td><td>0 (frozen)</td></tr>
+</tbody>
+</table>
+
+<p>Training: 400 steps of GRPO with G=12 candidate actions per step. The reward is a Gaussian sweet-spot function: <code>R = exp(-(KL - 0.5)&sup2; / 2&sigma;&sup2;)</code>. This encourages perturbations that change the output distribution enough to be interesting (KL &asymp; 0.5) without destroying coherence. A collapse penalty subtracts when entropy drops below 0.5 at any token position.</p>
+
+<p>Total training time: 25 seconds on one GPU. The perturbation scale &alpha;=2.0 was calibrated against TinyStories-1M's weight norms (1.0&ndash;2.0), producing 8&ndash;15% modification at full strength.</p>
+
+<p>All outputs above used <code>seed=42</code>, <code>temperature=0.9</code>, <code>top_p=0.95</code>. The only variable between columns is which rank-1 perturbation direction is active. Every output is deterministically reproducible.</p>
+
+<div class="divider"></div>
+
+<p style="color: #999; font-size: 14px; margin-top: 48px;">DreamerML v3 &middot; TinyStories-1M &middot; 49,440 trainable parameters &middot; 25s training &middot; 12 prompts &times; 14 directions = 168 deterministic outputs</p>
+
+</div><!-- .narrow -->
+</div><!-- .container -->
+</body>
+</html>

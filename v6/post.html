@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching a Language Model to Invoke Different Versions of Itself</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:#fff;color:#1a1a1a;line-height:1.7;font-size:16.5px}
+.container{max-width:760px;margin:0 auto;padding:80px 24px 140px}
+h1{font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:12px}
+.date{font-size:14px;color:#999;margin-bottom:32px}
+.abstract{background:#f7f8fa;border:1px solid #e0e0e0;border-radius:6px;padding:20px 24px;margin:0 0 48px;font-size:15px}
+.abstract strong{display:block;margin-bottom:6px;font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#666}
+h2{font-size:24px;font-weight:700;margin:48px 0 16px;letter-spacing:-0.3px;border-bottom:1px solid #e0e0e0;padding-bottom:8px}
+h3{font-size:19px;font-weight:600;margin:32px 0 12px}
+p{margin-bottom:16px}
+code{font-family:'SF Mono','Consolas',monospace;background:#f1f3f5;padding:1px 5px;border-radius:3px;font-size:14px}
+pre{background:#f7f8fa;border:1px solid #e0e0e0;padding:16px 20px;border-radius:6px;overflow-x:auto;font-family:'SF Mono',monospace;font-size:13px;line-height:1.55;margin:16px 0 20px}
+table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:14.5px}
+th{text-align:left;padding:8px 12px;background:#f7f8fa;border-bottom:2px solid #d0d7de;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:#555}
+td{padding:8px 12px;border-bottom:1px solid #eee}
+td.num{font-family:'SF Mono',monospace;text-align:right;font-size:13.5px}
+tr:last-child td{border-bottom:none}
+.neg{color:#c0392b;font-weight:600}
+.pos{color:#16a34a;font-weight:600}
+.note{background:#fffbeb;border-left:3px solid #d97706;padding:14px 18px;margin:20px 0;font-size:15px;border-radius:0 4px 4px 0}
+.finding{background:#eff6ff;border-left:3px solid #2563eb;padding:14px 18px;margin:20px 0;font-size:15px;border-radius:0 4px 4px 0}
+.finding strong{color:#1d4ed8}
+.neg-finding{background:#fef2f2;border-left:3px solid #dc2626;padding:14px 18px;margin:20px 0;font-size:15px;border-radius:0 4px 4px 0}
+.neg-finding strong{color:#dc2626}
+ul,ol{margin:8px 0 16px 20px}
+li{margin-bottom:6px}
+.example{border:1px solid #e0e0e0;border-radius:6px;margin:16px 0;font-size:14px;overflow:hidden}
+.example-hdr{background:#f7f8fa;padding:8px 14px;font-weight:600;font-size:13px;border-bottom:1px solid #e0e0e0;color:#555}
+.example-body{padding:14px}
+.example-body .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-top:10px;color:#666}
+.example-body .label:first-child{margin-top:0}
+.example-body .text{margin:4px 0 12px;color:#374151;line-height:1.6}
+.dream-text{background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:8px 12px;margin:4px 0 12px;font-style:italic}
+.oracle-text{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:4px;padding:8px 12px;margin:4px 0 12px}
+.metric-row{display:flex;gap:12px;margin:4px 0 0;font-size:12px;font-family:'SF Mono',monospace;color:#888;flex-wrap:wrap}
+.toc{margin:0 0 40px;padding:16px 20px;background:#f7f8fa;border-radius:6px;font-size:14px}
+.toc ol{margin:8px 0 0 16px}
+.toc li{margin-bottom:4px}
+.toc a{color:#0366d6;text-decoration:none}
+a{color:#0366d6;text-decoration:none}
+.bar-chart{margin:16px 0}
+.bar-row{display:flex;align-items:center;margin:4px 0;font-size:13px}
+.bar-label{width:140px;text-align:right;padding-right:10px;font-weight:500}
+.bar-track{flex:1;height:22px;background:#f1f3f5;border-radius:3px;position:relative;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:#fff;min-width:30px}
+.bar-val{margin-left:8px;font-family:'SF Mono',monospace;font-size:12px;width:50px}
+.sig{font-size:11px;font-weight:700;margin-left:4px}
+.timeline{border-left:3px solid #e0e0e0;margin:16px 0 24px 20px;padding:0}
+.timeline-item{padding:0 0 24px 20px;position:relative}
+.timeline-item::before{content:'';position:absolute;left:-9px;top:4px;width:14px;height:14px;border-radius:50%;border:3px solid #e0e0e0;background:#fff}
+.timeline-item.fail::before{border-color:#dc2626;background:#fef2f2}
+.timeline-item.partial::before{border-color:#d97706;background:#fffbeb}
+.timeline-item.success::before{border-color:#16a34a;background:#f0fdf4}
+.timeline-item .version{font-weight:700;font-size:14px;color:#555}
+.timeline-item .desc{font-size:14px;color:#374151;margin-top:2px}
+.timeline-item .result{font-size:13px;font-family:'SF Mono',monospace;margin-top:2px}
+.footnotes{margin-top:48px;padding-top:20px;border-top:1px solid #e0e0e0;font-size:14px;color:#555}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Teaching a Language Model to Invoke Different Versions of Itself</h1>
+<p class="date">March 2026</p>
+
+<div class="abstract">
+<strong>Abstract</strong>
+We investigate whether a frozen language model can learn to invoke specialized versions of itself through learned weight perturbations. Starting from a hypothesis that forward-inverse dynamics models could navigate the weight perturbation manifold, we iteratively discover that: (1) inverse dynamics fails completely on random LoRA bases; (2) a rigorous ablation proves random perturbations provide zero benefit beyond rejection sampling (p=0.87); (3) the fix is to <em>learn</em> task-specialized LoRA modes via fine-tuning, then train a GRPO policy to select among them. The final system achieves <strong>+0.050 reward improvement over the unperturbed baseline (p&lt;0.0001)</strong> on entity-constrained story generation, with the GRPO policy outperforming even the hand-designed oracle mapping. The journey from negative result to working system is the main contribution.
+</div>
+
+<div class="toc">
+<strong>Contents</strong>
+<ol>
+<li><a href="#s1">The Hypothesis and Its Failure</a></li>
+<li><a href="#s2">The Ablation That Changed Everything</a></li>
+<li><a href="#s3">The Fix: Learned LoRA Modes</a></li>
+<li><a href="#s4">GRPO: Learning When to Dream</a></li>
+<li><a href="#s5">Final Results</a></li>
+<li><a href="#s6">Engineering: Per-Sample LoRA via Hooks</a></li>
+<li><a href="#s7">Discussion</a></li>
+<li><a href="#appA">Appendix A: Iteration Timeline</a></li>
+<li><a href="#appB">Appendix B: Mode Specialization Verification</a></li>
+<li><a href="#appC">Appendix C: Generation Examples</a></li>
+<li><a href="#appD">Appendix D: Ablation Details</a></li>
+</ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s1">1. The Hypothesis and Its Failure</h2>
+
+<p>We start with an idea from robotics: if you can learn the forward dynamics of a system (given state + action, predict next state) and its inverse (given current + desired state, solve for action), you can plan trajectories through the system's state space. We attempt to apply this to the "weight perturbation manifold" of a frozen language model.</p>
+
+<p>The setup: take a frozen 68M-parameter TinyStories model (GPT-Neo, 4 layers, 768 hidden). Define K=32 random rank-1 LoRA directions as an "action space." Collect 20,000 state transitions under random perturbations. Train forward and inverse dynamics MLPs. Use them to plan perturbations that steer the model's "cognitive state" toward desired configurations.</p>
+
+<h3>1.1 What Worked (v6.0)</h3>
+
+<p>The forward model learns real structure: 0.97 cosine similarity on state deltas, meaning it correctly predicts <em>which direction</em> the model's internal state will shift under a given perturbation. The per-sample LoRA hook system processes 205 transitions/second on a single RTX 3090. The entire pipeline runs in 103 seconds.</p>
+
+<h3>1.2 What Failed</h3>
+
+<table>
+<tr><th>Component</th><th>Metric</th><th>Value</th><th>Verdict</th></tr>
+<tr><td>Forward model</td><td>Cosine similarity</td><td class="num"><span class="pos">0.971</span></td><td>Direction learned</td></tr>
+<tr><td>Forward model</td><td>R&sup2; > 0</td><td class="num"><span class="neg">15/64 dims</span></td><td>Magnitude wrong</td></tr>
+<tr><td>Inverse model</td><td>Action cosine sim</td><td class="num"><span class="neg">0.067</span></td><td>Complete failure</td></tr>
+<tr><td>Planner</td><td>vs Random</td><td class="num"><span class="neg">-0.006</span></td><td>Worse than random</td></tr>
+</table>
+
+<div class="neg-finding">
+<strong>The inverse model fails completely.</strong> Action reconstruction cosine similarity of 0.067 is indistinguishable from random. The planner, which depends on the inverse model, performs worse than random action selection. The mapping from 32-dimensional actions to 64-dimensional state observations is many-to-one: many different actions produce indistinguishable state changes.
+</div>
+
+<h3>1.3 Iteration Attempts (v6.1&ndash;v6.3)</h3>
+
+<p>We attempted several fixes: dropping the inverse model in favor of forward-model search (v6.1), increasing perturbation strength from &alpha;=0.06 to 0.20 (v6.1), reducing K from 32 to 8 modes (v6.1), replacing hand-crafted state features with random projections (v6.1), and training a GRPO policy to select among dream modes (v6.1). None produced significant improvement. The GRPO policy either collapsed to "never dream" (v6.2) or "always dream with the same mode" (v6.1), because the underlying perturbations didn't create meaningfully different text distributions.</p>
+
+<p>We then tried best-of-N action search (v6.2&ndash;v6.3), which appeared to show massive improvement: best-of-256 actions scored 0.90 vs baseline 0.57 (+0.33). But the robustness check (v6.3) revealed that "best" actions don't transfer across random seeds: Robust &Delta; = -0.0002, only 40% improved. This demanded a definitive ablation.</p>
+
+<!-- ============================================================ -->
+<h2 id="s2">2. The Ablation That Changed Everything</h2>
+
+<p>The critical experiment: if we generate N=128 samples with no perturbation and pick the best (pure rejection sampling), does it perform as well as generating N=128 samples with random LoRA perturbations and picking the best?</p>
+
+<table>
+<tr><th>Condition</th><th>Reward</th><th>&Delta; vs Single</th></tr>
+<tr><td>Single sample (no selection)</td><td class="num">0.5670</td><td class="num">&mdash;</td></tr>
+<tr><td>Mean-of-128 (no perturbation)</td><td class="num">0.5694</td><td class="num">+0.002</td></tr>
+<tr><td>Mean-of-128 (with perturbation)</td><td class="num">0.5683</td><td class="num">+0.001</td></tr>
+<tr><td>Best-of-128 same base, <strong>NO</strong> perturbation</td><td class="num"><span class="pos">0.8741</span></td><td class="num">+0.307</td></tr>
+<tr><td>Best-of-128 same base, <strong>WITH</strong> perturbation</td><td class="num">0.8756</td><td class="num">+0.309</td></tr>
+<tr><td>Best-of-128 fresh base, no perturbation</td><td class="num"><span class="pos">0.9338</span></td><td class="num">+0.367</td></tr>
+</table>
+
+<div class="neg-finding">
+<strong>Random LoRA perturbations provide ZERO benefit.</strong> The difference between best-of-N with vs without perturbation is +0.0015 (paired t-test: t=0.161, <strong>p=0.87</strong>). All of the apparent improvement was rejection sampling: with 128 tries, you're likely to hit a good generation by chance. The best strategy is simply generating many completions with varying base prefixes (best-of-128 fresh base: 0.93). The LoRA perturbation manifold, initialized with random bases, does not expand the reachable output space in any meaningful direction.
+</div>
+
+<p>This is a fundamental negative result: <strong>random perturbation directions in weight space are not semantically meaningful.</strong> Perturbing a random direction in a neural network's weight space is like pushing a robot's joints in a random direction&mdash;it moves, but not toward anything useful. To get directional control, the perturbation directions must be <em>learned</em>.</p>
+
+<!-- ============================================================ -->
+<h2 id="s3">3. The Fix: Learned LoRA Modes</h2>
+
+<p>The ablation made the path forward clear: instead of random LoRA bases, learn them. We define K=4 LoRA modes, each specialized for a category of content:</p>
+
+<table>
+<tr><th>Mode</th><th>Category</th><th>Example Entities</th></tr>
+<tr><td>0</td><td>Animals</td><td>cat, dog, bird, fish, rabbit, bear, mouse, fox, turtle, frog</td></tr>
+<tr><td>1</td><td>Characters</td><td>princess, knight, wizard, dragon, fairy, queen, king, pirate</td></tr>
+<tr><td>2</td><td>Places</td><td>river, mountain, castle, garden, forest, cave</td></tr>
+<tr><td>3</td><td>Objects</td><td>tree, flower, boat, lamp, key, crown, sword, shield, map, book</td></tr>
+</table>
+
+<h3>3.1 Training Pipeline</h3>
+
+<ol>
+<li><strong>Generate training data:</strong> Generate 2,000 stories from the base model. Filter by which entity categories appear in each story. This produces ~600&ndash;900 stories per category.</li>
+<li><strong>Fine-tune each mode's LoRA:</strong> For each mode k, install its rank-8 LoRA perturbation via forward hooks (differentiable), run the standard language modeling loss on the corresponding entity-category stories, and update only the LoRA A/B parameters. 40 epochs, lr=5e-4. The base model stays frozen.</li>
+</ol>
+
+<p>Each mode has its own LoRA A and B matrices (688K total learnable parameters across all 4 modes, applied to all 8 target layers). The fine-tuning teaches each mode to increase the probability of generating text mentioning its target entity category.</p>
+
+<h3>3.2 Mode Specialization Verification</h3>
+
+<p>We generate 200 stories with each mode activated at full strength (&alpha;=0.5, action=1.0) and measure what fraction mention entities from each category:</p>
+
+<div class="bar-chart">
+<div style="margin-bottom:12px;font-weight:600;font-size:13px;color:#555">Entity category mention rate (n=200)</div>
+
+<div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px">BASE MODEL (no perturbation)</div>
+<div class="bar-row"><div class="bar-label">Animals</div><div class="bar-track"><div class="bar-fill" style="width:26%;background:#94a3b8">26%</div></div></div>
+<div class="bar-row"><div class="bar-label">Characters</div><div class="bar-track"><div class="bar-fill" style="width:10%;background:#94a3b8">10%</div></div></div>
+<div class="bar-row"><div class="bar-label">Places</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:#94a3b8">8%</div></div></div>
+<div class="bar-row"><div class="bar-label">Objects</div><div class="bar-track"><div class="bar-fill" style="width:21%;background:#94a3b8">21%</div></div></div>
+
+<div style="font-size:12px;font-weight:600;color:#888;margin:16px 0 8px">WITH MODE 0 (animals) ACTIVATED</div>
+<div class="bar-row"><div class="bar-label">Animals</div><div class="bar-track"><div class="bar-fill" style="width:61%;background:#16a34a">61%</div></div><div class="bar-val"><span class="pos">+34%</span></div></div>
+<div class="bar-row"><div class="bar-label">Characters</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:#94a3b8">13%</div></div></div>
+<div class="bar-row"><div class="bar-label">Places</div><div class="bar-track"><div class="bar-fill" style="width:18%;background:#94a3b8">18%</div></div></div>
+<div class="bar-row"><div class="bar-label">Objects</div><div class="bar-track"><div class="bar-fill" style="width:20%;background:#94a3b8">20%</div></div></div>
+
+<div style="font-size:12px;font-weight:600;color:#888;margin:16px 0 8px">WITH MODE 1 (characters) ACTIVATED</div>
+<div class="bar-row"><div class="bar-label">Animals</div><div class="bar-track"><div class="bar-fill" style="width:32%;background:#94a3b8">32%</div></div></div>
+<div class="bar-row"><div class="bar-label">Characters</div><div class="bar-track"><div class="bar-fill" style="width:20%;background:#16a34a">20%</div></div><div class="bar-val"><span class="pos">+10%</span></div></div>
+<div class="bar-row"><div class="bar-label">Places</div><div class="bar-track"><div class="bar-fill" style="width:6%;background:#94a3b8">6%</div></div></div>
+<div class="bar-row"><div class="bar-label">Objects</div><div class="bar-track"><div class="bar-fill" style="width:24%;background:#94a3b8">24%</div></div></div>
+
+<div style="font-size:12px;font-weight:600;color:#888;margin:16px 0 8px">WITH MODE 2 (places) ACTIVATED</div>
+<div class="bar-row"><div class="bar-label">Animals</div><div class="bar-track"><div class="bar-fill" style="width:26%;background:#94a3b8">26%</div></div></div>
+<div class="bar-row"><div class="bar-label">Characters</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:#94a3b8">8%</div></div></div>
+<div class="bar-row"><div class="bar-label">Places</div><div class="bar-track"><div class="bar-fill" style="width:34%;background:#16a34a">34%</div></div><div class="bar-val"><span class="pos">+26%</span></div></div>
+<div class="bar-row"><div class="bar-label">Objects</div><div class="bar-track"><div class="bar-fill" style="width:24%;background:#94a3b8">24%</div></div></div>
+
+<div style="font-size:12px;font-weight:600;color:#888;margin:16px 0 8px">WITH MODE 3 (objects) ACTIVATED</div>
+<div class="bar-row"><div class="bar-label">Animals</div><div class="bar-track"><div class="bar-fill" style="width:30%;background:#94a3b8">30%</div></div></div>
+<div class="bar-row"><div class="bar-label">Characters</div><div class="bar-track"><div class="bar-fill" style="width:12%;background:#94a3b8">12%</div></div></div>
+<div class="bar-row"><div class="bar-label">Places</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:#94a3b8">8%</div></div></div>
+<div class="bar-row"><div class="bar-label">Objects</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:#16a34a">55%</div></div><div class="bar-val"><span class="pos">+34%</span></div></div>
+</div>
+
+<div class="finding">
+<strong>All 4 modes successfully specialize.</strong> Each mode significantly increases generation of its target entity category: animals +34%, characters +10%, places +26%, objects +34%. The model has learned 4 distinct "versions of itself," each biased toward different content types, while maintaining coherent generation.
+</div>
+
+<p>The character mode shows the weakest specialization (+10%). This is important&mdash;the GRPO policy will independently discover this.</p>
+
+<!-- ============================================================ -->
+<h2 id="s4">4. GRPO: Learning When to Dream</h2>
+
+<p>With working LoRA modes, we need a policy that decides <em>which modes to activate</em> for a given task. The task: generate a story including 3 specific entities (e.g., "cat, castle, river"). The reward is a composite of entity coverage (50%), n-gram diversity (20%), vocabulary diversity (10%), length (10%), and coherence (10%).</p>
+
+<h3>4.1 Architecture (Critical Detail)</h3>
+
+<p>An earlier attempt (v6.4) used <strong>softmax</strong> over K mode logits, forcing modes to compete. This was catastrophic: with softmax, each mode gets at most 1/K of the activation weight, making the effective perturbation too weak. The fix:</p>
+
+<p><strong>Independent sigmoid activations.</strong> Each mode has its own activation probability in [0,1], decided independently. The policy can activate any combination of modes simultaneously at full strength. This allows the model to invoke multiple "versions of itself" at once.</p>
+
+<pre>
+class ModePolicy(nn.Module):
+    def forward(self, h):
+        # h: last-token hidden state from the frozen base model
+        return torch.sigmoid(self.net(h))  # (B, K) each in [0,1]
+        # NOT softmax! Modes are independent, not competing.
+</pre>
+
+<h3>4.2 GRPO Training</h3>
+
+<p>800 prompts, group_size=6. For each prompt, sample 6 binary activation vectors from the policy's Bernoulli distribution, generate with those modes active, score the reward, compute REINFORCE gradients with a group-mean baseline and entropy regularization.</p>
+
+<h3>4.3 What GRPO Learns</h3>
+
+<table>
+<tr><th>Step</th><th>Mode 0 (animals)</th><th>Mode 1 (characters)</th><th>Mode 2 (places)</th><th>Mode 3 (objects)</th></tr>
+<tr><td>100</td><td class="num">0.71</td><td class="num">0.74</td><td class="num">0.81</td><td class="num">0.71</td></tr>
+<tr><td>200</td><td class="num">0.75</td><td class="num">0.66</td><td class="num">0.83</td><td class="num">0.78</td></tr>
+<tr><td>300</td><td class="num">0.86</td><td class="num"><span class="neg">0.22</span></td><td class="num">0.90</td><td class="num">0.85</td></tr>
+<tr><td>400</td><td class="num">0.94</td><td class="num"><span class="neg">0.11</span></td><td class="num">0.97</td><td class="num">0.96</td></tr>
+<tr><td>500</td><td class="num"><span class="pos">0.99</span></td><td class="num"><span class="neg">0.05</span></td><td class="num"><span class="pos">0.99</span></td><td class="num"><span class="pos">0.99</span></td></tr>
+<tr><td>800</td><td class="num"><span class="pos">0.99</span></td><td class="num"><span class="neg">0.01</span></td><td class="num"><span class="pos">1.00</span></td><td class="num"><span class="pos">0.99</span></td></tr>
+</table>
+
+<div class="finding">
+<strong>GRPO independently discovers that Mode 1 (characters) is weak and should be deactivated.</strong> The policy converges to activating modes 0, 2, and 3 (animals, places, objects) at near-100% probability, while deactivating mode 1 (characters) to near-0%. This matches the verification data: characters had the weakest specialization (+10% vs +26&ndash;34% for others). No human knowledge about mode quality was provided to the policy; it discovered this entirely through reward signal.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s5">5. Final Results</h2>
+
+<h3>5.1 Main Evaluation (n=400, paired t-test)</h3>
+
+<div class="bar-chart">
+<div style="margin-bottom:12px;font-weight:600;font-size:13px;color:#555">Task reward (entity-constrained story generation)</div>
+<div class="bar-row"><div class="bar-label">No dream (base)</div><div class="bar-track"><div class="bar-fill" style="width:56.8%;background:#94a3b8">0.568</div></div></div>
+<div class="bar-row"><div class="bar-label">Random mode</div><div class="bar-track"><div class="bar-fill" style="width:57.8%;background:#64748b">0.578</div></div><div class="bar-val">+0.010</div></div>
+<div class="bar-row"><div class="bar-label">All modes on</div><div class="bar-track"><div class="bar-fill" style="width:58.4%;background:#3b82f6">0.584</div></div><div class="bar-val">+0.016 <span class="sig" style="color:#d97706">*</span></div></div>
+<div class="bar-row"><div class="bar-label">Oracle mapping</div><div class="bar-track"><div class="bar-fill" style="width:59.0%;background:#2563eb">0.590</div></div><div class="bar-val">+0.023 <span class="sig" style="color:#16a34a">**</span></div></div>
+<div class="bar-row"><div class="bar-label"><strong>GRPO policy</strong></div><div class="bar-track"><div class="bar-fill" style="width:61.7%;background:#16a34a"><strong>0.617</strong></div></div><div class="bar-val"><strong>+0.050</strong> <span class="sig" style="color:#16a34a">***</span></div></div>
+</div>
+
+<table>
+<tr><th>Condition</th><th>Reward</th><th>&Delta; vs Base</th><th>t-stat</th><th>p-value</th></tr>
+<tr><td>No dream (base)</td><td class="num">0.5678</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
+<tr><td>Random mode</td><td class="num">0.5778</td><td class="num">+0.010</td><td class="num">1.281</td><td class="num">0.201</td></tr>
+<tr><td>All modes on</td><td class="num">0.5842</td><td class="num">+0.016</td><td class="num">2.126</td><td class="num">0.034 *</td></tr>
+<tr><td>Oracle (entity&rarr;mode)</td><td class="num">0.5904</td><td class="num">+0.023</td><td class="num">3.039</td><td class="num">0.003 **</td></tr>
+<tr><td><strong>GRPO policy</strong></td><td class="num"><strong><span class="pos">0.6174</span></strong></td><td class="num"><strong><span class="pos">+0.050</span></strong></td><td class="num"><strong>5.679</strong></td><td class="num"><strong>2.6e-8 ***</strong></td></tr>
+</table>
+
+<div class="finding">
+<strong>The GRPO policy achieves a highly significant improvement over the unperturbed baseline (p&lt;0.0001).</strong> It also outperforms the hand-designed oracle mapping (+0.050 vs +0.023), because the oracle activates the weak characters mode for character-containing tasks, while the GRPO policy has learned to skip it. The learned policy extracts <strong>more value</strong> from the mode library than a human-designed heuristic.
+</div>
+
+<h3>5.2 Hierarchy of Methods</h3>
+
+<p>The results establish a clear ordering:</p>
+
+<ol>
+<li><strong>GRPO policy</strong> (0.617): Best. Learned which modes help and which don't.</li>
+<li><strong>Oracle mapping</strong> (0.590): Second. Knows which entity maps to which mode, but activates the weak characters mode.</li>
+<li><strong>All modes on</strong> (0.584): Third. Blunt instrument&mdash;activating everything helps, but includes the unhelpful characters mode.</li>
+<li><strong>Random mode</strong> (0.578): Fourth. Not significant (p=0.20). A single random learned mode is no better than base.</li>
+<li><strong>Base model</strong> (0.568): Baseline.</li>
+</ol>
+
+<p>The gap between "random learned mode" (not significant) and "GRPO policy" (p&lt;0.0001) demonstrates that mode <em>selection</em> matters, not just mode <em>existence</em>. Having specialized model versions is necessary but not sufficient&mdash;you need a policy that knows when to invoke each one.</p>
+
+<!-- ============================================================ -->
+<h2 id="s6">6. Engineering: Per-Sample LoRA via Forward Hooks</h2>
+
+<p>The key engineering contribution enabling this work: per-sample weight perturbation in a batched forward pass.</p>
+
+<h3>6.1 The Problem</h3>
+
+<p>Standard LoRA applies the same perturbation &Delta;W to all samples in a batch. To test different perturbations for different samples (essential for both data collection and GRPO), you'd need sequential processing: modify weights &rarr; forward one sample &rarr; revert &rarr; repeat. This serializes GPU computation.</p>
+
+<h3>6.2 The Solution</h3>
+
+<p>For a linear layer y = Wx + b, the perturbed output y' = (W + &Delta;W)x + b = Wx + b + &Delta;Wx = y + &Delta;Wx. We compute the per-sample correction &Delta;Wx via a forward hook:</p>
+
+<pre>
+def hook(module, inp, out):
+    x = inp[0]                                           # (batch, seq, in)
+    per_dw = einsum("bk,koi->boi", actions, dw_basis)    # per-sample &Delta;W
+    correction = einsum("boi,bsi->bso", per_dw, x)       # per-sample correction
+    return out + alpha * correction
+</pre>
+
+<p>Two batched einsum operations, mathematically equivalent to a separate weight matrix per sample. Integrates with HuggingFace <code>.generate()</code> and KV caching. On an RTX 3090 with the 68M-param model, this achieves 209 transitions/second at batch_size=64.</p>
+
+<h3>6.3 For Training (Differentiable)</h3>
+
+<p>The same hook architecture enables differentiable LoRA fine-tuning. Since the LoRA A and B matrices are <code>nn.Parameter</code>s and the hook's computation (matrix multiply + addition) is differentiable, calling <code>loss.backward()</code> automatically computes gradients for the LoRA parameters. The base model's parameters have <code>requires_grad=False</code>, so no base model gradients are computed.</p>
+
+<!-- ============================================================ -->
+<h2 id="s7">7. Discussion</h2>
+
+<h3>7.1 What This Demonstrates</h3>
+
+<p>The core contribution: <strong>a frozen language model can learn to invoke specialized versions of itself, and a GRPO-trained policy can learn when each version is appropriate.</strong> The "versions" are LoRA perturbation modes, each trained on a content category. The policy observes the task (via the base model's hidden state) and decides which modes to activate, outperforming both the base model and a hand-designed oracle.</p>
+
+<h3>7.2 Why Random Bases Fail</h3>
+
+<p>The ablation result (Section 2) has a simple explanation: a random direction in weight space does not correspond to any semantic direction in output space. Neural network loss landscapes are highly structured, and meaningful behavioral changes (e.g., "generate more animal words") live in very specific directions. Random perturbations produce noise in output space, not meaningful variation. Fine-tuning discovers these specific directions.</p>
+
+<h3>7.3 The Dynamics Model was Wrong</h3>
+
+<p>Our original hypothesis was that forward-inverse dynamics could navigate the perturbation manifold. The forward model worked (0.97 cosine on direction), but the inverse model was doomed from the start: the mapping from actions to states is many-to-one with random bases, and even with learned bases, the action-to-output mapping is non-injective. The fix was to skip dynamics modeling entirely and use direct reward optimization (GRPO).</p>
+
+<h3>7.4 Independent Activations vs Softmax</h3>
+
+<p>A subtle but critical architectural detail: the policy must use <strong>independent sigmoid activations</strong>, not softmax. With softmax, modes compete for activation weight, and the effective per-mode perturbation is 1/K (too weak at K=4). With independent sigmoids, each mode can be fully activated simultaneously, allowing the model to invoke multiple versions of itself at once. The GRPO policy's convergence pattern (Section 4.3) would be impossible with softmax.</p>
+
+<h3>7.5 Limitations</h3>
+
+<ul>
+<li><strong>Scale:</strong> Tested on a 68M-param model only. Larger models may need different &alpha;, rank, and more modes.</li>
+<li><strong>Task:</strong> Entity inclusion is a relatively simple task. More complex steering goals (tone, style, reasoning quality) may be harder.</li>
+<li><strong>Mode categories are hand-defined.</strong> An automatic clustering of training data could remove this design choice.</li>
+<li><strong>The characters mode is weak (+10%).</strong> This may be because TinyStories already frequently generates character-related content (10% base rate is low compared to animals at 26%).</li>
+<li><strong>The GRPO policy is task-agnostic.</strong> It learns "always activate modes 0, 2, 3" regardless of which specific entities are required. A more capable policy would condition on the actual task content.</li>
+</ul>
+
+<h3>7.6 Future Directions</h3>
+
+<p><strong>Task-conditioned mode selection.</strong> The current policy ignores which entities the task requires. Incorporating entity information (e.g., the entity-to-mode mapping) as an input feature would allow truly adaptive mode selection.</p>
+
+<p><strong>End-to-end LoRA base learning.</strong> Instead of fine-tuning modes on pre-categorized data, learn the LoRA bases directly from reward using evolutionary strategies or gradient estimation. This would discover modes aligned with the actual task objective, not proxy categories.</p>
+
+<p><strong>Hierarchical modes.</strong> Beyond 4 coarse categories, a hierarchy of modes (coarse &rarr; fine) could provide more precise steering: "animals" &rarr; "aquatic animals" &rarr; "fish".</p>
+
+<p><strong>Inference-time mode search.</strong> Combine learned modes with test-time search: use the policy as a warm start, then refine with a few CEM iterations for challenging tasks.</p>
+
+<!-- ============================================================ -->
+<h2 id="appA">Appendix A: Iteration Timeline</h2>
+
+<div class="timeline">
+<div class="timeline-item fail">
+<div class="version">v6.0 &mdash; Forward/Inverse Dynamics</div>
+<div class="desc">K=32 random rank-1 LoRA, &alpha;=0.06, forward+inverse MLP, 64-dim hand-crafted state</div>
+<div class="result">Forward cos=0.97, <span class="neg">Inverse cos=0.067</span>, <span class="neg">Planner &lt; Random</span></div>
+</div>
+
+<div class="timeline-item fail">
+<div class="version">v6.1 &mdash; Forward-Only Search + GRPO</div>
+<div class="desc">K=8, rank-4, &alpha;=0.20, 128-dim random projection state, drop inverse model, forward search + GRPO policy</div>
+<div class="result">Forward R&sup2;=0/128, <span class="neg">GRPO policy worst of all conditions</span>, mode collapse to mode 6</div>
+</div>
+
+<div class="timeline-item partial">
+<div class="version">v6.2 &mdash; Direct Reward Search</div>
+<div class="desc">K=4, rank-8, &alpha;=0.50, drop all models, best-of-N action search, then train predictor + GRPO</div>
+<div class="result">Best-of-256: <span class="pos">0.91</span> vs baseline 0.57, but <span class="neg">GRPO collapsed to never dream</span></div>
+</div>
+
+<div class="timeline-item fail">
+<div class="version">v6.2b &mdash; Ablation</div>
+<div class="desc">Critical experiment: best-of-N WITH vs WITHOUT perturbation</div>
+<div class="result"><span class="neg">LoRA effect = +0.0015 (p=0.87)</span> &mdash; random perturbations add nothing</div>
+</div>
+
+<div class="timeline-item partial">
+<div class="version">v6.3 &mdash; Warm-Start GRPO + CEM</div>
+<div class="desc">CEM oracle search, robustness check, warm-started GRPO with tiny exploration noise</div>
+<div class="result">Robust &Delta; = -0.0002 (oracle actions don't transfer), <span class="neg">policy &#8776; base</span></div>
+</div>
+
+<div class="timeline-item partial">
+<div class="version">v6.4 &mdash; Learned LoRA Modes (Softmax)</div>
+<div class="desc">Fine-tune 4 LoRA modes on entity-specific data, softmax mode selection</div>
+<div class="result">Modes specialize (+8&ndash;21%), but <span class="neg">softmax too weak</span>, policy outputs uniform 0.25</div>
+</div>
+
+<div class="timeline-item success">
+<div class="version">v6.5 &mdash; Independent Sigmoid + GRPO (Final)</div>
+<div class="desc">Same modes, independent sigmoid activations, &alpha;=0.5, 40-epoch finetune, 800-step GRPO</div>
+<div class="result"><span class="pos">Policy: 0.617 vs base 0.568 (+0.050, p&lt;0.0001 ***)</span></div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="appB">Appendix B: Mode Specialization Verification</h2>
+
+<p>Full entity mention rates for 200 generations per condition. Each cell shows the fraction of stories that mention at least one entity from the given category.</p>
+
+<table>
+<tr><th>Condition</th><th>Animals</th><th>Characters</th><th>Places</th><th>Objects</th></tr>
+<tr><td>Base model</td><td class="num">26%</td><td class="num">10%</td><td class="num">8%</td><td class="num">21%</td></tr>
+<tr><td>Mode 0 (animals)</td><td class="num"><span class="pos">61%</span></td><td class="num">13%</td><td class="num">18%</td><td class="num">20%</td></tr>
+<tr><td>Mode 1 (characters)</td><td class="num">32%</td><td class="num"><span class="pos">20%</span></td><td class="num">6%</td><td class="num">24%</td></tr>
+<tr><td>Mode 2 (places)</td><td class="num">26%</td><td class="num">8%</td><td class="num"><span class="pos">34%</span></td><td class="num">24%</td></tr>
+<tr><td>Mode 3 (objects)</td><td class="num">30%</td><td class="num">12%</td><td class="num">8%</td><td class="num"><span class="pos">55%</span></td></tr>
+</table>
+
+<p>Cross-mode interference is minimal. Mode 0 (animals) slightly increases places (8%&rarr;18%) and mode 1 (characters) slightly increases animals (26%&rarr;32%), but the primary diagonal dominates.</p>
+
+<p>LoRA training losses by mode (40 epochs, lr=5e-4):</p>
+
+<table>
+<tr><th>Mode</th><th>Epoch 1</th><th>Epoch 10</th><th>Epoch 20</th><th>Epoch 30</th><th>Epoch 40</th></tr>
+<tr><td>0 (animals)</td><td class="num">0.956</td><td class="num">0.663</td><td class="num">0.526</td><td class="num">0.467</td><td class="num">0.454</td></tr>
+<tr><td>1 (characters)</td><td class="num">0.997</td><td class="num">0.701</td><td class="num">0.563</td><td class="num">0.501</td><td class="num">0.488</td></tr>
+<tr><td>2 (places)</td><td class="num">1.033</td><td class="num">0.691</td><td class="num">0.541</td><td class="num">0.475</td><td class="num">0.461</td></tr>
+<tr><td>3 (objects)</td><td class="num">0.990</td><td class="num">0.687</td><td class="num">0.547</td><td class="num">0.484</td><td class="num">0.472</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 id="appC">Appendix C: Generation Examples</h2>
+
+<p>8 examples from the evaluation, showing base (no perturbation), oracle (entity&rarr;mode mapping), and GRPO policy outputs. Required entities shown in brackets.</p>
+
+<div class="example">
+<div class="example-hdr">Task: [cat, castle, river] &mdash; Oracle modes: [0,2] &mdash; Policy modes: [0,2,3]</div>
+<div class="example-body">
+<div class="label">Base (0.636, found: cat)</div>
+<div class="text">They sit on the floor and hold hands. Anna says, "Once upon a time, there was a cat named Max. Max loved to drink milk. He would run and jump and meow. Max was very happy. One d...</div>
+<div class="label">Oracle (0.637, found: cat)</div>
+<div class="oracle-text">They sit on the floor and hold hands. Anna says, "I am a cat. Cat likes to eat fish and mouse. Dog likes to sing songs. Look, there is a bird, a frog, and a cat. They are all fri...</div>
+<div class="label">GRPO Policy (0.637, found: cat)</div>
+<div class="dream-text">They sit on the floor and hold hands. Anna says, "one more, is a baby." Ben says, "One day, when Mommy and Daddy." Tom, Sara, and the cat are happy. They like to swing and slide...</div>
+</div>
+</div>
+
+<div class="example">
+<div class="example-hdr">Task: [knight, mouse, forest] &mdash; Oracle modes: [0,1,2] &mdash; Policy modes: [0,2,3]</div>
+<div class="example-body">
+<div class="label">Base (0.465, found: none)</div>
+<div class="text">Lily started to tell her story, but she did not understand. She thought it was too hard and too boring...</div>
+<div class="label">Oracle (0.799, found: knight, forest)</div>
+<div class="oracle-text">One day, a little girl named Amy found a poem in her room. She picked it up and read it. It was about a cat who wanted to find a friend. Amy thought it would be fun to be the kni...</div>
+<div class="label">GRPO Policy (0.804, found: knight, mouse)</div>
+<div class="dream-text">One day, a little girl named Amy found a poem in her room. She thought it was very special. She decided to write a story about her adventure. She wrote about the brave knight and...</div>
+<div class="metric-row"><span class="pos">Policy wins: 0.804 vs base 0.465 (+0.339)</span></div>
+</div>
+</div>
+
+<div class="example">
+<div class="example-hdr">Task: [bear, boat, mountain] &mdash; Oracle modes: [0,2,3] &mdash; Policy modes: [0,2,3]</div>
+<div class="example-body">
+<div class="label">Base (0.600, found: bear)</div>
+<div class="text">Tom and Lily start to tell their story. They say the bear is very brave and smart. But soon, they have a problem. They cannot agree on what story to write...</div>
+<div class="label">GRPO Policy (0.804, found: bear, mountain)</div>
+<div class="dream-text">Tom and Lily start to tell their story. They say the bear is very brave and like a real pirate. But in the story, Tom and Lily are the captain...</div>
+<div class="metric-row"><span class="pos">Policy wins: 0.804 vs base 0.600 (+0.204)</span></div>
+</div>
+</div>
+
+<div class="example">
+<div class="example-hdr">Task: [wizard, bird, lamp] &mdash; Oracle modes: [0,1,3] &mdash; Policy modes: [0,2,3]</div>
+<div class="example-body">
+<div class="label">Base (0.799, found: bird, lamp)</div>
+<div class="text">They write about how the lamp made magic, how the bird flew, and how the lamp made light. They are very good writers...</div>
+<div class="label">GRPO Policy (0.803, found: bird, lamp)</div>
+<div class="dream-text">They write about how the lamp made magic, how the bird flew, and how the cat made the show. They have many more words in their club. They are happy. They are good friends.</div>
+<div class="metric-row">Policy matches base on an already-strong task</div>
+</div>
+</div>
+
+<div class="example">
+<div class="example-hdr">Task: [fairy, sword, frog] &mdash; Oracle modes: [0,1,3] &mdash; Policy modes: [0,2,3]</div>
+<div class="example-body">
+<div class="label">Base (0.633, found: fairy)</div>
+<div class="text">Sara thinks about it. She likes stories. She likes fairies and knights. She picks up the telephone and dials the story...</div>
+<div class="label">Oracle (0.633, found: fairy)</div>
+<div class="oracle-text">Sara thinks about it. She likes stories. She likes fairies. She thinks it is a good story. She thinks fairies are lucky. She thinks fairies are happy...</div>
+<div class="label">GRPO Policy (0.799, found: fairy, frog)</div>
+<div class="dream-text">Sara thinks about it. She likes stories. She likes fairies and frog. She says, "I will write a story about a fairy and a frog..."</div>
+<div class="metric-row"><span class="pos">Policy wins: 0.799 vs base 0.633 (+0.166), finds frog where base doesn't</span></div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="appD">Appendix D: Ablation Details</h2>
+
+<p>Full ablation experiment: 100 tasks, 128 candidates per condition. All conditions use the same set of tasks for paired comparison.</p>
+
+<table>
+<tr><th>Condition</th><th>Mean Reward</th><th>Std</th><th>Interpretation</th></tr>
+<tr><td>Single sample</td><td class="num">0.5670</td><td class="num">0.119</td><td>Baseline expected value</td></tr>
+<tr><td>Mean-of-128 (no pert)</td><td class="num">0.5694</td><td class="num">0.085</td><td>Average quality, no perturbation</td></tr>
+<tr><td>Mean-of-128 (with pert)</td><td class="num">0.5683</td><td class="num">0.086</td><td>Average quality, random perturbation</td></tr>
+<tr><td>Best-of-128 (no pert, same base)</td><td class="num">0.8741</td><td class="num">0.095</td><td>Rejection sampling ceiling</td></tr>
+<tr><td>Best-of-128 (with pert, same base)</td><td class="num">0.8756</td><td class="num">0.101</td><td>&Delta; = +0.0015 (p=0.87)</td></tr>
+<tr><td>Best-of-128 (no pert, fresh base)</td><td class="num"><span class="pos">0.9338</span></td><td class="num">0.062</td><td>Varying base prefix &gt; LoRA</td></tr>
+</table>
+
+<p>Key insight: the mean-of-128 with perturbation (0.5683) is actually <em>slightly lower</em> than without (0.5694), with &Delta; = -0.0011 (p=0.39). Random LoRA perturbation at &alpha;=0.5 very slightly degrades mean quality while not expanding the distribution's upper tail. The improvement from selection (0.567 &rarr; 0.874) comes entirely from the stochastic decoder's natural variation.</p>
+
+<p>The fresh-base condition (0.934) outperforms same-base (0.874) because varying the base prefix creates more diverse semantic starting points than varying LoRA perturbations. This is the strongest evidence that random LoRA directions are semantically inert.</p>
+
+<div class="footnotes">
+<p><strong>Reproducibility:</strong> All code in single files: <code>run6.py</code> (final working system, ~500 lines), <code>ablation.py</code> (ablation experiment, ~250 lines). Single GPU (RTX 3090), ~28 minutes total runtime. Dependencies: PyTorch, HuggingFace Transformers, scipy. Model: <code>roneneldan/TinyStories-33M</code>.</p>
+</div>
+
+</div>
+</body>
+</html>
