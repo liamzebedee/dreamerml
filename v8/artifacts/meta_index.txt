@@ -1,0 +1,18 @@
+DREAMER FEATURE META-INDEX
+============================================================
+
+Total: 10
+Interpretable: 10
+
+   IDX    FREQ  SHORTNAME                       DESCRIPTION
+------------------------------------------------------------------------------------------
+   394   0.032  character/female-positive       Amplifies generation of female protagonists and positive, wholesome na
+   505   0.029  narrative/whimsy                This feature amplifies imaginative, emotionally rich storytelling with
+   731   0.027  specificity/entities            Feature amplifies generation of proper nouns, named objects, and detai
+   896   0.025  tone/wholesome                  When amplified, this feature encourages wholesome, feel-good narrative
+  1265   0.018  childhood/innocence             Activates strongly on wholesome children's narratives featuring young 
+  1456   0.030  narrative/character-focus       Amplifies storytelling centered on a named character's emotional journ
+  1546   0.032  emotion/comfort                 This feature amplifies emotionally warm, cozy, and sentiment-driven na
+  1557   0.029  emotion/joy                     This feature activates on text expressing positive emotions, joy, and 
+  1592   0.013  character/protagonist           Feature detects and amplifies stories with specific named characters o
+  1952   0.029  emotion/joy                     Amplifies positive emotions, happiness, and playfulness in narratives.

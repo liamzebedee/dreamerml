@@ -1,0 +1,724 @@
+LABEL: emotion/comfort
+DESCRIPTION: This feature amplifies emotionally warm, cozy, and sentiment-driven narratives. When suppressed, stories become more object/action-focused and concrete; when amplified, they emphasize character feelings, comfort, coziness ("warm and cozy"), and emotional resolution. The high-activation examples show comforting behaviors and intimate moments, suggesting the feature captures emotional warmth and interiority in storytelling.
+
+FEATURE INDEX: 1546
+Frequency: 0.0315
+Mean act: 0.0287
+Max act: 2.287
+Cond mean: 0.9114
+Score: 0.911389
+
+HIGH-ACTIVATION EXAMPLES:
+  act=2.287 pos=5
+    -
+Once upon a time there was a large thumb. This thumb belonged to a little boy called Tom. Tom liked to rub his thumb. He would rub it when he was happy and he would rub it when he was sad. One day, 
+  act=2.227 pos=6
+    -
+Once upon a time there was a large thumb. This thumb belonged to a little boy called Tom. Tom liked to rub his thumb. He would rub it when he was happy and he would rub it when he was sad. One day, 
+  act=2.165 pos=4
+    Once upon a time there was a coat frame. It was fit for a special occasion. A little girl named Rachel came to try it on.
+
+Rachel noticed that the frame was disturbed. It was not standing up straight.
+  act=2.165 pos=4
+    Once upon a time there were two friends, Jack and Jill. Jack and Jill went up the hill to play a game. The game was silly. Jack and Jill took turns pushing a big button. Every time they pushed the but
+  act=2.165 pos=4
+    Once upon a time there was a modest lake in the middle of the forest. All the animals around were waiting to welcome a new visitor.
+
+One day, a little 3 year old girl arrived at the lake. The animals 
+
+--- Prompt 1: Once upon a time, there was a little
+  gain=-3.0:
+    Once upon a time, there was a little boy named Timmy. Timmy loved to play with his toys, especially his cars. One day, Timmy's mom asked him to help her with some work. Timmy didn't want to stop playing, but he knew he had to help his mom.
+
+As Timmy was helping his mom, he accidentally knocked over 
+  gain=-1.0:
+    Once upon a time, there was a little girl named Lily. She loved to eat yummy food like pizza and ice cream. One day, Lily's mom made her favorite food, spaghetti with tomato sauce. Lily ate all of it and said, "Yummy! Can I have more?"
+
+Her mom said, "Sure, but you have to be honest and share with m
+  gain=-0.5:
+    Once upon a time, there was a little girl named Lily. She loved to play in the park with her friends. One day, Lily saw a beautiful butterfly and wanted to catch it. She tried to catch it with her hands, but it flew away.
+
+Lily's friend, Timmy, saw her struggling and asked, "What's wrong, Lily?"
+
+"I
+  gain=0.0 [BASELINE]:
+    Once upon a time, there was a little girl named Lily. She loved to play with her toys and her friends. One day, Lily's mommy took her to the park. They saw a man with a big box. The man had a lot of stuff in the box. Lily's mommy said, "That's a toy. It has a lot of value." 
+
+Lily saw a boy with a r
+  gain=0.5:
+    Once upon a time, there was a little boy named Timmy. Timmy loved to play with his toys all day long. One day, he wanted to build a big tower with his blocks. But he was too small to reach the blocks.
+
+Timmy's mommy saw him struggling and asked, "What's wrong, Timmy?"
+
+"I want to build a big tower, 
+  gain=1.0:
+    Once upon a time, there was a little girl named Lily. She loved to play with her toys and sing songs. One day, she went to the park with her mommy and saw a big, scary dog. She felt fearful and didn't want to play anymore. 
+
+Her mommy asked her what was wrong and Lily said, "I'm scared of the dog." 
+  gain=3.0:
+    Once upon a time, there was a little girl named Lily. She loved to play outside in the sun and rain. One day, Lily's mom told her they were going to the park. Lily was so excited! She put on her favorite dress and ran to the car.
+
+When they arrived at the park, Lily saw a big puddle. She wanted to j
+
+--- Prompt 2: The cat sat on the
+  gain=-3.0:
+    The cat sat on the porch and looked around. He saw the birds, the trees, and the flowers. He liked the porch. He liked the porch. He liked the porch. He liked the cat. He was very happy.
+
+  gain=-1.0:
+    The cat sat on the swing and started to swing back and forth. He felt happy and free. The cat said, "I like swinging, but not this one!" The bird laughed and said, "That's okay, but let's play together!" So, the bird and the cat played on the swing all day long, and they became good friends.
+
+  gain=-0.5:
+    The cat sat on the porch and watched the dog play. They became friends and played together every day. The porch was not boring anymore.
+
+  gain=0.0 [BASELINE]:
+    The cat sat on the table and waited for the pizza to cool down. The cat watched and waited, but it was very hungry.
+
+Finally, the pizza was cool enough to eat. The cat ate the pizza very fast and was very happy. The cat and the dog played together all day, and they became good friends.
+
+  gain=0.5:
+    The cat sat on the chair. It said, "Meow, meow." Lily laughed and said, "You are a funny cat." Then she went to play with her toys.
+
+  gain=1.0:
+    The cat sat on the floor and watched the car drive away. It was happy to have met the little girl and her cat. They all had a fun day together.
+
+  gain=3.0:
+    The cat sat on the window and closed its eyes. It felt warm and cozy. It liked the window. It liked the glass. It liked the cat. It was happy.
+
+The end.
+
+
+--- Prompt 3: Sara and Tom went to the
+  gain=-3.0:
+    Sara and Tom went to the park with their mom. They saw many things to do. They saw swings, slides, sand, and flowers. They also saw a big pond with ducks and fish.
+
+"Can we feed the ducks, mom?" Sara asked.
+
+"Sure, honey. Here, take some bread from this bag and throw it to the water," mom said.
+
+Sar
+  gain=-1.0:
+    Sara and Tom went to the garden. They saw a big plant. It had green leaves and purple flowers. Sara said, "This is a herb. Mom uses it to make food. It smells good." Tom said, "I don't like it. It is ugly and smelly." Sara said, "Me neither. Let's pick some and make soup."
+
+They picked some leaves a
+  gain=-0.5:
+    Sara and Tom went to the store with their mom. Sara wanted to buy a new doll. Tom wanted to buy a new car. They picked up their toys and put them in a bag.
+
+"Can we come back to the park tomorrow?" Sara asked.
+
+"Can we buy a new toy?" Tom asked.
+
+Mom looked at the price tag and shook her head. "No, 
+  gain=0.0 [BASELINE]:
+    Sara and Tom went to the pool. Sara wore a pink swimsuit and Tom wore a blue one. They liked to splash and swim and play. They saw a big frog sitting on a rock. The frog was green and brown and had long legs.
+
+"Look, a frog!" Sara said. "Let's go and say hello."
+
+"OK, but be careful," Tom said. "Fro
+  gain=0.5:
+    Sara and Tom went to the park. They saw a big slide. It was shiny and smooth. Sara wanted to try it. She climbed up the ladder. She sat on the slide. She pushed herself down.
+
+But the slide was wet and slippery. Sara could not stop. She slid very fast. She screamed. She felt something wet and sticky
+  gain=1.0:
+    Sara and Tom went to the park with Mom. They saw many flowers and trees and birds. Sara liked the flowers best. She wanted to pick one for Mom. She asked Mom, "Can I pick a flower, please?"
+
+Mom said, "No, Sara, you can't pick a flower. They are not for picking. They are for looking. If you pick a f
+  gain=3.0:
+    Sara and Tom went to the store with Mom. They saw many things that they liked. Sara saw a doll that looked like a bear. She wanted it very much. Tom saw a car that looked like a plane. He wanted it very much. They asked Mom to buy them, but Mom said no. She said they had enough toys at home.
+
+Sara a
+
+--- Prompt 4: One day, a big bear
+  gain=-3.0:
+    One day, a big bear came to the forest. The bear was very angry and he wanted to destroy the forest. The bear chased the little birds and the birds. The little birds and the other animals were very scared.
+
+But then, the bear had an idea. He used his big, strong paws to dig a hole in the ground. He 
+  gain=-1.0:
+    One day, a big bear named Ben was walking in the woods. He saw a little girl named Lily playing in the grass. Lily was making a big, messy pile of leaves.
+
+"Hi, Lily!" said Ben. "What are you doing?"
+
+"I'm making a big mess!" said Lily. "I need to cover up my leaves with more leaves, but it's too ha
+  gain=-0.5:
+    One day, a big bear was walking through the forest. He saw the little bunny and wanted to eat him. The little bunny was scared and ran away as fast as he could. He wanted to find a safe place to hide.
+
+The little bunny found a tree with a hole in it. He thought it would be a good place to hide. But 
+  gain=0.0 [BASELINE]:
+    One day, a big bear came to the forest. He was looking for food to eat. The little bird was worried and flew back to her nest. The bear saw the little bird and said, "Little bird, you are so small and weak. I will eat you up." The little bird was scared and sad. She had to fly away from the forest.
+
+  gain=0.5:
+    One day, a big bear and a little rabbit went out for a walk in the forest. The bear was very big and the rabbit was very small. They walked and walked until they found a big cave. The bear went inside the cave to find food. The rabbit was scared, but the bear was very hungry.
+
+The bear tried to catc
+  gain=1.0:
+    One day, a big bear and a little bird were playing together in the forest. The bear was very big and the little bird was very small. The big bear wanted to play with the little bird, but the little bird was too scared.
+
+The big bear felt sorry for the little bird and said, "I'm sorry, little bird. I
+  gain=3.0:
+    One day, a big bear came to the forest. The bear was very big and very strong. The animals were scared of the bear. The bear liked to take things that were not his.
+
+One day, the animals decided to hide in the forest. The bear looked for the animals but could not find them. The bear was sad. He want
+
+--- Prompt 5: The little girl was very
+  gain=-3.0:
+    The little girl was very excited and she wanted to do something special with it. She asked her mom if they could bake a cake.
+
+Her mom smiled and said, "Yes! That's a great idea. Let's bake it!"
+
+So they went to the kitchen and put all the ingredients into the bowl. Then they stirred it all together
+  gain=-1.0:
+    The little girl was very sad. She had been looking forward to playing and having fun, but now she had lost her toy.
+
+The moral of this story is to always be careful with your things. If you don't, you may lose them forever.
+
+  gain=-0.5:
+    The little girl was very excited and she ran around the house. She asked her mom if she could help her feed the ducks. Mom said yes and she went outside to the pond. She put her hands in the water and started to feed the ducks. She was so happy. She loved feeding the ducks and watching them eat. 
+
+T
+  gain=0.0 [BASELINE]:
+    The little girl was very excited and she started jumping up and down. She wanted to find out more about the butterfly.
+
+The little girl followed the butterfly and it took her to a meadow full of flowers. She saw the butterfly and she wanted to get closer. She ran over and tried to catch it. But the 
+  gain=0.5:
+    The little girl was very happy. She was proud of herself for being able to help the old man. She knew that she had made a difference in someone's life. From that day on, she always tried to help others whenever she could.
+
+  gain=1.0:
+    The little girl was very happy. She picked up the comb and ran outside. She started to comb her hair. She combed it over and over again. She was having so much fun!
+
+Suddenly, she heard a voice. It was a bird. He said, "What are you doing? That's my comb!" 
+
+The little girl was scared. She didn't kn
+  gain=3.0:
+    The little girl was very sad. She was sad that the butterfly had flown away, but she was happy that she had made a new friend.
+
+
+--- Prompt 6: Mom said it was time to
+  gain=-3.0:
+    Mom said it was time to go home, so they picked up the things they saw and walked back home together. They had a wonderful time at the park and the bench, and they will never forget it.
+
+  gain=-1.0:
+    Mom said it was time to go home and have some dinner. Lily didn't want to go home yet, so she started to cry. 
+
+Her mom told her not to worry and that they would come back tomorrow. Lily stopped crying and gave her mom a big hug. 
+
+The next day, Lily went back to the park and found the missing key. 
+  gain=-0.5:
+    Mom said it was time to go home. They said goodbye to the park and walked home. They held hands and talked about the fun they had. They felt happy and sleepy. They had a good day.
+
+  gain=0.0 [BASELINE]:
+    Mom said it was time to go home. She told Lily that she had to eat dinner and get ready for bed. Lily said she wanted to come back to the park and play more. She said she had an idea. She said she would mention the park to her mom and dad later. Her mom and dad smiled and said okay. They gave Lily a
+  gain=0.5:
+    Mom said it was time to go home, and they started to walk. Jane was so excited to tell her dad all about her fun day at the park.
+
+  gain=1.0:
+    Mom said it was time to go. They got in the car and drove away. The boy was still confused, but he was happy to have a new tire to play with.
+
+  gain=3.0:
+    Mom said it was time to go home. They packed up their things and got in the car. Mom drove them home and gave them a hug and a kiss.
+
+"Did you have fun?" Mom asked.
+
+"Yes, we did!" Anna and Ben said. "We love you, Mom!"
+
+"I love you too, Anna and Ben," Mom said. "And I'm proud of you
+
+--- Prompt 7: He found a shiny
+  gain=-3.0:
+    He found a shiny coin and thought about what he could do with it. He decided he would use the coin to buy a toy.
+
+The boy was so excited that he ran to the toy store and bought a toy. He was so happy that he was able to buy the toy.
+
+He went back home and showed his toy to his mom. His mom was very 
+  gain=-1.0:
+    He found a shiny pin and picked it up. It was so shiny and he liked it. He put it in his pocket and kept walking. 
+
+Soon, he came across a stream. He wanted to see what was inside, so he carefully leaned over the edge of the stream. But he was too clumsy and he fell in! 
+
+He was so scared, but lucki
+  gain=-0.5:
+    He found a shiny rock and put it in his pocket.
+
+Then, he looked around. He saw a lady. She was wearing a pretty dress and had a big smile.
+
+"Hello, little one," the lady said.
+
+"Hello, lady," Tom said.
+
+"Hello, Tom," the lady said. "Are you looking for something?"
+
+"Yes, I am
+  gain=0.0 [BASELINE]:
+    He found a shiny stone on the ground. He picked it up and put it in his pocket. Then he went to show his mom. 
+
+His mom was very happy and said, "That is a very nice stone, Tom!"
+
+Tom smiled and said, "I love it!"
+
+The next day, Tom went back to the park to find more stones. He saw a boy who was
+  gain=0.5:
+    He found a shiny thing on the ground. He picked it up and it was a key. He was so excited! He put the key in his pocket and kept walking. 
+
+Suddenly, he felt a strange sensation. He looked down and saw that the key had opened a secret door! He quickly opened it and saw a room full of toys! He was so
+  gain=1.0:
+    He found a shiny, colourful leaf and decided to take it home.
+
+When he got home, he showed his mum the leaf.
+
+"Oh, that's a very beautiful leaf," said his mum. "I'm so glad you found it."
+
+Tom smiled and said, "I'm going to keep it forever!"
+
+And that's how Tom kept his special leaf forever.
+
+  gain=3.0:
+    He found a shiny coin and decided to buy a yummy chocolate bar. He gave the bar to the barber and said, "Please, can I have one piece of chocolate bar?"
+
+The barber smiled and said, "Yes, of course! Here you go."
+
+The barber was so happy. He took the chocolate and said, "Thank you, little boy! I wil
+
+--- Prompt 8: The dog ran to the
+  gain=-3.0:
+    The dog ran to the ball and picked it up with his mouth. He shook it and dropped it. Lily and Ben ran to get their ball. They thanked the dog and gave him a hug. They learned a lesson that day. They learned that not all dogs are friendly and that they should be careful. They also learned that they s
+  gain=-1.0:
+    The dog ran to the tree and bit the branch. The branch broke and the branch fell down. Lily and Tom were safe.
+
+"Are you okay, Lily and Tom?" Lily asked.
+
+"Yes, we are okay, thank you, you are brave!" Tom said.
+
+They hugged each other and smiled. They were glad the dog was gone.
+
+"Let's go home, Lil
+  gain=-0.5:
+    The dog ran to the car and bit the driver's hand. The driver screamed and let go of the car. The dog barked and wagged its tail.
+
+Lily ran to the car and tried to help the driver. She pulled the door open and saw the dog. The dog was still barking and scratching the driver. The driver tried to get a
+  gain=0.0 [BASELINE]:
+    The dog ran to the ball and picked it up with his mouth. He was happy. He did not want to share.
+
+But then he saw a girl. She was crying. She had a red dress and a yellow hat. She was sitting on a bench. She looked sad.
+
+The dog dropped the ball. He went to the girl and wagged his tail. He wanted to
+  gain=0.5:
+    The dog ran to the box and tried to open it. The box was too heavy for him. He pulled and pulled, but it did not open. He saw a pair of scissors on the table. He had an idea. He grabbed the scissors with his mouth and ran away.
+
+He ran to the garden and hid under the table. He cut the tape with the 
+  gain=1.0:
+    The dog ran to the boy and licked his face. He made the boy laugh.
+
+"You are a good dog," the boy said. "But you should not chase cats. They are not toys. They are homes."
+
+"I'm sorry," the dog said. "I just wanted to play."
+
+"Well, you can play with us if you want," the boy said. "
+  gain=3.0:
+    The dog ran to the man and barked. He wanted to play with Sara and Tom. He did not like the dog. He thought the dog was a toy. He jumped and tried to grab the ball.
+
+"Hey, stop that!" Tom shouted. He ran to the dog and pulled his leash. The dog did not like that. He bit the ball and made a loud nois
+
+--- Prompt 9: She looked at the pretty
+  gain=-3.0:
+    She looked at the pretty pictures. She wanted to draw a picture for her mom. She found some paper and crayons. She started to draw. She drew a picture of her mom and her. She used different colors. She was happy with her picture. She wanted to show it to her mom.
+
+She ran to the kitchen, where her m
+  gain=-1.0:
+    She looked at the pretty flowers and smiled. She knew that the sun would always shine and make her happy.
+
+  gain=-0.5:
+    She looked at the pretty flowers and the big tree. She liked the flowers. She said, "You are right, mom. I am good. I will eat my lunch and then play with my toys. And maybe later, I will see the real tree and the birds and the flowers."
+
+Her mom smiled and said, "That's very nice, Lily. I'm proud o
+  gain=0.0 [BASELINE]:
+    She looked at the pretty things in the water. She was so happy to have seen them. She decided to take some of them home with her.
+
+When Lily got home, she showed her mom the things she had found. Her mom was very happy and proud of her for being so independent. Lily felt good that she had discovered
+  gain=0.5:
+    She looked at the pretty flowers and smiled. She took a deep breath and smiled. She was happy. She said, "Yes, Ben. I love the flower. It is the best flower ever." She took a flower and gave it to Ben. Ben smiled and thanked her. He said, "You are a good sister, Lily. You make me happy."
+
+They hugge
+  gain=1.0:
+    She looked at the pretty flowers and smelled their sweet scent. She smiled and thanked them for the lovely smell. She was happy to have such good friends.
+
+  gain=3.0:
+    She looked at the pretty picture on the wall and said, "Wow! I want to draw a picture of a rainbow!"
+
+Her mom smiled and said, "That's a great idea! Let's draw a rainbow together." They drew a big, beautiful rainbow with lots of colors.
+
+After they finished drawing, Lily's mom said, "Remember, Lily,
+
+--- Prompt 10: They played in the
+  gain=-3.0:
+    They played in the rain until they were all soaked. Then, the rain stopped and the sun came out. The sun shone brightly and the sky was blue. The friends said goodbye and went to their homes to dry off and get ready for bed. 
+
+The end.
+
+  gain=-1.0:
+    They played in the mud and splashed each other. They had so much fun. They did not notice that the sun was setting and it was getting dark. They heard their mom calling them from the house.
+
+"Tim, Mia, come inside! It's time for dinner!" Mom said.
+
+"Okay, Mom, we're coming!" Tim and Mia said.
+
+They 
+  gain=-0.5:
+    They played in the sun and had fun. They learned that sometimes things go wrong, but they can always find a way to have fun.
+
+  gain=0.0 [BASELINE]:
+    They played in the park until it was time to go home.
+
+  gain=0.5:
+    They played in the garden for a long time, enjoying the sunshine and the fresh air.
+
+  gain=1.0:
+    They played in the park. They had fun. They were happy. They were friends.
+
+  gain=3.0:
+    They played in the park until the sun went down. They had a fun day. They were happy.
+
+
+--- Prompt 11: It was a dark and
+  gain=-3.0:
+    It was a dark and deep hole, and it was too dangerous to look inside. But then, a little bird came and sat on the edge of the hole. It looked at Lily and said, "Don't worry, I'll help you."
+
+Lily was happy that the bird was going to help her. She watched as the bird flew down and landed on the groun
+  gain=-1.0:
+    It was a dark and scary place. 
+
+"Don't worry, I'll be with you," said the bunny. 
+
+The bunny and the rabbit walked through the dark and scary place together. They saw some other animals and they played together. The bunny was happy to have a friend to play with. 
+
+Finally, they reached the end of t
+  gain=-0.5:
+    It was a dark and scary forest. I don't want to go there," he said.
+
+"Don't be afraid, Ben. I am here with you. I will take you to a safe place where there are no monsters. Come with me, we will be safe," the ghost said.
+
+He took Ben by the hand and led him to a cave. He gave Ben some candy and a to
+  gain=0.0 [BASELINE]:
+    It was a dark and mysterious place. It was a very nice place, full of trees and flowers. The two friends played there all day, running and laughing. They were so happy!
+
+Suddenly, the sky grew dark and it started to rain. The two friends looked for shelter but they couldn't find one. They were so sc
+  gain=0.5:
+    It was a dark and scary place, and Tom was very scared. He didn't want to go back home.
+
+But Tom was brave and he wanted to explore. He walked and walked until he saw something very special. It was a bright and beautiful garden. He was so happy he wanted to explore it more.
+
+Tom went into the garden
+  gain=1.0:
+    It was a dark and scary place. They could not see the sun or hear the thunder. They could not find their way back. They were lost and scared.
+
+They cried and hugged each other. They wished they had listened to their mom and dad. They wished they had not played in the dark. They wished they had staye
+  gain=3.0:
+    It was a dark and cold night and the little girl was scared. She had never seen anything so dark before. Suddenly, she heard a noise. She started to tremble.
+
+The little girl didn't know what to do. Then she heard a voice. It was the voice of a big, scary monster. The monster said, "You should not b
+
+--- Prompt 12: The boy wanted to
+  gain=-3.0:
+    The boy wanted to have the best of the day, so he decided to throw his stick. He threw it far away and ran to get it. He wanted to show his parents how he could throw it.
+
+When the boy got back to his parents, he was very proud. His parents were happy to see him throw the stick so far. They said tha
+  gain=-1.0:
+    The boy wanted to keep playing, so he ran up to the tree and started to climb. The tree felt so nice and it was so tall that the boy could almost touch the sky. He kept climbing until he was very high up. He felt so proud of himself and he laughed and laughed.
+
+The boy stayed up in the tree for a lo
+  gain=-0.5:
+    The boy wanted to show the world how beautiful the world was, so he decided to do something special. He took the cloth and started to tear it in two. He folded it in half and made a big, round shape. He thought it looked like a rainbow.
+
+The boy kept walking and saw a beautiful garden. He wanted to 
+  gain=0.0 [BASELINE]:
+    The boy wanted to help her, so he asked her what she wanted to do. She said she wanted to take a photo of the beautiful flower. The boy was excited to help, so he picked up the camera and brought it to her.
+
+He pressed the button and the camera started to take a picture. He was so proud of the pictu
+  gain=0.5:
+    The boy wanted to help his mom and dad, so he started to look for something to do. He found a toy box and started to play with the toys inside. He was so busy having fun that he forgot to put the toys back in the toy box.
+
+His mom and dad saw what he did and they were not happy. They told him to put
+  gain=1.0:
+    The boy wanted to explore, so he walked closer and closer. He stopped and looked around. He saw some strange things on the ground and he wanted to pick them up. He didn't know what to do, so he just looked and listened.
+
+Suddenly, he heard a loud noise. It was a police car! The policeman was looking
+  gain=3.0:
+    The boy wanted to find out what was on the other side of the hill. So he took a deep breath and started walking.
+
+As he went further, he saw something. It was a big, old tree. The boy was very curious and wanted to get closer.
+
+He walked up to the tree and looked up. He was very calm and quiet. He w
+
+--- Prompt 13: In the forest, there was a
+  gain=-3.0:
+    In the forest, there was a little bunny who loved to hop. One day, the bunny found a shiny rock. It was so pretty! The bunny wanted to keep the rock all to itself, but it was too big to carry. So, the bunny asked its friends for help. They all came together and were so strong that the rock was final
+  gain=-1.0:
+    In the forest, there was a small bird named Blue. Blue loved to fly high in the sky and play with his friends. One day, Blue met a big bird named Red. Red was sad because he was thirsty.
+
+Blue asked, "Why are you sad, Red?" Red said, "I am thirsty, but I cannot find any water to drink." Blue wanted 
+  gain=-0.5:
+    In the forest, there was a little girl named Lily. Lily loved to play outside in the sun. One day, she saw a small bird with a hurt wing. She felt sad for the bird and wanted to help.
+
+Lily called her mommy and said, "Mommy, come quick! The bird is hurt and needs help." Her mommy came outside and sa
+  gain=0.0 [BASELINE]:
+    In the forest, there was a big, scary bear. The bear roared and chased after the little rabbit. The rabbit ran as fast as he could, but the bear was faster. 
+
+The rabbit thought he was safe, but the bear caught up to him. The bear ate the little rabbit and the rabbit was gone forever.
+
+  gain=0.5:
+    In the forest, there was a big tree. The tree had a big, strong branch. One day, a small bird came to the tree. The bird was scared. The bird said, "Please, don't hurt me."
+
+The tree did not want to hurt the bird. It said, "I will not hurt you." The tree wanted to be friends with the bird. So, the t
+  gain=1.0:
+    In the forest, there was a big oak tree. Many animals lived near the tree. They liked to play near the oak tree.
+
+One day, a small bird named Tim was flying near the oak tree. He saw a big cat named Sam. Tim was scared. He flew to the oak tree and said, "I need to hide from the big cat."
+
+Sam the bi
+  gain=3.0:
+    In the forest, there was a little bird who was very lonely. The bird had no friends and no one to play with. One day, the bird decided to fly to a place where it could find friends.
+
+As the bird was flying, it saw a big tree. The bird was very happy and decided to land on the tree. But the tree was 
+
+--- Prompt 14: The baby started to
+  gain=-3.0:
+    The baby started to cry. She said, "I'm sorry, I didn't mean to be bad. I just like yogurt." 
+
+Mommy smiled. She said, "That's okay. It's important to learn from our mistakes. Now, let's go get some yogurt for you!" 
+
+The baby smiled. She was so happy to have yogurt. She couldn't wait to eat it
+  gain=-1.0:
+    The baby started to cry. 
+
+"It's okay," said her mom, "let's get you a band-aid so you can go outside and play again."
+
+The baby smiled and went to the kitchen to get a band-aid. After putting on the band-aid, she went outside and started to play again. She was so happy she didn't have to go inside 
+  gain=-0.5:
+    The baby started to cry, so Mommy picked up the baby and hugged him. "It's okay," she said. "Let's go back to the park and play."
+
+The baby was happy again and they went back to the park. This time, Mommy taught the baby to be kind and gentle. The baby smiled and played happily. 
+
+The moral of this 
+  gain=0.0 [BASELINE]:
+    The baby started to cry. Mommy said, "I'm sorry, sweetheart. That was a bad idea. You can't make a mess like this." 
+
+The baby felt sad and he said, "I want to do something fun, mommy." 
+
+Mommy said, "I know, baby. But you have to remember that it's not a good idea. Next time,
+  gain=0.5:
+    The baby started to cry. She was so upset that she could not stop. Her mother tried to calm her down, but nothing worked.
+
+The baby was never able to finish her task. The bad ending was that the baby never got to finish the job.
+
+  gain=1.0:
+    The baby started to cry, "My toy is gone! I want my toy!" 
+
+The mother felt sorry for her baby, so she tried to make the baby feel better. She said, "Let's go look for your toy. We can look everywhere until we find it."
+
+The mother and the baby started to look. They looked in all the shops, but the 
+  gain=3.0:
+    The baby started to cry and asked, "What's wrong?"
+
+Mummy smiled and said, "I'm sorry, baby. I thought we were going to the park and I didn't want you to get hurt. I'm sorry."
+
+The baby was sad and said, "I'm sorry too."
+
+Mummy kissed the baby and said, "Let's go home now and you can
+
+--- Prompt 15: When the sun came up,
+  gain=-3.0:
+    When the sun came up, it was time for the family to have dinner. Everyone sat around the table and enjoyed their delicious food. They were very happy and thanked God for this delicious meal. 
+
+The end.
+
+  gain=-1.0:
+    When the sun came up, the little girl said goodbye to the tree. She thanked it for its kindness and said goodbye. She ran off, still holding her favourite brush.
+
+The little girl never forgot the tree and its kind, generous gift.
+
+  gain=-0.5:
+    When the sun came up, they went home. They were tired but happy. Lily learned that it's important to listen to her mom and be patient. She also learned that sometimes, it's good to step back and just enjoy the things around us.
+
+  gain=0.0 [BASELINE]:
+    When the sun came up, the sun was too hot. Lily said, "Let's go inside." But then she remembered she had to get the shade. She ran to the tree and sat under it. The shade was cool and cozy. They talked and laughed and had a lot of fun.
+
+After a while, Lily said, "I'm hungry. Do you have something to
+  gain=0.5:
+    When the sun came up, the girl saw a man who was wearing a hat. She asked the man what he was doing, and he said he was looking for something to eat.
+
+The girl asked if she could help and the man said yes. He showed her a big tree with lots of yummy fruits. She picked some apples and gave them to th
+  gain=1.0:
+    When the sun came up, the bird saw a big, juicy worm. The bird wanted to eat it, but it couldn't reach it. The worm said, "I can help you get that worm. Just spread your wings and fly to the worm."
+
+The bird flapped its wings and flew to the worm. The worm was happy to be free. The bird and the worm
+  gain=3.0:
+    When the sun came up, the people of the village were very happy. They thanked the old man for his honest words. They said, "Thank you for helping us, old man!"
+
+The old man smiled and said, "It was my pleasure. I am glad you are happy again!"
+
+
+--- Prompt 16: The old man had a
+  gain=-3.0:
+    The old man had a great idea. He took out some glue and said, “Let’s see what I can do.”
+
+He slowly glued the picture to the wall and the tape remained.
+
+The old man said, “See? Now it looks like a real picture!”
+
+The little girl smiled and said, “That looks great!”
+
+  gain=-1.0:
+    The old man had a big surprise for him. He said, "I'm going to give you something to help you heal. It's important." 
+
+The little girl was so excited and asked, "What is it?"
+
+The old man said, "It's a special kind of fuel. It will make you better and help you heal." 
+
+The little girl was so happy. 
+  gain=-0.5:
+    The old man had a big smile on his face, he was happy to have found a new friend!
+
+  gain=0.0 [BASELINE]:
+    The old man had a very special way of saying. He knew that the old man was very kind and generous, and that he wanted to share his special power with others.
+
+He invited all of his friends over and they all had a wonderful time. They danced, laughed and sang songs. They even made a special promise t
+  gain=0.5:
+    The old man had a big smile on his face. He was the one who had been waiting for his friend. He thanked the little girl for helping him and said she was very kind.
+
+The little girl was happy to help. She told him that she was happy to be his friend and that he could always count on her to help him.
+
+  gain=1.0:
+    The old man had a big smile on his face. He said, "This is my special place, my friend. I love to come here and explore." 
+
+The little girl was so excited and she said, "I love it too! Can we go and explore together?" 
+
+The old man smiled and said, "Of course we can. Let's go!" 
+
+So, they went
+  gain=3.0:
+    The old man had a great time playing with the kids. He had made a new friend and the park was a happy place. The old man and the kids played until it was time to go home. They all said goodbye and the old man went home. He was very happy that he could make a new friend and have a fun time at the par
+
+--- Prompt 17: She was so happy because
+  gain=-3.0:
+    She was so happy because she was going to get her very own new bathtub. She couldn't wait to see what it looked like when it was ready to be taken out. 
+
+When the mommy opened the door, the little girl was surprised to see that the new bathtub was filled with all kinds of colorful bubbles! She was s
+  gain=-1.0:
+    She was so happy because she knew she would have a good time.
+
+  gain=-0.5:
+    She was so happy because it was her first time meeting new friends. She couldn't wait to tell her mom and dad all about it!
+
+  gain=0.0 [BASELINE]:
+    She was so happy because she knew her new friends would love her. 
+
+They all played together and had lots of fun. But then, Lily accidentally broke one of her friends's toys. She felt so bad and started to cry. 
+
+Her mommy came over and gave her a big hug. She said it was okay and that accidents hap
+  gain=0.5:
+    She was so happy because she got a new dress. It was very pretty, with lots of sparkles. She twirled around in it and felt like a princess. 
+
+The little girl was so happy with her new dress. She wanted to show it off to everyone. She went to the park and showed it off. Everyone said it was so pretty
+  gain=1.0:
+    She was so happy because she had made her bedroom tidy and cozy. She knew her Mommy would be very pleased with her work.
+
+  gain=3.0:
+    She was so happy because she loved the smell of the perfume. She loved the smell of the perfume and it made her smile. She was so grateful for her special perfume. She knew it would make her feel even happier when she smelled the perfume.
+
+
+--- Prompt 18: The bird flew over the
+  gain=-3.0:
+    The bird flew over the hill, looking for a place to rest. It saw a nest with a baby bird inside. The baby bird looked very cute. The bird said, "Hello, little bird. You are welcome here. You can sleep here." The baby bird was very happy and slept well.
+
+The next day, the baby bird woke up and saw th
+  gain=-1.0:
+    The bird flew over the girl and dropped the crayon. The girl was so happy that she hugged the bird.
+
+The bird had brought the crayon to the girl. The girl was so grateful that she gave the bird a big hug and said "Thank you!" 
+
+The bird was so happy that it flew away, and the girl watched it until i
+  gain=-0.5:
+    The bird flew over the mountain and landed on a tree. The bird looked around and saw a small house on the mountain. The bird decided to take a closer look.
+
+The bird flew to the house and knocked on the door. The person opened the door and said, "What do you want?" The bird said, "I want to learn ho
+  gain=0.0 [BASELINE]:
+    The bird flew over the garden and found a big rock. He was very happy and decided to settle down on the rock. As he settled down on the rock, he saw a little girl playing in the garden. She had a toy car in her hands. The bird flew down to the little girl and landed on her shoulder. She was very hap
+  gain=0.5:
+    The bird flew over the castle and saw a small boy playing with a toy car. The bird flew down to the boy and asked if he could play too. The boy was happy to share and they played together until it was time to go home. The bird was happy it could help the boy and make a new friend.
+
+  gain=1.0:
+    The bird flew over the tree and sang a beautiful song. The bear was so impressed, he wanted to learn it too! He asked the bird to teach him, and the bird agreed.
+
+The bird taught the bear a special song that was very impressive. The bear listened carefully and tried to remember the song. After a few
+  gain=3.0:
+    The bird flew over the pond and saw a little fish. The bird said, "Hello, fish. I'm a duck. I like to swim in the pond." The fish said, "Hi, bird. I like to swim too. Let's swim together." The bird and the fish swam and had fun.
+
+But then, a big, mean cat came. The cat saw the bird and the fish
+
+--- Prompt 19: He didn't want to
+  gain=-3.0:
+    He didn't want to play with the machine anymore. He said, "No, I don't want to play with you. I want to play with my truck."
+
+Lily felt sad. She didn't understand why Max was being mean. She said, "But we can play together. It's more fun when we play together."
+
+Max thought for a moment. He said, "O
+  gain=-1.0:
+    He didn't want to share the car, but then he remembered what his mom had said: "It's more fun to play with friends than to fight". So he decided to go find his friends and share the toy.
+
+The moral of the story is that it's better to share than to fight. When we share, it makes us all happy and it's
+  gain=-0.5:
+    He didn't want to be late for his mom's important meeting. But he knew he had to go. So, he walked out the door and headed to his mom's office. When he arrived, he saw that the office was very big and he felt a little scared. But he knew he had to be brave, so he walked inside and sat down.
+
+As he s
+  gain=0.0 [BASELINE]:
+    He didn't want to lose the car forever. He said, "It's okay, Max. I'm fine. I can find another car. Or we can play with something else. We can play with the blocks. They are fun and easy. And you are a good boy, Max."
+
+Max smiled and said, "Thank you, Lily. You are a good friend, Lily." He hugged he
+  gain=0.5:
+    He didn't want to stay at the hospital anymore, and he never got to go home. He was never happy to be there, and he never saw his mom again.
+
+  gain=1.0:
+    He didn't want to say sorry. He didn't want to clean up the mess. He wanted to play with the red car. He wanted to keep it. He said, "No, no, no!"
+
+But the teacher was firm. She said, "Timmy, you have to clean up. It's not fair to leave the school. You have to share the red car with Sam. He is
+  gain=3.0:
+    He didn't want to be rude, so he was careful and he said sorry. He asked the boy if he could play too. The boy said yes, and they played together. 
+
+The two friends had so much fun together. They laughed and talked, and the boy showed the boy all his favourite places. 
+
+At the end of the day, the bo
+
+--- Prompt 20: The princess lived in a
+  gain=-3.0:
+    The princess lived in a castle with lots of rooms. One day, she heard a noise coming from her room. She went to investigate and found a little mouse stuck in a hole. The princess felt sorry for the mouse and wanted to help him.
+
+She gently picked up the mouse and brought him to her room. She made a 
+  gain=-1.0:
+    The princess lived in a castle with her mommy and daddy. She loved to play outside and look at the birds and flowers. One day, she saw a butterfly flying around the castle. She wanted to catch it, but it was too fast. 
+
+Suddenly, the princess saw a little bird flying towards her. She tried to catch 
+  gain=-0.5:
+    The princess lived in a big castle with her family. One day, she heard a strange noise coming from the castle. She walked in and saw a big dragon. The dragon was breathing fire and the princess was scared.
+
+"What are you doing here?" the princess asked.
+
+"I'm here to release the fire," the dragon sa
+  gain=0.0 [BASELINE]:
+    The princess lived in a tall castle. Everywhere she went, she saw wonderful things. 
+
+One day, the princess went for a walk. She went to the beach and saw a big, white cloud. It was so beautiful! She wanted to remember it. 
+
+So she wrote a letter. She said, "Dear Cloud, I remember you. I want to rem
+  gain=0.5:
+    The princess lived in a beautiful palace with her family. The palace was full of wonderful things to explore and to learn about. One day the princess was feeling particularly adventurous and decided to go on an adventure. She packed her bag and set off for the palace.
+
+As she explored the palace gro
+  gain=1.0:
+    The princess lived in a castle with her friends. They were all very happy and content.
+
+One day, the princess went for a walk in the forest. She saw a little bear cub, who was lost and scared. The princess felt sad for the little bear and wanted to help him.
+
+The princess took the little bear back t
+  gain=3.0:
+    The princess lived in a castle in a big, beautiful castle. She was very kind and friendly and always said hello to everyone she met.
+
+One day, a big storm came and the princess was scared. She wanted to hide in her castle. But the storm was too strong and it made her very sad.
+
+The storm destroyed t

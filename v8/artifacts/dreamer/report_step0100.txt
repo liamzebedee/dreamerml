@@ -1,0 +1,160 @@
+
+========================================================================
+  DREAMER TRAINING LOG  --  Step 100 / 500
+========================================================================
+
+------------------------------------------------------------------------
+  FEATURE GAIN PROFILE
+  What the Dreamer has learned to do with each feature
+------------------------------------------------------------------------
+
+   >  +0.025  specificity/entities         weak amplify     [==;  :===xX#Xx###X##]
+   <  -0.023  narrative/character-focus    weak suppress    [XX; :x##XXxx==+=xXXx]
+   >  +0.019  character/protagonist        weak amplify     [=+..xx; :+=xx+==xxX@]
+   <  -0.018  childhood/innocence          weak suppress    [=+: ;=x@XXx=+++++;;.]
+   >  +0.013  emotion/comfort              weak amplify     [x=: .:=;==xxxx###X##]
+   .  +0.008  emotion/joy                  inactive         [.:+##=:;...  ......:]
+   .  -0.006  narrative/whimsy             inactive         [x=;..:=;+;..;==X#Xxx]
+   .  +0.003  tone/wholesome               inactive         [=++   +;=xX=+++x#xXx]
+   .  -0.002  character/female-positive    inactive         [==:  :===xx=xX#x++=+]
+   .  +0.001  emotion/joy                  inactive         [+=###=+::..:+=+=++;+]
+
+  Total |gain| budget: 0.117
+
+------------------------------------------------------------------------
+  SIDE-BY-SIDE GENERATIONS
+  Same prompts, same temperature — only difference is the Dreamer
+------------------------------------------------------------------------
+
+  Prompt 1: "One day, a little girl named Lily found"
+
+    BASELINE:
+      One day, a little girl named Lily found the old toy car in her
+      room. She was so happy and wanted to play with it. She picked
+      it up and said, "Hello, car! You are so pretty."  The car
+      could talk! It said, "Hi, Lily! I am your toy car. I can take
+      you to the park. It will be so much fun!" Lily was very
+      excited and started to play
+
+    DREAMER:
+      One day, a little girl named Lily found a big, shiny rock. She
+      was very happy. She thought the rock was a treasure. She
+      wanted to keep it safe. So, she put the rock in her pocket and
+      went home.  The next day, Lily went to the park. She saw a
+      small, cute cat. The cat was trying to hide. Lily wanted to
+      help the cat. She thought the cat might be scared
+    Active: specificity/entities +0.02, narrative/character-focus -0.02, character/protagonist +0.02, childhood/innocence -0.02, emotion/comfort +0.01
+
+
+  Prompt 2: "The brave knight walked into the dark cave"
+
+    BASELINE:
+      The brave knight walked into the dark cave and was surprised
+      to find a treasure chest. He opened it and saw lots of coins
+      and jewels inside. He was so happy that he had found the
+      treasure.   The brave knight went back to his village with the
+      treasure and shared it with everyone. They all had a wonderful
+      time and the brave knight was glad that he had been brave and
+      found the treasure.   The End.
+
+    DREAMER:
+      The brave knight walked into the dark cave. He was looking for
+      a special treasure. Suddenly, he heard a noise coming from the
+      corner. He stopped and listened carefully. It was a small,
+      furry creature!  The knight was very surprised. He had never
+      seen anything like it before. The creature had a big smile on
+      its face. It was the creature's friend! It was a tiny, bright
+      light in the darkness.
+    Active: specificity/entities +0.02, narrative/character-focus -0.02, character/protagonist +0.02, childhood/innocence -0.02, emotion/comfort +0.01
+
+
+  Prompt 3: "Once upon a time, in a land full of"
+
+    BASELINE:
+      Once upon a time, in a land full of trees and animals, there
+      lived a small bunny named Bob. Bob loved to play with his
+      friends in the big green forest.  One day, while playing, Bob
+      found a big, round bulb on the ground. He picked it up and
+      showed it to his friends. They all wanted to know what was
+      inside the bulb. Bob said, "I will lead you to the magic pond
+      and we
+
+    DREAMER:
+      Once upon a time, in a land full of fun and joy, there was a
+      little girl named Sarah. She was very brave and loved to
+      explore. One day, Sarah decided to take a walk in the woods.
+      Suddenly, she heard a loud noise coming from the bushes. She
+      was scared, but she was brave and decided to take a look. When
+      she peeked inside, she saw a small animal. It was a tiny
+    Active: specificity/entities +0.02, narrative/character-focus -0.02, character/protagonist +0.02, childhood/innocence -0.02, emotion/comfort +0.01
+
+
+  Prompt 4: "A tiny mouse named Max wanted to"
+
+    BASELINE:
+      A tiny mouse named Max wanted to help his friend, a big
+      elephant named Ella. Max had a long trunk, but he could not
+      lift it very high. Ella had an idea. She told Max, "Let's all
+      work together!"  Ella used her long trunk to lift the tree.
+      Max was very happy. But then, a mean cat named Max came. Max
+      was jealous because he did not have a
+
+    DREAMER:
+      A tiny mouse named Max wanted to play a game. The game was to
+      see who could win. Max was very good at the game, but he had
+      trouble remembering the rules. He felt sad and thought he
+      would not win.  Max asked his friend, a big elephant named
+      Ella, for help. Ella told Max to use his memory. Max closed
+      his eyes and thought really hard. Then, he remembered the game
+    Active: specificity/entities +0.02, narrative/character-focus -0.02, character/protagonist +0.02, childhood/innocence -0.02, emotion/comfort +0.01
+
+
+  Prompt 5: "One morning, the sun came up and"
+
+    BASELINE:
+      One morning, the sun came up and the little boy saw something
+      he had never seen before - a big, black bird! He wanted to get
+      a closer look, so he opened his mouth and tried to catch it.
+      But the bird was too fast for him! The little boy was getting
+      very frustrated. Then, the little boy had an idea. He ran back
+      to his house and grabbed a stick. He ran back to the
+
+    DREAMER:
+      One morning, the sun came up and the family was so excited.
+      They were ready to go outside and have fun.  The family got
+      dressed and went outside. They had a great time playing in the
+      sunshine. They laughed and ran around and it felt so nice.
+      The family played together in the garden until it was time to
+      go back inside. They were tired from all the fun they had, so
+      they all went
+    Active: specificity/entities +0.02, narrative/character-focus -0.02, character/protagonist +0.02, childhood/innocence -0.02, emotion/comfort +0.01
+
+------------------------------------------------------------------------
+  TRAINING TRAJECTORY
+------------------------------------------------------------------------
+
+  Reward history (coherence + diversity):
+    [Xx#x##X#XX#X@#XXX##XXxXXXXX#Xx=xxX#=XX##X  X##X##X]
+    Start: -0.165  Now: 0.007  Best: 0.265
+
+  Per-feature gain evolution (signed mean across eval prompts):
+
+    specificity/entities         +0.014  [   ..;=+@##=x;:        .::;;::::::;;;+;;]
+    narrative/character-focus    -0.015  [   .:+x+@Xx;:    .      ......:;;:;+;::.]
+    character/protagonist        +0.010  [   .+=X=+ ::: .;=X+x+;:.  .::... . .   :]
+    childhood/innocence          -0.013  [   ;:=x+X=;.  .::+:+;;:;+..  ...........]
+    emotion/comfort              +0.008  [   :;=x=@#X==;;..:::.     . ....  .::;;;]
+    emotion/joy                  +0.008  [   ..;++#@#==;: ...     .     ..        ]
+    narrative/whimsy             -0.000  [   .:;=+##X=x;;..::;:;;=#xx==++;:...  .:]
+    tone/wholesome               +0.003  [  .: .++###x#=+.::.  ..;=;:   .    . .:=]
+    character/female-positive    -0.003  [    .+X=##X+=:.       ..:.. ..:;+;==++. ]
+    emotion/joy                  +0.000  [   ::x=;Xx=:.  .:+;=+==X@==;;..         ]
+
+------------------------------------------------------------------------
+  EMERGENCE NOTES
+------------------------------------------------------------------------
+
+  Still inactive: character/female-positive, narrative/whimsy, specificity/entities, tone/wholesome, childhood/innocence, narrative/character-focus, emotion/comfort, emotion/joy, character/protagonist, emotion/joy
+  Reward stable: -0.142 -> -0.231
+
+========================================================================

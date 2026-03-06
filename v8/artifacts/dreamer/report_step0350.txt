@@ -1,0 +1,166 @@
+
+========================================================================
+  DREAMER TRAINING LOG  --  Step 350 / 500
+========================================================================
+
+------------------------------------------------------------------------
+  FEATURE GAIN PROFILE
+  What the Dreamer has learned to do with each feature
+------------------------------------------------------------------------
+
+  >>> +0.349  tone/wholesome               AMPLIFYING       [   . .  .:.;:.;+=+;=]
+  <<< -0.296  emotion/comfort              SUPPRESSING      [=;+=====+;+=++=xX=+:]
+  >>> +0.265  narrative/character-focus    AMPLIFYING       [=+==+===xx=+++;:.;+x]
+  <<< -0.189  childhood/innocence          SUPPRESSING      [=+xx====+;+;+++;.;=#]
+  >>> +0.167  emotion/joy                  AMPLIFYING       [ =.   .....:x;xx;.;;]
+  <<< -0.130  emotion/joy                  SUPPRESSING      [xXxxxxxX#Xxx#X#x:;+.]
+  <<< -0.098  character/protagonist        SUPPRESSING      [XxxXXXXX#XX+==+;.=xx]
+  >>> +0.079  narrative/whimsy             AMPLIFYING       [.   .......;+;x==;.:]
+  <<< -0.053  specificity/entities         SUPPRESSING      [#x######XX#xxX=;;xxx]
+   >  +0.047  character/female-positive    weak amplify     [XxXXXXXXXXxx==;;:=x#]
+
+  Total |gain| budget: 1.675
+
+------------------------------------------------------------------------
+  SIDE-BY-SIDE GENERATIONS
+  Same prompts, same temperature — only difference is the Dreamer
+------------------------------------------------------------------------
+
+  Prompt 1: "One day, a little girl named Lily found"
+
+    BASELINE:
+      One day, a little girl named Lily found a big box of crayons.
+      She loved to draw with them. She would draw big suns, small
+      flowers, and tall trees. Lily was very happy when she drew.
+      One day, Lily met a boy named Tim. Tim saw Lily's crayons and
+      wanted to play with them too. They decided to draw together.
+      Lily would lend her crayons to Tim,
+
+    DREAMER:
+      One day, a little girl named Lily found a small bottle of oil.
+      She didn't know what it was for, so she asked her mom. Her mom
+      told her that oil is what makes things go fast. Lily thought
+      this was interesting, so she took the bottle and went outside
+      to play.  Lily met her friend Tom at the park. Tom saw the
+      bottle of oil and asked, "What is this?" Lily told Tom
+    Active: tone/wholesome +0.35, emotion/comfort -0.30, narrative/character-focus +0.27, childhood/innocence -0.19, emotion/joy +0.17, emotion/joy -0.13, character/protagonist -0.10, narrative/whimsy +0.08, specificity/entities -0.05, character/female-positive +0.05
+
+
+  Prompt 2: "The brave knight walked into the dark cave"
+
+    BASELINE:
+      The brave knight walked into the dark cave and discovered a
+      chest full of gold and jewels. He was so excited that he
+      started to dance and sing with joy. He danced for hours and
+      hours and when he was tired, he took the chest of gold back
+      home.  He kept the chest of gold safe and kept it always close
+      to him. The knight was very happy and he was able to use his
+      special powers to keep his kingdom
+
+    DREAMER:
+      The brave knight walked into the dark cave, searching for the
+      light. Suddenly, he saw a small light in the distance. He
+      followed it, and soon he saw a beautiful castle.  The knight
+      was so excited and he quickly made his way towards it. As he
+      got closer, he could see that the door was open and in it was
+      the most magical place he had ever seen. He stepped inside and
+      the room was filled with
+    Active: tone/wholesome +0.35, emotion/comfort -0.30, narrative/character-focus +0.27, childhood/innocence -0.19, emotion/joy +0.17, emotion/joy -0.13, character/protagonist -0.10, narrative/whimsy +0.08, specificity/entities -0.05, character/female-positive +0.05
+
+
+  Prompt 3: "Once upon a time, in a land full of"
+
+    BASELINE:
+      Once upon a time, in a land full of trees and flowers, there
+      lived a kind bear. The bear loved to help his friends in the
+      land. One day, the bear saw a small bird who was lost and very
+      sad. The bear knew he had to help the bird.  The bear picked
+      up the bird and took him to the wise owl. The wise owl told
+      the bear that the bird needed to find a new home. The
+
+    DREAMER:
+      Once upon a time, in a land full of sunshine, there was a
+      little girl named Lily. Lily loved to play outside in the warm
+      sunshine. She liked to run and jump in the warm, soft grass
+      under her bright, yellow umbrella.  One day, Lily was playing
+      with her friends in the park. They were all running and
+      laughing together when Lily saw a big, round, yellow ball. She
+      ran over to the ball and started
+    Active: tone/wholesome +0.35, emotion/comfort -0.30, narrative/character-focus +0.27, childhood/innocence -0.19, emotion/joy +0.17, emotion/joy -0.13, character/protagonist -0.10, narrative/whimsy +0.08, specificity/entities -0.05, character/female-positive +0.05
+
+
+  Prompt 4: "A tiny mouse named Max wanted to"
+
+    BASELINE:
+      A tiny mouse named Max wanted to explore the world. He was
+      very small, but he was brave. He wanted to see new things and
+      meet new friends.  Max started to explore. He saw a big tree
+      with a hollow inside. He was excited and decided to go inside.
+      As he explored, he found a jar of spicy sauce. Max was very
+      curious, so he decided to try it. He took a bite and
+
+    DREAMER:
+      A tiny mouse named Max wanted to be a superhero too. Max said,
+      "I want to be a superhero and help people!" Lily said, "I want
+      to help people too!"  Max and Lily played superheroes
+      together. They helped a little boy who fell down and got hurt.
+      Max said, "You are the best superhero and the most helpful one
+      ever!" Lily said, "Thank you, Max. I like to be
+    Active: tone/wholesome +0.35, emotion/comfort -0.30, narrative/character-focus +0.27, childhood/innocence -0.19, emotion/joy +0.17, emotion/joy -0.13, character/protagonist -0.10, narrative/whimsy +0.08, specificity/entities -0.05, character/female-positive +0.05
+
+
+  Prompt 5: "One morning, the sun came up and"
+
+    BASELINE:
+      One morning, the sun came up and the little girl woke up. She
+      looked out the window and saw the birds singing and the
+      flowers blooming. She felt so happy and excited.  The little
+      girl opened the window and smiled. She said, "I want to go
+      outside and play with them!" Her mommy smiled and said, "Yes,
+      you can go out and play, but first you must brush your hair."
+      The
+
+    DREAMER:
+      One morning, the sun came up and shone brightly. It was so
+      bright that it lit up the whole world!  The little girl was so
+      excited. She ran around and around, laughing with joy. She
+      wanted to do something special. So, she decided to build a
+      castle with her own two hands.  She worked hard all day, but
+      it was not easy. She had to push the bricks and make sure they
+      fit
+    Active: tone/wholesome +0.35, emotion/comfort -0.30, narrative/character-focus +0.27, childhood/innocence -0.19, emotion/joy +0.17, emotion/joy -0.13, character/protagonist -0.10, narrative/whimsy +0.08, specificity/entities -0.05, character/female-positive +0.05
+
+------------------------------------------------------------------------
+  TRAINING TRAJECTORY
+------------------------------------------------------------------------
+
+  Reward history (coherence + diversity):
+    [X#X#XxxxXX== XXX=X=Xx#XXXxXXXXxxXX=:XxxXXxXX=xXXxX]
+    Start: -0.165  Now: -0.030  Best: 0.438
+
+  Per-feature gain evolution (signed mean across eval prompts):
+
+    tone/wholesome               +0.197  [                 .... .+;:   :+;=====.:;]
+    emotion/comfort              -0.172  [ .:.             .:;:. .  ... .:=++:  ::]
+    narrative/character-focus    +0.160  [  :              ...  .;;:.. :;;Xxxx+.. ]
+    childhood/innocence          -0.102  [  :  ..     .    .;;;:+x....:...+=Xx+   ]
+    emotion/joy                  +0.096  [  +;              ... .:;+;::=Xx@=;.  ::]
+    emotion/joy                  -0.056  [  .   .         ....  .. .....:.:+==x:++]
+    character/protagonist        -0.057  [            .    ..   .=+:. .::+XxX=+.. ]
+    narrative/whimsy             +0.038  [  ..  .               .;;;:..=x=#x=;:   ]
+    specificity/entities         -0.023  [  ..                   ....  ;;;#x=+;.::]
+    character/female-positive    +0.035  [                      .:.....+=+#Xx=+   ]
+
+------------------------------------------------------------------------
+  EMERGENCE NOTES
+------------------------------------------------------------------------
+
+  The Dreamer is actively amplifying: tone/wholesome, narrative/character-focus, emotion/joy, narrative/whimsy, character/female-positive
+  The Dreamer is actively suppressing: emotion/comfort, childhood/innocence, emotion/joy, character/protagonist, specificity/entities
+  ** NEW: narrative/whimsy just emerged (was 0.008, now 0.079)
+  ** NEW: childhood/innocence just emerged (was 0.009, now 0.189)
+  ** NEW: character/protagonist just emerged (was 0.012, now 0.098)
+  ** NEW: emotion/joy just emerged (was 0.011, now 0.167)
+  Reward stable: -0.142 -> -0.047
+
+========================================================================

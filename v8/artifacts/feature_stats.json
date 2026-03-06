@@ -1,0 +1,502 @@
+[
+  {
+    "feature_idx": 1592,
+    "frequency": 0.013361,
+    "mean_act": 0.031732,
+    "max_act": 3.31,
+    "cond_mean": 2.375,
+    "score": 2.374973,
+    "examples": [
+      {
+        "text": "Once upon a time, in a peaceful town, there lived a little boy named Tim. Tim loved to run and play outside. One day, Tim saw a race in the park. He was excited and wanted to join the race.\n\nTim went to his friend, Sarah, and said, \"Let's start the race!\" Sarah smiled and said, \"Yes, let's go!\" They lined up with the other kids and waited for the race to begin. When they heard the word \"Go!\", they started running as fast as they could.\n\nTim and Sarah ran with all their speed, laughing and having",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, there was a big car named Dependable. He had a very important job. Dependable would take a family to the park every day. The family had a mom, dad, and a little girl named Lily. They all had a lot of love for each other.\n\nOne day, when they got to the park, they saw a big sign that said, \"Fun Race Today!\" The family was very excited. They knew that Dependable was very fast and could win the race. So, they decided to join the race.\n\nThe race started, and Dependable went very fas",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, there was a little car named Beep. Beep loved to go fast and play in the sun. Beep was a healthy car because he always had good fuel. Good fuel made Beep happy and strong.\n\nOne day, Beep was driving in the park when he saw a big tree. The tree had many leaves that were falling. Beep liked how the leaves fall and wanted to play with them. Beep drove under the tree and watched the leaves fall on him. He laughed and beeped his horn.\n\nBeep played with the falling leaves all day. Wh",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, in a big lake, there was a brown kayak. The brown kayak liked to roll in the water all day long. It was very happy when it could roll and splash in the lake.\n\nOne day, a little boy named Tim came to play with the brown kayak. Tim and the brown kayak rolled in the water together. They laughed and had a lot of fun. The sun was shining, and the water was warm.\n\nAfter a while, it was time for Tim to go home. He said goodbye to the brown kayak and gave it a big hug. The brown kayak ",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, in a land full of trees, there was a little cherry tree. The cherry tree was very sad because it did not have any friends. All the other trees were big and strong, but the cherry tree was small and weak. The cherry tree was envious of the big trees.\n\nOne day, the cherry tree felt a tickle in its branches. It was a little spring wind. The wind told the cherry tree not to be sad. The wind said, \"You are special because you have sweet cherries that everyone loves.\" The cherry tree",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, in a small town, there was a troubled little girl named Lily. She was always sad because she lost her favorite toy, a triangle. She looked everywhere in her house but could not find it.\n\nOne sunny day, Lily went to the park to play. She saw a big puddle of water and thought her triangle might be there. She put her hand in the water to soak it and looked for her toy. She felt something at the bottom of the puddle.\n\nLily pulled it out and saw that it was her triangle! She was so ",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. Lily liked to pretend she was a popular princess. She lived in a big castle with her best friends, a cat and a dog.\n\nOne day, while playing in the castle, Lily found a big cobweb. The cobweb was in the way of her fun game. She wanted to get rid of it, but she was scared of the spider that lived there.\n\nLily asked her friends, the cat and the dog, to help her. They all worked together to clean the cobweb. The spider was sad, but it found a new",
+        "pos": 0,
+        "act": 3.31
+      },
+      {
+        "text": "Once upon a time, there was a clever little dog named Max. Max loved to run and play with his friends in the park. One day, Max was running very fast when he fell and hurt his knee.\n\nMax went to his friend, the wise old owl, and said, \"Owl, my knee hurts. What can I do?\" The owl thought for a moment and said, \"Max, you should test your knee. Try to walk slowly and see if it still hurts.\"\n\nSo Max tested his knee by walking slowly. At first, it hurt a little, but soon Max felt better. He said, \"Th",
+        "pos": 0,
+        "act": 3.31
+      }
+    ]
+  },
+  {
+    "feature_idx": 1557,
+    "frequency": 0.029027,
+    "mean_act": 0.045861,
+    "max_act": 4.347,
+    "cond_mean": 1.58,
+    "score": 1.579962,
+    "examples": [
+      {
+        "text": "Once upon a time, there was a man with a big mustache. He was very strong and liked to play games. One day, he played a game with his friends and he won! He was very happy and his friends were happy too.\n\nBut then, the man with the big mustache realized that he had been harsh to his friends during the game. He felt bad and wanted to say sorry. So, he went to his friends and said, \"I'm sorry for being harsh. Let's play again and have fun!\"\n\nHis friends forgave him and they played another game. Th",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She woke up one morning feeling very happy. She went to her mom and gave her a big hug. \"I love you, Mommy!\" she said. \n\nLily had a little brother named Max. Max was feeling jealous because he wanted a hug too. \"Can I have a hug, too?\" he asked. \n\n\"Of course, Max!\" Lily said. She hugged her brother and they both felt happy. They played together all morning, laughing and having fun. \n\nAt lunchtime, Lily's dad came home from work. He gave Lily ",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved playing with her toys and having fun. One day, she saw her friend playing a beautiful violin. She asked her friend if she could try playing it too. Her friend said yes and gave her the violin.\n\nLily tried to play the violin, but it didn't sound good. She got frustrated and wanted to give up. But then her friend told her to keep trying and not to give up. Lily tried again and again, and eventually, she learned how to play the violin ",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear her favorite silver dress that sparkled in the sun. One day, while playing in the park, she met a wise old owl. The owl had big, round eyes and a soft, fluffy coat. \n\nLily was scared at first, but the owl spoke softly and kindly. He asked her why she loved her silver dress so much. Lily explained that it made her feel pretty and special. The owl nodded his head and said that it was important to wear things that made us feel ",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a little boy named Timmy. Timmy loved to play outside in the park. One day, Timmy went to the park with his mom. They played on the swings and went down the slide. Suddenly, they heard a loud noise. \n\nTimmy asked his mom, \"What's that noise?\" \n\nHis mom said, \"That's thunder. It's normal during a storm.\" \n\nTimmy observed the dark clouds in the sky and said, \"I don't like thunder. It's too loud.\" \n\nHis mom replied, \"Don't worry, we'll go home soon and be safe from the s",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to play with her dolls and make them pretty clothes with thread. One day, Lily's mom asked her to clean up her toys, but Lily didn't want to. She felt sad and didn't want to do anything.\n\nLater that day, Lily's friend came over to play. She was a cheerful girl and loved to have fun. She encouraged Lily to clean up her toys and promised to help her. Lily felt happy that her friend was there to help her. Together, they picked up all t",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a boy named Timmy. Timmy loved to ride his bike in the park. One day, he saw a spaceship with a laser on top. Timmy was so excited and wanted to ride it. \n\nHe asked the alien, \"Can I ride your spaceship with the laser?\" The alien replied, \"Yes, but you have to be patient. I need to make sure it's safe for you.\" Timmy waited and waited, but he was very patient. \n\nFinally, the alien said, \"Okay, Timmy. You can ride my spaceship with the laser now.\" Timmy was so happy an",
+        "pos": 3,
+        "act": 4.347
+      },
+      {
+        "text": "Once upon a time, there was a boy named Tim. Tim loved to play basketball. He would play every day at the park with his friends. One day, Tim went to the park to play basketball, but he saw that the park was closed. He felt grumpy because he couldn't play.\n\nTim saw a man who worked at the park and asked him why it was closed. The man said there was a problem with the basketball hoop and it needed to be fixed. Tim was sad and said, \"I want to play basketball today. Can't you fix it now?\" The man ",
+        "pos": 3,
+        "act": 4.347
+      }
+    ]
+  },
+  {
+    "feature_idx": 731,
+    "frequency": 0.02674,
+    "mean_act": 0.035962,
+    "max_act": 4.201,
+    "cond_mean": 1.3449,
+    "score": 1.344882,
+    "examples": [
+      {
+        "text": "-\nOnce upon a time there was a large thumb. This thumb belonged to a little boy called Tom. Tom liked to rub his thumb. He would rub it when he was happy and he would rub it when he was sad. One day, Tom was feeling particularly sad. He decided to rub his thumb to make himself feel better. As he was rubbing his thumb, he noticed something strange. His thumb was growing bigger and bigger! Tom couldn't believe it. His thumb had become very large. He looked at it in amazement and smiled. Now every ",
+        "pos": 5,
+        "act": 4.201
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear her favorite silver dress that sparkled in the sun. One day, while playing in the park, she met a wise old owl. The owl had big, round eyes and a soft, fluffy coat. \n\nLily was scared at first, but the owl spoke softly and kindly. He asked her why she loved her silver dress so much. Lily explained that it made her feel pretty and special. The owl nodded his head and said that it was important to wear things that made us feel ",
+        "pos": 3,
+        "act": 4.196
+      },
+      {
+        "text": "Once upon a time, there was a boy named Tim. Tim loved to play basketball. He would play every day at the park with his friends. One day, Tim went to the park to play basketball, but he saw that the park was closed. He felt grumpy because he couldn't play.\n\nTim saw a man who worked at the park and asked him why it was closed. The man said there was a problem with the basketball hoop and it needed to be fixed. Tim was sad and said, \"I want to play basketball today. Can't you fix it now?\" The man ",
+        "pos": 3,
+        "act": 4.196
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear fancy dresses with pretty patterns. One day, she saw a balloon rise up high in the sky. She wanted to catch it, so she ran after it. But the balloon went too high and she couldn't reach it.\n\nLily felt sad and decided to go back home. On her way, she saw a big dog with a pattern on its fur. She wanted to pet it, but the dog growled at her. Lily got scared and ran away.\n\nWhen she got home, she saw her mom baking a cake. The ca",
+        "pos": 3,
+        "act": 4.196
+      },
+      {
+        "text": "Once upon a time, there was a man with a big mustache. He was very strong and liked to play games. One day, he played a game with his friends and he won! He was very happy and his friends were happy too.\n\nBut then, the man with the big mustache realized that he had been harsh to his friends during the game. He felt bad and wanted to say sorry. So, he went to his friends and said, \"I'm sorry for being harsh. Let's play again and have fun!\"\n\nHis friends forgave him and they played another game. Th",
+        "pos": 3,
+        "act": 4.196
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She woke up one morning feeling very happy. She went to her mom and gave her a big hug. \"I love you, Mommy!\" she said. \n\nLily had a little brother named Max. Max was feeling jealous because he wanted a hug too. \"Can I have a hug, too?\" he asked. \n\n\"Of course, Max!\" Lily said. She hugged her brother and they both felt happy. They played together all morning, laughing and having fun. \n\nAt lunchtime, Lily's dad came home from work. He gave Lily ",
+        "pos": 3,
+        "act": 4.196
+      },
+      {
+        "text": "Once upon a time, there was a little boy named Timmy. Timmy loved to play outside in the park. One day, Timmy went to the park with his mom. They played on the swings and went down the slide. Suddenly, they heard a loud noise. \n\nTimmy asked his mom, \"What's that noise?\" \n\nHis mom said, \"That's thunder. It's normal during a storm.\" \n\nTimmy observed the dark clouds in the sky and said, \"I don't like thunder. It's too loud.\" \n\nHis mom replied, \"Don't worry, we'll go home soon and be safe from the s",
+        "pos": 3,
+        "act": 4.196
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to play outside in the warm sunshine with her friends. One day, as she was playing in the garden, she saw a beautiful flower starting to bloom. She ran to her mommy and said, \"Mommy, look at the pretty flower! It's blooming!\"\n\nHer mommy smiled and said, \"Yes, it's a lovely flower. But be careful not to pick it, it's not ours to take.\" \n\nLily nodded and continued to play, but she couldn't stop thinking about the beautiful flower. Lat",
+        "pos": 3,
+        "act": 4.196
+      }
+    ]
+  },
+  {
+    "feature_idx": 1456,
+    "frequency": 0.030177,
+    "mean_act": 0.038765,
+    "max_act": 2.451,
+    "cond_mean": 1.2846,
+    "score": 1.284591,
+    "examples": [
+      {
+        "text": "Once upon a time, in a big lake, there was a brown kayak. The brown kayak liked to roll in the water all day long. It was very happy when it could roll and splash in the lake.\n\nOne day, a little boy named Tim came to play with the brown kayak. Tim and the brown kayak rolled in the water together. They laughed and had a lot of fun. The sun was shining, and the water was warm.\n\nAfter a while, it was time for Tim to go home. He said goodbye to the brown kayak and gave it a big hug. The brown kayak ",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, there was a big car named Dependable. He had a very important job. Dependable would take a family to the park every day. The family had a mom, dad, and a little girl named Lily. They all had a lot of love for each other.\n\nOne day, when they got to the park, they saw a big sign that said, \"Fun Race Today!\" The family was very excited. They knew that Dependable was very fast and could win the race. So, they decided to join the race.\n\nThe race started, and Dependable went very fas",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, there was a little car named Beep. Beep loved to go fast and play in the sun. Beep was a healthy car because he always had good fuel. Good fuel made Beep happy and strong.\n\nOne day, Beep was driving in the park when he saw a big tree. The tree had many leaves that were falling. Beep liked how the leaves fall and wanted to play with them. Beep drove under the tree and watched the leaves fall on him. He laughed and beeped his horn.\n\nBeep played with the falling leaves all day. Wh",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, in a peaceful town, there lived a little boy named Tim. Tim loved to run and play outside. One day, Tim saw a race in the park. He was excited and wanted to join the race.\n\nTim went to his friend, Sarah, and said, \"Let's start the race!\" Sarah smiled and said, \"Yes, let's go!\" They lined up with the other kids and waited for the race to begin. When they heard the word \"Go!\", they started running as fast as they could.\n\nTim and Sarah ran with all their speed, laughing and having",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, in a land full of trees, there was a little cherry tree. The cherry tree was very sad because it did not have any friends. All the other trees were big and strong, but the cherry tree was small and weak. The cherry tree was envious of the big trees.\n\nOne day, the cherry tree felt a tickle in its branches. It was a little spring wind. The wind told the cherry tree not to be sad. The wind said, \"You are special because you have sweet cherries that everyone loves.\" The cherry tree",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. Lily liked to pretend she was a popular princess. She lived in a big castle with her best friends, a cat and a dog.\n\nOne day, while playing in the castle, Lily found a big cobweb. The cobweb was in the way of her fun game. She wanted to get rid of it, but she was scared of the spider that lived there.\n\nLily asked her friends, the cat and the dog, to help her. They all worked together to clean the cobweb. The spider was sad, but it found a new",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, in a small town, there was a troubled little girl named Lily. She was always sad because she lost her favorite toy, a triangle. She looked everywhere in her house but could not find it.\n\nOne sunny day, Lily went to the park to play. She saw a big puddle of water and thought her triangle might be there. She put her hand in the water to soak it and looked for her toy. She felt something at the bottom of the puddle.\n\nLily pulled it out and saw that it was her triangle! She was so ",
+        "pos": 1,
+        "act": 2.451
+      },
+      {
+        "text": "Once upon a time, there was a clever little dog named Max. Max loved to run and play with his friends in the park. One day, Max was running very fast when he fell and hurt his knee.\n\nMax went to his friend, the wise old owl, and said, \"Owl, my knee hurts. What can I do?\" The owl thought for a moment and said, \"Max, you should test your knee. Try to walk slowly and see if it still hurts.\"\n\nSo Max tested his knee by walking slowly. At first, it hurt a little, but soon Max felt better. He said, \"Th",
+        "pos": 1,
+        "act": 2.451
+      }
+    ]
+  },
+  {
+    "feature_idx": 896,
+    "frequency": 0.025374,
+    "mean_act": 0.029195,
+    "max_act": 2.375,
+    "cond_mean": 1.1506,
+    "score": 1.150607,
+    "examples": [
+      {
+        "text": "Once upon a time, there was a man with a big mustache. He was very strong and liked to play games. One day, he played a game with his friends and he won! He was very happy and his friends were happy too.\n\nBut then, the man with the big mustache realized that he had been harsh to his friends during the game. He felt bad and wanted to say sorry. So, he went to his friends and said, \"I'm sorry for being harsh. Let's play again and have fun!\"\n\nHis friends forgave him and they played another game. Th",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She woke up one morning feeling very happy. She went to her mom and gave her a big hug. \"I love you, Mommy!\" she said. \n\nLily had a little brother named Max. Max was feeling jealous because he wanted a hug too. \"Can I have a hug, too?\" he asked. \n\n\"Of course, Max!\" Lily said. She hugged her brother and they both felt happy. They played together all morning, laughing and having fun. \n\nAt lunchtime, Lily's dad came home from work. He gave Lily ",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved playing with her toys and having fun. One day, she saw her friend playing a beautiful violin. She asked her friend if she could try playing it too. Her friend said yes and gave her the violin.\n\nLily tried to play the violin, but it didn't sound good. She got frustrated and wanted to give up. But then her friend told her to keep trying and not to give up. Lily tried again and again, and eventually, she learned how to play the violin ",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear her favorite silver dress that sparkled in the sun. One day, while playing in the park, she met a wise old owl. The owl had big, round eyes and a soft, fluffy coat. \n\nLily was scared at first, but the owl spoke softly and kindly. He asked her why she loved her silver dress so much. Lily explained that it made her feel pretty and special. The owl nodded his head and said that it was important to wear things that made us feel ",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a little boy named Timmy. Timmy loved to play outside in the park. One day, Timmy went to the park with his mom. They played on the swings and went down the slide. Suddenly, they heard a loud noise. \n\nTimmy asked his mom, \"What's that noise?\" \n\nHis mom said, \"That's thunder. It's normal during a storm.\" \n\nTimmy observed the dark clouds in the sky and said, \"I don't like thunder. It's too loud.\" \n\nHis mom replied, \"Don't worry, we'll go home soon and be safe from the s",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to play with her dolls and make them pretty clothes with thread. One day, Lily's mom asked her to clean up her toys, but Lily didn't want to. She felt sad and didn't want to do anything.\n\nLater that day, Lily's friend came over to play. She was a cheerful girl and loved to have fun. She encouraged Lily to clean up her toys and promised to help her. Lily felt happy that her friend was there to help her. Together, they picked up all t",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a boy named Timmy. Timmy loved to ride his bike in the park. One day, he saw a spaceship with a laser on top. Timmy was so excited and wanted to ride it. \n\nHe asked the alien, \"Can I ride your spaceship with the laser?\" The alien replied, \"Yes, but you have to be patient. I need to make sure it's safe for you.\" Timmy waited and waited, but he was very patient. \n\nFinally, the alien said, \"Okay, Timmy. You can ride my spaceship with the laser now.\" Timmy was so happy an",
+        "pos": 3,
+        "act": 2.375
+      },
+      {
+        "text": "Once upon a time, there was a boy named Tim. Tim loved to play basketball. He would play every day at the park with his friends. One day, Tim went to the park to play basketball, but he saw that the park was closed. He felt grumpy because he couldn't play.\n\nTim saw a man who worked at the park and asked him why it was closed. The man said there was a problem with the basketball hoop and it needed to be fixed. Tim was sad and said, \"I want to play basketball today. Can't you fix it now?\" The man ",
+        "pos": 3,
+        "act": 2.375
+      }
+    ]
+  },
+  {
+    "feature_idx": 505,
+    "frequency": 0.028762,
+    "mean_act": 0.030975,
+    "max_act": 2.741,
+    "cond_mean": 1.0769,
+    "score": 1.076927,
+    "examples": [
+      {
+        "text": "Once upon a time, in a small town, there was a troubled little girl named Lily. She was always sad because she lost her favorite toy, a triangle. She looked everywhere in her house but could not find it.\n\nOne sunny day, Lily went to the park to play. She saw a big puddle of water and thought her triangle might be there. She put her hand in the water to soak it and looked for her toy. She felt something at the bottom of the puddle.\n\nLily pulled it out and saw that it was her triangle! She was so ",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, there was a big car named Dependable. He had a very important job. Dependable would take a family to the park every day. The family had a mom, dad, and a little girl named Lily. They all had a lot of love for each other.\n\nOne day, when they got to the park, they saw a big sign that said, \"Fun Race Today!\" The family was very excited. They knew that Dependable was very fast and could win the race. So, they decided to join the race.\n\nThe race started, and Dependable went very fas",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, there was a little car named Beep. Beep loved to go fast and play in the sun. Beep was a healthy car because he always had good fuel. Good fuel made Beep happy and strong.\n\nOne day, Beep was driving in the park when he saw a big tree. The tree had many leaves that were falling. Beep liked how the leaves fall and wanted to play with them. Beep drove under the tree and watched the leaves fall on him. He laughed and beeped his horn.\n\nBeep played with the falling leaves all day. Wh",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, in a peaceful town, there lived a little boy named Tim. Tim loved to run and play outside. One day, Tim saw a race in the park. He was excited and wanted to join the race.\n\nTim went to his friend, Sarah, and said, \"Let's start the race!\" Sarah smiled and said, \"Yes, let's go!\" They lined up with the other kids and waited for the race to begin. When they heard the word \"Go!\", they started running as fast as they could.\n\nTim and Sarah ran with all their speed, laughing and having",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, in a land full of trees, there was a little cherry tree. The cherry tree was very sad because it did not have any friends. All the other trees were big and strong, but the cherry tree was small and weak. The cherry tree was envious of the big trees.\n\nOne day, the cherry tree felt a tickle in its branches. It was a little spring wind. The wind told the cherry tree not to be sad. The wind said, \"You are special because you have sweet cherries that everyone loves.\" The cherry tree",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. Lily liked to pretend she was a popular princess. She lived in a big castle with her best friends, a cat and a dog.\n\nOne day, while playing in the castle, Lily found a big cobweb. The cobweb was in the way of her fun game. She wanted to get rid of it, but she was scared of the spider that lived there.\n\nLily asked her friends, the cat and the dog, to help her. They all worked together to clean the cobweb. The spider was sad, but it found a new",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, in a big lake, there was a brown kayak. The brown kayak liked to roll in the water all day long. It was very happy when it could roll and splash in the lake.\n\nOne day, a little boy named Tim came to play with the brown kayak. Tim and the brown kayak rolled in the water together. They laughed and had a lot of fun. The sun was shining, and the water was warm.\n\nAfter a while, it was time for Tim to go home. He said goodbye to the brown kayak and gave it a big hug. The brown kayak ",
+        "pos": 0,
+        "act": 2.741
+      },
+      {
+        "text": "Once upon a time, there was a clever little dog named Max. Max loved to run and play with his friends in the park. One day, Max was running very fast when he fell and hurt his knee.\n\nMax went to his friend, the wise old owl, and said, \"Owl, my knee hurts. What can I do?\" The owl thought for a moment and said, \"Max, you should test your knee. Try to walk slowly and see if it still hurts.\"\n\nSo Max tested his knee by walking slowly. At first, it hurt a little, but soon Max felt better. He said, \"Th",
+        "pos": 0,
+        "act": 2.741
+      }
+    ]
+  },
+  {
+    "feature_idx": 1265,
+    "frequency": 0.017876,
+    "mean_act": 0.018018,
+    "max_act": 2.857,
+    "cond_mean": 1.0079,
+    "score": 1.007931,
+    "examples": [
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear fancy dresses with pretty patterns. One day, she saw a balloon rise up high in the sky. She wanted to catch it, so she ran after it. But the balloon went too high and she couldn't reach it.\n\nLily felt sad and decided to go back home. On her way, she saw a big dog with a pattern on its fur. She wanted to pet it, but the dog growled at her. Lily got scared and ran away.\n\nWhen she got home, she saw her mom baking a cake. The ca",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to play outside in the warm sunshine with her friends. One day, as she was playing in the garden, she saw a beautiful flower starting to bloom. She ran to her mommy and said, \"Mommy, look at the pretty flower! It's blooming!\"\n\nHer mommy smiled and said, \"Yes, it's a lovely flower. But be careful not to pick it, it's not ours to take.\" \n\nLily nodded and continued to play, but she couldn't stop thinking about the beautiful flower. Lat",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear her favorite silver dress that sparkled in the sun. One day, while playing in the park, she met a wise old owl. The owl had big, round eyes and a soft, fluffy coat. \n\nLily was scared at first, but the owl spoke softly and kindly. He asked her why she loved her silver dress so much. Lily explained that it made her feel pretty and special. The owl nodded his head and said that it was important to wear things that made us feel ",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a man with a big mustache. He was very strong and liked to play games. One day, he played a game with his friends and he won! He was very happy and his friends were happy too.\n\nBut then, the man with the big mustache realized that he had been harsh to his friends during the game. He felt bad and wanted to say sorry. So, he went to his friends and said, \"I'm sorry for being harsh. Let's play again and have fun!\"\n\nHis friends forgave him and they played another game. Th",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She woke up one morning feeling very happy. She went to her mom and gave her a big hug. \"I love you, Mommy!\" she said. \n\nLily had a little brother named Max. Max was feeling jealous because he wanted a hug too. \"Can I have a hug, too?\" he asked. \n\n\"Of course, Max!\" Lily said. She hugged her brother and they both felt happy. They played together all morning, laughing and having fun. \n\nAt lunchtime, Lily's dad came home from work. He gave Lily ",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a boy named Timmy. Timmy loved to ride his bike in the park. One day, he saw a spaceship with a laser on top. Timmy was so excited and wanted to ride it. \n\nHe asked the alien, \"Can I ride your spaceship with the laser?\" The alien replied, \"Yes, but you have to be patient. I need to make sure it's safe for you.\" Timmy waited and waited, but he was very patient. \n\nFinally, the alien said, \"Okay, Timmy. You can ride my spaceship with the laser now.\" Timmy was so happy an",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a boy named Tim. Tim loved to play basketball. He would play every day at the park with his friends. One day, Tim went to the park to play basketball, but he saw that the park was closed. He felt grumpy because he couldn't play.\n\nTim saw a man who worked at the park and asked him why it was closed. The man said there was a problem with the basketball hoop and it needed to be fixed. Tim was sad and said, \"I want to play basketball today. Can't you fix it now?\" The man ",
+        "pos": 3,
+        "act": 2.857
+      },
+      {
+        "text": "Once upon a time, there was a little boy named Timmy. Timmy loved to play outside in the park. One day, Timmy went to the park with his mom. They played on the swings and went down the slide. Suddenly, they heard a loud noise. \n\nTimmy asked his mom, \"What's that noise?\" \n\nHis mom said, \"That's thunder. It's normal during a storm.\" \n\nTimmy observed the dark clouds in the sky and said, \"I don't like thunder. It's too loud.\" \n\nHis mom replied, \"Don't worry, we'll go home soon and be safe from the s",
+        "pos": 3,
+        "act": 2.857
+      }
+    ]
+  },
+  {
+    "feature_idx": 394,
+    "frequency": 0.031579,
+    "mean_act": 0.031397,
+    "max_act": 2.51,
+    "cond_mean": 0.9942,
+    "score": 0.994243,
+    "examples": [
+      {
+        "text": "Once upon a time, there was a man with a big mustache. He was very strong and liked to play games. One day, he played a game with his friends and he won! He was very happy and his friends were happy too.\n\nBut then, the man with the big mustache realized that he had been harsh to his friends during the game. He felt bad and wanted to say sorry. So, he went to his friends and said, \"I'm sorry for being harsh. Let's play again and have fun!\"\n\nHis friends forgave him and they played another game. Th",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She woke up one morning feeling very happy. She went to her mom and gave her a big hug. \"I love you, Mommy!\" she said. \n\nLily had a little brother named Max. Max was feeling jealous because he wanted a hug too. \"Can I have a hug, too?\" he asked. \n\n\"Of course, Max!\" Lily said. She hugged her brother and they both felt happy. They played together all morning, laughing and having fun. \n\nAt lunchtime, Lily's dad came home from work. He gave Lily ",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved playing with her toys and having fun. One day, she saw her friend playing a beautiful violin. She asked her friend if she could try playing it too. Her friend said yes and gave her the violin.\n\nLily tried to play the violin, but it didn't sound good. She got frustrated and wanted to give up. But then her friend told her to keep trying and not to give up. Lily tried again and again, and eventually, she learned how to play the violin ",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear her favorite silver dress that sparkled in the sun. One day, while playing in the park, she met a wise old owl. The owl had big, round eyes and a soft, fluffy coat. \n\nLily was scared at first, but the owl spoke softly and kindly. He asked her why she loved her silver dress so much. Lily explained that it made her feel pretty and special. The owl nodded his head and said that it was important to wear things that made us feel ",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a little boy named Timmy. Timmy loved to play outside in the park. One day, Timmy went to the park with his mom. They played on the swings and went down the slide. Suddenly, they heard a loud noise. \n\nTimmy asked his mom, \"What's that noise?\" \n\nHis mom said, \"That's thunder. It's normal during a storm.\" \n\nTimmy observed the dark clouds in the sky and said, \"I don't like thunder. It's too loud.\" \n\nHis mom replied, \"Don't worry, we'll go home soon and be safe from the s",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to play with her dolls and make them pretty clothes with thread. One day, Lily's mom asked her to clean up her toys, but Lily didn't want to. She felt sad and didn't want to do anything.\n\nLater that day, Lily's friend came over to play. She was a cheerful girl and loved to have fun. She encouraged Lily to clean up her toys and promised to help her. Lily felt happy that her friend was there to help her. Together, they picked up all t",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a boy named Timmy. Timmy loved to ride his bike in the park. One day, he saw a spaceship with a laser on top. Timmy was so excited and wanted to ride it. \n\nHe asked the alien, \"Can I ride your spaceship with the laser?\" The alien replied, \"Yes, but you have to be patient. I need to make sure it's safe for you.\" Timmy waited and waited, but he was very patient. \n\nFinally, the alien said, \"Okay, Timmy. You can ride my spaceship with the laser now.\" Timmy was so happy an",
+        "pos": 3,
+        "act": 2.51
+      },
+      {
+        "text": "Once upon a time, there was a boy named Tim. Tim loved to play basketball. He would play every day at the park with his friends. One day, Tim went to the park to play basketball, but he saw that the park was closed. He felt grumpy because he couldn't play.\n\nTim saw a man who worked at the park and asked him why it was closed. The man said there was a problem with the basketball hoop and it needed to be fixed. Tim was sad and said, \"I want to play basketball today. Can't you fix it now?\" The man ",
+        "pos": 3,
+        "act": 2.51
+      }
+    ]
+  },
+  {
+    "feature_idx": 1952,
+    "frequency": 0.029333,
+    "mean_act": 0.027128,
+    "max_act": 2.038,
+    "cond_mean": 0.9248,
+    "score": 0.924804,
+    "examples": [
+      {
+        "text": "Once upon a time, there was a man with a big mustache. He was very strong and liked to play games. One day, he played a game with his friends and he won! He was very happy and his friends were happy too.\n\nBut then, the man with the big mustache realized that he had been harsh to his friends during the game. He felt bad and wanted to say sorry. So, he went to his friends and said, \"I'm sorry for being harsh. Let's play again and have fun!\"\n\nHis friends forgave him and they played another game. Th",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to play outside in the warm sunshine with her friends. One day, as she was playing in the garden, she saw a beautiful flower starting to bloom. She ran to her mommy and said, \"Mommy, look at the pretty flower! It's blooming!\"\n\nHer mommy smiled and said, \"Yes, it's a lovely flower. But be careful not to pick it, it's not ours to take.\" \n\nLily nodded and continued to play, but she couldn't stop thinking about the beautiful flower. Lat",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She woke up one morning feeling very happy. She went to her mom and gave her a big hug. \"I love you, Mommy!\" she said. \n\nLily had a little brother named Max. Max was feeling jealous because he wanted a hug too. \"Can I have a hug, too?\" he asked. \n\n\"Of course, Max!\" Lily said. She hugged her brother and they both felt happy. They played together all morning, laughing and having fun. \n\nAt lunchtime, Lily's dad came home from work. He gave Lily ",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear her favorite silver dress that sparkled in the sun. One day, while playing in the park, she met a wise old owl. The owl had big, round eyes and a soft, fluffy coat. \n\nLily was scared at first, but the owl spoke softly and kindly. He asked her why she loved her silver dress so much. Lily explained that it made her feel pretty and special. The owl nodded his head and said that it was important to wear things that made us feel ",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a little boy named Timmy. Timmy loved to play outside in the park. One day, Timmy went to the park with his mom. They played on the swings and went down the slide. Suddenly, they heard a loud noise. \n\nTimmy asked his mom, \"What's that noise?\" \n\nHis mom said, \"That's thunder. It's normal during a storm.\" \n\nTimmy observed the dark clouds in the sky and said, \"I don't like thunder. It's too loud.\" \n\nHis mom replied, \"Don't worry, we'll go home soon and be safe from the s",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a boy named Timmy. Timmy loved to ride his bike in the park. One day, he saw a spaceship with a laser on top. Timmy was so excited and wanted to ride it. \n\nHe asked the alien, \"Can I ride your spaceship with the laser?\" The alien replied, \"Yes, but you have to be patient. I need to make sure it's safe for you.\" Timmy waited and waited, but he was very patient. \n\nFinally, the alien said, \"Okay, Timmy. You can ride my spaceship with the laser now.\" Timmy was so happy an",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a boy named Tim. Tim loved to play basketball. He would play every day at the park with his friends. One day, Tim went to the park to play basketball, but he saw that the park was closed. He felt grumpy because he couldn't play.\n\nTim saw a man who worked at the park and asked him why it was closed. The man said there was a problem with the basketball hoop and it needed to be fixed. Tim was sad and said, \"I want to play basketball today. Can't you fix it now?\" The man ",
+        "pos": 3,
+        "act": 2.038
+      },
+      {
+        "text": "Once upon a time, there was a little girl named Lily. She loved to wear fancy dresses with pretty patterns. One day, she saw a balloon rise up high in the sky. She wanted to catch it, so she ran after it. But the balloon went too high and she couldn't reach it.\n\nLily felt sad and decided to go back home. On her way, she saw a big dog with a pattern on its fur. She wanted to pet it, but the dog growled at her. Lily got scared and ran away.\n\nWhen she got home, she saw her mom baking a cake. The ca",
+        "pos": 3,
+        "act": 2.038
+      }
+    ]
+  },
+  {
+    "feature_idx": 1546,
+    "frequency": 0.031527,
+    "mean_act": 0.028734,
+    "max_act": 2.287,
+    "cond_mean": 0.9114,
+    "score": 0.911389,
+    "examples": [
+      {
+        "text": "-\nOnce upon a time there was a large thumb. This thumb belonged to a little boy called Tom. Tom liked to rub his thumb. He would rub it when he was happy and he would rub it when he was sad. One day, Tom was feeling particularly sad. He decided to rub his thumb to make himself feel better. As he was rubbing his thumb, he noticed something strange. His thumb was growing bigger and bigger! Tom couldn't believe it. His thumb had become very large. He looked at it in amazement and smiled. Now every ",
+        "pos": 5,
+        "act": 2.287
+      },
+      {
+        "text": "-\nOnce upon a time there was a large thumb. This thumb belonged to a little boy called Tom. Tom liked to rub his thumb. He would rub it when he was happy and he would rub it when he was sad. One day, Tom was feeling particularly sad. He decided to rub his thumb to make himself feel better. As he was rubbing his thumb, he noticed something strange. His thumb was growing bigger and bigger! Tom couldn't believe it. His thumb had become very large. He looked at it in amazement and smiled. Now every ",
+        "pos": 6,
+        "act": 2.227
+      },
+      {
+        "text": "Once upon a time there was a coat frame. It was fit for a special occasion. A little girl named Rachel came to try it on.\n\nRachel noticed that the frame was disturbed. It was not standing up straight.\n\n\"Don't worry,\" said her mother. \"We can fix it.\"\n\nHer mother carefully adjusted the frame. Rachel stepped in, and it was a good fit.\n\n\"It looks beautiful,\" said her mother. Rachel smiled in delight.\n\nThe frame was no longer disturbed. It was standing up straight and Rachel looked wonderful. That's",
+        "pos": 4,
+        "act": 2.165
+      },
+      {
+        "text": "Once upon a time there were two friends, Jack and Jill. Jack and Jill went up the hill to play a game. The game was silly. Jack and Jill took turns pushing a big button. Every time they pushed the button they would separate.\n\nJack shouted: \"Let's try again!\" So they took turns pushing the button again. This time the button spun them around and around until they were dizzy.\n\nJill giggled and said: \"That was so silly!\" \n\nJack laughed and said: \"Let's try the button one more time!\" So they pressed ",
+        "pos": 4,
+        "act": 2.165
+      },
+      {
+        "text": "Once upon a time there was a modest lake in the middle of the forest. All the animals around were waiting to welcome a new visitor.\n\nOne day, a little 3 year old girl arrived at the lake. The animals were so excited to see a human for the first time! The squirrel welcomed her with a friendly \u00e2\u20ac\u0153hi\u00e2\u20ac and the deer said \u00e2\u20ac\u0153hello\u00e2\u20ac. The little girl was so happy to meet the animals and she replied \u00e2\u20ac\u0153hi! It\u00e2\u20ac\u2122s so nice to meet you!\u00e2\u20ac\n\nThe little girl roamed around the lake and animals went with her. ",
+        "pos": 4,
+        "act": 2.165
+      },
+      {
+        "text": "Once upon a time there was a brave warrior who lived far away in the forest. \n\nOne day the warrior sailed away to explore the world on a small boat. They sailed around for hours and hours, eventually coming to a new land.\n\nThe warrior was curious so they jumped off the boat and started to explore. But it was uncomfortable, so the warrior decided to go back to the boat.\n\nIn their hurry to get back, the warrior called out, \u00e2\u20ac\u0153Quick! Quick!\u00e2\u20ac. It was then that a friendly bird flew over. The warrior",
+        "pos": 4,
+        "act": 2.165
+      },
+      {
+        "text": "Once upon a time there was a brother and sister who loved to play together. One day they went to the park and saw the most interesting mug. It was big, colourful and looked like it belonged to a magical creature. The brother was very tempted to steal it but the sister was obedient and wouldn't let him.\n\nThe brother said \"Come on, just take it! It'll be fun!\"\n\nThe sister replied firmly \"No! That would be wrong, stealing is not allowed!\"\n\nEventually, the brother listened to his sister and put the ",
+        "pos": 4,
+        "act": 2.165
+      },
+      {
+        "text": "Once upon a time there was an adorable little rabbit. His mommy told him to rake the leaves in the garden. So he raked and raked but it was a lot of work and he got tired very quickly.\n\nHis daddy saw him struggling and decided to help him. He took the rake and together they finished raking the garden in no time. \n\nAfter they finished, his daddy said to him, \"Helping each other can make chores seem like less of a chore. It's so much nicer to do them together, isn't it?\". \n\nThe adorable little rab",
+        "pos": 4,
+        "act": 2.165
+      }
+    ]
+  }
+]
